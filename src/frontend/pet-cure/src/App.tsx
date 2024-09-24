@@ -1,24 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import { store } from './store/store';
+import { createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material';
+import { config } from './config';
+import { Provider } from 'react-redux';
+import { Router } from './router/router';
+import { routes } from './router/routes';
+import i18n from "i18next";
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from "react-i18next";
+import Backend from 'i18next-http-backend';
+
+const mdTheme = createTheme();
+
+const theme = responsiveFontSizes(mdTheme, {
+  factor: 4
+});
+
+i18n
+  .use(LanguageDetector)
+  .use(Backend)
+  .use(initReactI18next)
+  .init({
+    backend: {
+      loadPath: '/locales/{{lng}}.json'
+    },
+    detection: {
+      order: ['cookie', 'localStorage', 'sessionStorage', 'navigator', 'querystring', 'htmlTag', 'path', 'subdomain']
+    },
+    fallbackLng: "tr",
+    interpolation: {
+      escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+    }
+  });
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CssBaseline enableColorScheme />
+      <Provider store={store}>
+        <ThemeProvider theme={theme} >
+          <Router routes={routes} isPublic={true} currentAccountRole="user" environment={config.environment} />
+        </ThemeProvider>
+      </Provider>
     </div>
   );
 }

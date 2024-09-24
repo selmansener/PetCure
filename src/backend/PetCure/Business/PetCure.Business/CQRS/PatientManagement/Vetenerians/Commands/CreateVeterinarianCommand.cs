@@ -4,7 +4,7 @@ using MediatR;
 
 namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
 {
-    public class CreateVeterinarianCommand : IRequest
+    public class CreateVeterinarianCommand : IRequest<Unit>
     {
 
     }
@@ -14,11 +14,12 @@ namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
 
     }
 
-    internal class CreateVeterinarianCommandHandler : IRequestHandler<CreateVeterinarianCommand>
+    internal class CreateVeterinarianCommandHandler : IRequestHandler<CreateVeterinarianCommand, Unit>
     {
-        public async Task Handle(CreateVeterinarianCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateVeterinarianCommand request, CancellationToken cancellationToken)
         {
 
+            return Unit.Value;
         }
     }
 }

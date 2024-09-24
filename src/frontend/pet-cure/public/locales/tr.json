@@ -1,0 +1,9 @@
+{    
+    "MenuItems": {
+        "Veterinarians": "Veterinarians",
+        "Appointments": "Appointments"
+    },
+    "NotFound": {
+        "Title": "Aradığınız Sayfa Bulunamadı"
+    }
+}

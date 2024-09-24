@@ -11,4 +11,9 @@
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\PetCure.DataAccess\PetCure.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\PetCure.Shared\PetCure.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
