@@ -18,7 +18,9 @@ namespace PetCure.Business.PipelineBehaviours
                     BackoffType = DelayBackoffType.Exponential,
                     Delay = TimeSpan.FromSeconds(2),
                     MaxRetryAttempts = 3,
-                    ShouldHandle = new PredicateBuilder().Handle<Exception>()
+                    // TODO: improve predicate
+                    ShouldHandle = new PredicateBuilder()
+                        .Handle<Exception>()
                 })
                 .AddTimeout(TimeSpan.FromSeconds(15))
                 .Build();

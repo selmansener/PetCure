@@ -50,7 +50,8 @@
     },
     "Generic": {
         "Forms": {
-            "Submit": "Kaydet"
+            "Submit": "Kaydet",
+            "Update": "Güncelle"
         }
     }
 }

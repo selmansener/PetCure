@@ -50,7 +50,8 @@
     },
     "Generic": {
         "Forms": {
-            "Submit": "Submit"
+            "Submit": "Submit",
+            "Update": "Update"
         }
     }
 }

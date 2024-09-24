@@ -25,5 +25,17 @@
         public IReadOnlyList<Appointment> Appointments => _appointments;
         public IReadOnlyList<MedicalRecord> MedicalRecords => _medicalRecords;
         public IReadOnlyList<Prescription> Prescriptions => _prescriptions;
+
+        public void Update(string firstName, string lastName, string phone, string email, string? specialization, int? yearsOfExperience)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+            Specialization = specialization;
+            YearsOfExperience = yearsOfExperience;
+
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }
