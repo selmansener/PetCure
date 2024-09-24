@@ -2,7 +2,9 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
+using PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.DTOs;
+using PetCure.Business.CQRS.PatientManagement.Vetenerians.Queries;
 
 namespace PetCure.API.Controllers
 {
@@ -14,37 +16,55 @@ namespace PetCure.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<VetenarianDTO>), 200)]
-        public async Task<IActionResult> GetAll()
+        [ProducesResponseType(typeof(IEnumerable<VeterinarianDTO>), 200)]
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            return Ok();
+            var response = await _mediator.Send(new VeterinarianGetAll(), cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(VetenarianDTO), 200)]
-        public async Task<IActionResult> GetById(int id)
+        [ProducesResponseType(typeof(VeterinarianDTO), 200)]
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
-            return Ok();
+            var response = await _mediator.Send(new VeterinarianGetById
+            {
+                Id = id
+            }, cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(CreateVeterinarianCommand command, CancellationToken cancellationToken)
         {
+            await _mediator.Send(command, cancellationToken);
+
             return NoContent();
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateVeterinarianCommand command, CancellationToken cancellationToken)
         {
+            command.Id = id;
+
+            await _mediator.Send(command, cancellationToken);
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
+            await _mediator.Send(new DeleteVeterinarianCommand
+            {
+                Id = id
+            }, cancellationToken);
+
             return NoContent();
         }
     }

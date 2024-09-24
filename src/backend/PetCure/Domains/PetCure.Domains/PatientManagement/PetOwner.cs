@@ -1,10 +1,10 @@
 ﻿namespace PetCure.Domains.PatientManagement
 {
-    public class Owner : BaseEntity
+    public class PetOwner : BaseEntity
     {
         private readonly List<Pet> _pets = new List<Pet>();
 
-        public Owner(string firstName, string lastName, string phone, string email, string address, string city, string state, string zipCode, string emergencyContact)
+        public PetOwner(string firstName, string lastName, string phone, string email, string address, string city, string state, string zipCode, string emergencyContact)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -22,9 +22,9 @@
         public string Phone { get; private set; }
         public string Email { get; private set; }
         public string Address { get; private set; }
-        public string City { get; private set; }
-        public string State { get; private set; }
-        public string ZipCode { get; private set; }
+        public string? City { get; private set; }
+        public string? State { get; private set; }
+        public string? ZipCode { get; private set; }
         public string EmergencyContact { get; private set; }
         public IReadOnlyList<Pet> Pets => _pets;
     }

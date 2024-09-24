@@ -15,7 +15,7 @@ namespace PetCure.DataAccess.EntityConfigurations
             builder.HasOne(a => a.Pet)
                    .WithMany(p => p.Appointments)
                    .HasForeignKey(a => a.PetId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(a => a.Owner);
 

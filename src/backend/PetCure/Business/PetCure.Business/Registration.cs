@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands;
 using PetCure.Business.PipelineBehaviours;
 
+using System.Reflection;
+
 namespace PetCure.Business
 {
     public static class Registration
@@ -23,7 +25,7 @@ namespace PetCure.Business
 
             services.AddTransient<IPipelineBehavior<CreateVeterinarianCommand, Unit>, ResilienceBehavior<CreateVeterinarianCommand, Unit>>();
 
-            TypeAdapterConfig.GlobalSettings.Scan(typeof(ServiceCollectionExtensions).Assembly);
+            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
             TypeAdapterConfig.GlobalSettings.Default.IgnoreNullValues(true);
 
             return services;

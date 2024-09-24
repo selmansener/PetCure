@@ -1,15 +1,17 @@
-﻿namespace PetCure.Domains.PatientManagement
+﻿using PetCure.Domains.Enums;
+
+namespace PetCure.Domains.PatientManagement
 {
     public class Appointment : BaseEntity
     {
-        public Appointment(int petId, int ownerId, int vetId, DateTime appointmentDate, string reason, string status, string notes)
+        public Appointment(int petId, int ownerId, int vetId, DateTime appointmentDate, string reason, string? notes)
         {
             PetId = petId;
             OwnerId = ownerId;
             VetId = vetId;
             AppointmentDate = appointmentDate;
             Reason = reason;
-            Status = status;
+            Status = AppointmentStatus.Created;
             Notes = notes;
         }
 
@@ -18,10 +20,10 @@
         public int VetId { get; private set; }
         public DateTime AppointmentDate { get; private set; }
         public string Reason { get; private set; }
-        public string Status { get; private set; }
-        public string Notes { get; private set; }
+        public AppointmentStatus Status { get; private set; }
+        public string? Notes { get; private set; }
         public Pet Pet { get; private set; }
-        public Owner Owner { get; private set; }
+        public PetOwner Owner { get; private set; }
         public Veterinarian Veterinarian { get; private set; }
     }
 }

@@ -1,7 +1,33 @@
 {    
     "MenuItems": {
-        "Veterinarians": "Veterinarians",
-        "Appointments": "Appointments"
+        "Veterinarians": "Veterinerler",
+        "Appointments": "Randevular"
+    },
+    "Pages": {
+        "Veterinarians": {
+            "NewVet": "Yeni Veteriner",
+            "Grid": {
+                "Id": "Id",
+                "FirstName": "Ad",
+                "LastName": "Soyad",
+                "Phone": "Tel. No",
+                "Email": "E-Posta",
+                "Specialization": "Uzmanlık",
+                "YearsOfExperience": "Tecrübe Yılı",
+                "CurrentAppointmentCount": "Mevcut Randevu Sayısı",
+                "UpdatedAt": "Güncelleme Tarihi",
+                "CreatedAt": "Oluşturulma Tarihi"
+            }
+        },
+        "VeterinarianDetails": {
+            "FirstName": "Ad",
+            "LastName": "Soyad",
+            "Phone": "Tel. No",
+            "Email": "E-Posta",
+            "Specialization": "Uzmanlık",
+            "YearsOfExperience": "Tecrübe Yılı",
+            "CurrentAppointmentCount": "Mevcut Randevu Sayısı"
+        }
     },
     "NotFound": {
         "Title": "Aradığınız Sayfa Bulunamadı"

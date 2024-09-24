@@ -5,9 +5,9 @@ using PetCure.Domains.PatientManagement;
 
 namespace PetCure.DataAccess.EntityConfigurations
 {
-    internal class OwnerConfiguration : BaseEntityConfiguration<Owner>
+    internal class PetOwnerConfiguration : BaseEntityConfiguration<PetOwner>
     {
-        public override void Configure(EntityTypeBuilder<Owner> builder)
+        public override void Configure(EntityTypeBuilder<PetOwner> builder)
         {
             base.Configure(builder);
 

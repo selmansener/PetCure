@@ -1,39 +1,68 @@
 import { emptySplitApi as api } from "./emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getVeterinarians: build.query<
-      GetVeterinariansApiResponse,
-      GetVeterinariansApiArg
+    postDevelopmentEnsureDatabaseCreated: build.mutation<
+      PostDevelopmentEnsureDatabaseCreatedApiResponse,
+      PostDevelopmentEnsureDatabaseCreatedApiArg
     >({
-      query: () => ({ url: `/Veterinarians` }),
-    }),
-    postVeterinarians: build.mutation<
-      PostVeterinariansApiResponse,
-      PostVeterinariansApiArg
-    >({
-      query: () => ({ url: `/Veterinarians`, method: "POST" }),
-    }),
-    getVeterinariansById: build.query<
-      GetVeterinariansByIdApiResponse,
-      GetVeterinariansByIdApiArg
-    >({
-      query: (queryArg) => ({ url: `/Veterinarians/${queryArg.id}` }),
-    }),
-    putVeterinariansById: build.mutation<
-      PutVeterinariansByIdApiResponse,
-      PutVeterinariansByIdApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/Veterinarians/${queryArg.id}`,
-        method: "PUT",
+      query: () => ({
+        url: `/Development/EnsureDatabaseCreated`,
+        method: "POST",
       }),
     }),
-    deleteVeterinariansById: build.mutation<
-      DeleteVeterinariansByIdApiResponse,
-      DeleteVeterinariansByIdApiArg
+    postDevelopmentEnsureDatabaseDeleted: build.mutation<
+      PostDevelopmentEnsureDatabaseDeletedApiResponse,
+      PostDevelopmentEnsureDatabaseDeletedApiArg
+    >({
+      query: () => ({
+        url: `/Development/EnsureDatabaseDeleted`,
+        method: "POST",
+      }),
+    }),
+    postDevelopmentMigrateDatabase: build.mutation<
+      PostDevelopmentMigrateDatabaseApiResponse,
+      PostDevelopmentMigrateDatabaseApiArg
+    >({
+      query: () => ({ url: `/Development/MigrateDatabase`, method: "POST" }),
+    }),
+    getApiVeterinarians: build.query<
+      GetApiVeterinariansApiResponse,
+      GetApiVeterinariansApiArg
+    >({
+      query: () => ({ url: `/api/Veterinarians` }),
+    }),
+    postApiVeterinarians: build.mutation<
+      PostApiVeterinariansApiResponse,
+      PostApiVeterinariansApiArg
     >({
       query: (queryArg) => ({
-        url: `/Veterinarians/${queryArg.id}`,
+        url: `/api/Veterinarians`,
+        method: "POST",
+        body: queryArg.createVeterinarianCommand,
+      }),
+    }),
+    getApiVeterinariansById: build.query<
+      GetApiVeterinariansByIdApiResponse,
+      GetApiVeterinariansByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/api/Veterinarians/${queryArg.id}` }),
+    }),
+    putApiVeterinariansById: build.mutation<
+      PutApiVeterinariansByIdApiResponse,
+      PutApiVeterinariansByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Veterinarians/${queryArg.id}`,
+        method: "PUT",
+        body: queryArg.updateVeterinarianCommand,
+      }),
+    }),
+    deleteApiVeterinariansById: build.mutation<
+      DeleteApiVeterinariansByIdApiResponse,
+      DeleteApiVeterinariansByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Veterinarians/${queryArg.id}`,
         method: "DELETE",
       }),
     }),
@@ -41,26 +70,36 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
-export type GetVeterinariansApiResponse =
-  /** status 200 Success */ VetenarianDto[];
-export type GetVeterinariansApiArg = void;
-export type PostVeterinariansApiResponse = /** status 204 No Content */ void;
-export type PostVeterinariansApiArg = void;
-export type GetVeterinariansByIdApiResponse =
-  /** status 200 Success */ VetenarianDto;
-export type GetVeterinariansByIdApiArg = {
+export type PostDevelopmentEnsureDatabaseCreatedApiResponse = unknown;
+export type PostDevelopmentEnsureDatabaseCreatedApiArg = void;
+export type PostDevelopmentEnsureDatabaseDeletedApiResponse = unknown;
+export type PostDevelopmentEnsureDatabaseDeletedApiArg = void;
+export type PostDevelopmentMigrateDatabaseApiResponse = unknown;
+export type PostDevelopmentMigrateDatabaseApiArg = void;
+export type GetApiVeterinariansApiResponse =
+  /** status 200 Success */ VeterinarianDto[];
+export type GetApiVeterinariansApiArg = void;
+export type PostApiVeterinariansApiResponse = /** status 204 No Content */ void;
+export type PostApiVeterinariansApiArg = {
+  createVeterinarianCommand: CreateVeterinarianCommand;
+};
+export type GetApiVeterinariansByIdApiResponse =
+  /** status 200 Success */ VeterinarianDto;
+export type GetApiVeterinariansByIdApiArg = {
   id: number;
 };
-export type PutVeterinariansByIdApiResponse = /** status 204 No Content */ void;
-export type PutVeterinariansByIdApiArg = {
-  id: number;
-};
-export type DeleteVeterinariansByIdApiResponse =
+export type PutApiVeterinariansByIdApiResponse =
   /** status 204 No Content */ void;
-export type DeleteVeterinariansByIdApiArg = {
+export type PutApiVeterinariansByIdApiArg = {
+  id: number;
+  updateVeterinarianCommand: UpdateVeterinarianCommand;
+};
+export type DeleteApiVeterinariansByIdApiResponse =
+  /** status 204 No Content */ void;
+export type DeleteApiVeterinariansByIdApiArg = {
   id: number;
 };
-export type VetenarianDto = {
+export type VeterinarianDto = {
   id?: number;
   firstName?: string | null;
   lastName?: string | null;
@@ -68,6 +107,7 @@ export type VetenarianDto = {
   email?: string | null;
   specialization?: string | null;
   yearsOfExperience?: number;
+  currentAppointmentCount?: number;
   updatedAt?: string;
   createdAt?: string;
 };
@@ -79,10 +119,30 @@ export type ProblemDetails = {
   instance?: string | null;
   [key: string]: any;
 };
+export type CreateVeterinarianCommand = {
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  specialization?: string | null;
+  yearsOfExperience?: number;
+};
+export type UpdateVeterinarianCommand = {
+  id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  specialization?: string | null;
+  yearsOfExperience?: number;
+};
 export const {
-  useGetVeterinariansQuery,
-  usePostVeterinariansMutation,
-  useGetVeterinariansByIdQuery,
-  usePutVeterinariansByIdMutation,
-  useDeleteVeterinariansByIdMutation,
+  usePostDevelopmentEnsureDatabaseCreatedMutation,
+  usePostDevelopmentEnsureDatabaseDeletedMutation,
+  usePostDevelopmentMigrateDatabaseMutation,
+  useGetApiVeterinariansQuery,
+  usePostApiVeterinariansMutation,
+  useGetApiVeterinariansByIdQuery,
+  usePutApiVeterinariansByIdMutation,
+  useDeleteApiVeterinariansByIdMutation,
 } = injectedRtkApi;

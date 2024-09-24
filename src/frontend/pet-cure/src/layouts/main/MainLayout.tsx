@@ -7,7 +7,7 @@ import { Header } from "../shared/Header";
 export function MainLayout() {
     return <React.Fragment>
         <Header />
-        <Container sx={{
+        <Container maxWidth="xl" sx={{
             mt: 15
         }}>
             <Outlet />
@@ -16,8 +16,11 @@ export function MainLayout() {
 }
 
 const MainPage = React.lazy(() => import("../../pages/main/Main"));
-const VeterinariansPage = React.lazy(() => import("../../pages/main/Veterinarians"));
-const AppointmentsPage = React.lazy(() => import("../../pages/main/Appointments"));
+const VeterinariansPage = React.lazy(() => import("../../pages/Veterinarians/Veterinarians"));
+const CreateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarians/CreateVeterinarian"));
+const UpdateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarians/UpdateVeterinarian"));
+const VeterinarianDetailsPage = React.lazy(() => import("../../pages/Veterinarians/VeterinarianDetails"));
+const AppointmentsPage = React.lazy(() => import("../../pages/Appointments/Appointments"));
 
 export const mainRoutes: RouteConfig = {
     path: "/",
@@ -31,6 +34,18 @@ export const mainRoutes: RouteConfig = {
         {
             path: "veterinarians",
             element: <VeterinariansPage />
+        },
+        {
+            path: "veterinarians/create",
+            element: <CreateVeterinarianPage />
+        },
+        {
+            path: "veterinarians/update/:id",
+            element: <UpdateVeterinarianPage />
+        },
+        {
+            path: "veterinarians/:id",
+            element: <VeterinarianDetailsPage />
         },
         {
             path: "appointments",

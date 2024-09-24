@@ -3,6 +3,32 @@
         "Veterinarians": "Veterinarians",
         "Appointments": "Appointments"
     },
+    "Pages": {
+        "Veterinarians": {
+            "NewVet": "New Veterinarian",
+            "Grid": {
+                "Id": "Id",
+                "FirstName": "First Name",
+                "LastName": "Last Name",
+                "Phone": "Phone",
+                "Email": "Email",
+                "Specialization": "Specialization",
+                "YearsOfExperience": "YoE",
+                "CurrentAppointmentCount": "Current Appointment Count",
+                "UpdatedAt": "Updated At",
+                "CreatedAt": "Created At"
+            }
+        },
+        "VeterinarianDetails": {
+            "FirstName": "First Name",
+            "LastName": "Last Name",
+            "Phone": "Phone",
+            "Email": "Email",
+            "Specialization": "Specialization",
+            "YearsOfExperience": "YoE",
+            "CurrentAppointmentCount": "Current Appointment Count"
+        }
+    },
     "NotFound": {
         "Title": "Page Not Found"
     }

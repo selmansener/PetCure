@@ -19,7 +19,7 @@
         public string MedicationName { get; private set; }
         public string Dosage { get; private set; }
         public string Duration { get; private set; }
-        public string Notes { get; private set; }
+        public string? Notes { get; private set; }
         public Pet Pet { get; private set; }
         public Veterinarian Veterinarian { get; private set; }
     }

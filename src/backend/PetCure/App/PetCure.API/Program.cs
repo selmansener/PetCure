@@ -1,5 +1,7 @@
 
 using PetCure.API.Middlewares;
+using PetCure.Business;
+using PetCure.DataAccess;
 
 namespace PetCure.API
 {
@@ -39,6 +41,13 @@ namespace PetCure.API
                 httpLoggingOptions.MediaTypeOptions.AddText("application/x-www-form-urlencoded");
             });
 
+            builder.Services.AddBusinessLayer();
+            builder.Services.AddDataAccess(builder.Environment, "Server=localhost;Database=PetCureDevelopment;User Id=petcure-sa;Password=petcure123**;Encrypt=False;TrustServerCertificate=True;");
+
+            builder.Services.AddMvcCore(mvcOptions =>
+            {
+                mvcOptions.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+            });
 
             var app = builder.Build();
 
