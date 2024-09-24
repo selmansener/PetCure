@@ -1,4 +1,4 @@
-{    
+{
     "MenuItems": {
         "Veterinarians": "Veterinerler",
         "Appointments": "Randevular"
@@ -27,9 +27,30 @@
             "Specialization": "Uzmanlık",
             "YearsOfExperience": "Tecrübe Yılı",
             "CurrentAppointmentCount": "Mevcut Randevu Sayısı"
+        },
+        "CreateVeterinarian": {
+            "FirstName": "Ad",
+            "LastName": "Soyad",
+            "Phone": "Tel. No",
+            "Email": "E-Posta",
+            "Specialization": "Uzmanlık",
+            "YearsOfExperience": "Tecrübe Yılı",
+            "Errors": {
+                "409": "Bu telefon numarası ile kayıtlı bir veteriner mevcut."
+            }
         }
     },
     "NotFound": {
         "Title": "Aradığınız Sayfa Bulunamadı"
+    },
+    "FormValidation": {
+        "RequiredField": "Bu alan gereklidir.",
+        "MinZero": "En az sıfır ya da pozitif bir sayı girilmelidir.",
+        "Positive": "Pozitif bir sayı girilmelidir."
+    },
+    "Generic": {
+        "Forms": {
+            "Submit": "Kaydet"
+        }
     }
 }

@@ -27,9 +27,30 @@
             "Specialization": "Specialization",
             "YearsOfExperience": "YoE",
             "CurrentAppointmentCount": "Current Appointment Count"
+        },
+        "CreateVeterinarian": {
+            "FirstName": "First Name",
+            "LastName": "Last Name",
+            "Phone": "Phone",
+            "Email": "Email",
+            "Specialization": "Specialization",
+            "YearsOfExperience": "YoE",
+            "Errors": {
+                "409": "There already a veterinarian with same phone number."
+            }
         }
     },
     "NotFound": {
         "Title": "Page Not Found"
+    },
+    "FormValidation": {
+        "RequiredField": "This field is required.",
+        "MinZero": "The number must be zero or positive.",
+        "Positive": "The number must be positive."
+    },
+    "Generic": {
+        "Forms": {
+            "Submit": "Submit"
+        }
     }
 }
