@@ -4,6 +4,9 @@
         "Appointments": "Randevular"
     },
     "Pages": {
+        "Appointments": {
+            "NewAppointment": "Yeni Randevu"
+        },
         "Veterinarians": {
             "NewVet": "Yeni Veteriner",
             "Grid": {

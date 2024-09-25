@@ -9,6 +9,8 @@ import i18n from "i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from "react-i18next";
 import Backend from 'i18next-http-backend';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 
 const mdTheme = createTheme();
 
@@ -39,7 +41,9 @@ function App() {
       <CssBaseline enableColorScheme />
       <Provider store={store}>
         <ThemeProvider theme={theme} >
-          <Router routes={routes} isPublic={true} currentAccountRole="user" environment={config.environment} />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Router routes={routes} isPublic={true} currentAccountRole="user" environment={config.environment} />
+          </LocalizationProvider>
         </ThemeProvider>
       </Provider>
     </div>
