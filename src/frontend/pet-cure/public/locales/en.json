@@ -17,7 +17,10 @@
                 "CurrentAppointmentCount": "Current Appointment Count",
                 "UpdatedAt": "Updated At",
                 "CreatedAt": "Created At"
-            }
+            },
+            "DeleteConfirmationTitle": "Are you sure to delete this record?",
+            "DeleteConfirmationDescription": "The below veterinarian record will be deleted. Do you approve? <newline/><newline/> <bold>Full Name:</bold> {{fullName}} <newline/> <bold>Phone:</bold> {{phone}} <newline/> <bold>Email:</bold> {{email}}",
+            "DeleteError": "Unexpected error occured while deleting veterinarian record."
         },
         "VeterinarianDetails": {
             "FirstName": "First Name",
@@ -51,7 +54,9 @@
     "Generic": {
         "Forms": {
             "Submit": "Submit",
-            "Update": "Update"
+            "Update": "Update",
+            "Cancel": "Cancel",
+            "Approve": "Approve"
         }
     }
 }

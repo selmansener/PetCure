@@ -1,18 +1,31 @@
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
-import { useGetApiVeterinariansQuery } from '../../store/api';
+import { api, useDeleteApiVeterinariansByIdMutation, useGetApiVeterinariansQuery } from '../../store/api';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { tr } from "date-fns/locale";
-import { useTranslation } from 'react-i18next';
-import React from 'react';
-import { Box, Button } from '@mui/material';
+import { Trans, useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid2, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useAppDispatch } from '../../store/hooks';
 
-
+type DeleteConfirmationData = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+}
 
 export function VeterinariansGrid() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteConfirmationData, setDeleteConfirmationData] = useState<DeleteConfirmationData>();
     const { data, isError, isFetching, isLoading, error } = useGetApiVeterinariansQuery();
+    const [DeleteVeterinarian, results] = useDeleteApiVeterinariansByIdMutation();
+    const dispatch = useAppDispatch();
 
     const columns: GridColDef[] = [
         {
@@ -33,25 +46,25 @@ export function VeterinariansGrid() {
             field: 'lastName',
             width: 150,
             headerName: 'Pages.Veterinarians.Grid.LastName',
-    
+
         },
         {
             field: 'phone',
             width: 150,
             headerName: 'Pages.Veterinarians.Grid.Phone',
-    
+
         },
         {
             field: 'email',
             width: 150,
             headerName: 'Pages.Veterinarians.Grid.Email',
-    
+
         },
         {
             field: 'specialization',
             width: 150,
             headerName: 'Pages.Veterinarians.Grid.Specialization',
-    
+
         },
         {
             field: 'yearsOfExperience',
@@ -80,16 +93,64 @@ export function VeterinariansGrid() {
         },
         {
             field: 'action',
-            width: 150,
+            width: 200,
             sortable: false,
             headerName: '',
             renderCell: (params) => {
-                return <Button onClick={() => navigate(`/veterinarians/update/${params.row["id"]}`)}>
-                    {t("Generic.Forms.Update")}
-                </Button>;
+                return <Grid2 container spacing={2}  >
+                    <Grid2 size={8}>
+                        <Button variant='outlined' onClick={() => navigate(`/veterinarians/update/${params.row["id"]}`)}>
+                            {t("Generic.Forms.Update")}
+                        </Button>
+                    </Grid2>
+                    <Grid2 size={4}>
+                        <IconButton color='error' onClick={() => handleDeleteClickOpen(params.row)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Grid2>
+                </Grid2>
             }
         }
     ];
+
+    const handleErrorClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: SnackbarCloseReason,
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setErrorSnackbarOpen(false);
+    };
+
+    const handleDeleteClickOpen = (row: any) => {
+        setDeleteDialogOpen(true);
+
+        setDeleteConfirmationData({
+            id: row["id"],
+            firstName: row["firstName"],
+            lastName: row["lastName"],
+            phone: row["phone"],
+            email: row["email"]
+        });
+    };
+
+    const handleDeleteClose = (approved: boolean) => {
+        if (approved && deleteConfirmationData) {
+            DeleteVeterinarian({
+                id: deleteConfirmationData.id
+            }).then(() => {
+                setDeleteConfirmationData(undefined);
+                dispatch(api.endpoints.getApiVeterinarians.initiate());
+            }).catch(() => {
+                setDeleteDialogOpen(true);
+                setDeleteConfirmationData(undefined);
+            });
+        }
+
+        setDeleteDialogOpen(false);
+    };
 
     return <React.Fragment>
         <Box sx={{ height: 400 }}>
@@ -103,6 +164,51 @@ export function VeterinariansGrid() {
                         headerName: t(col.headerName ?? "")
                     }
                 })} />
+            <React.Fragment>
+                <Dialog
+                    open={deleteDialogOpen}
+                    onClose={handleDeleteClose}
+                >
+                    <DialogTitle>
+                        {t("Pages.Veterinarians.DeleteConfirmationTitle")}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            <Trans
+                                i18nKey="Pages.Veterinarians.DeleteConfirmationDescription"
+                                values={{
+                                    fullName: `${deleteConfirmationData?.firstName} ${deleteConfirmationData?.lastName}`,
+                                    phone: `${deleteConfirmationData?.phone}`,
+                                    email: `${deleteConfirmationData?.email}`
+                                }}
+                                components={{
+                                    bold: <strong />,
+                                    newline: <br />
+                                }}
+                            />
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant='outlined' onClick={() => handleDeleteClose(true)}>
+                            {t("Generic.Forms.Cancel")}
+                        </Button>
+                        <Button variant='contained' color='error' onClick={() => handleDeleteClose(true)} autoFocus>
+                            {t("Generic.Forms.Approve")}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </React.Fragment>
+
+            <Snackbar open={errorSnackbarOpen} autoHideDuration={6000} onClose={handleErrorClose}>
+                <Alert
+                    onClose={handleErrorClose}
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {t(`Pages.Veterinarians.DeleteError`)}
+                </Alert>
+            </Snackbar>
         </Box>
     </React.Fragment>
 

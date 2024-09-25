@@ -17,7 +17,10 @@
                 "CurrentAppointmentCount": "Mevcut Randevu Sayısı",
                 "UpdatedAt": "Güncelleme Tarihi",
                 "CreatedAt": "Oluşturulma Tarihi"
-            }
+            },
+            "DeleteConfirmationTitle": "Devam etmek istediğinizden emin misiniz?",
+            "DeleteConfirmationDescription": "Aşağıdaki bilgilere sahip veteriner kaydı silinecektir. Onaylıyor musunuz? <newline/><newline/> <bold>Ad Soyad:</bold> {{fullName}} <newline/> <bold>Telefon:</bold> {{phone}} <newline/> <bold>E-Posta:</bold> {{email}}",
+            "DeleteError": "Veteriner kaydını silerken beklenmedik bir hata oluştu."
         },
         "VeterinarianDetails": {
             "FirstName": "Ad",
@@ -51,7 +54,9 @@
     "Generic": {
         "Forms": {
             "Submit": "Kaydet",
-            "Update": "Güncelle"
+            "Update": "Güncelle",
+            "Cancel": "İptal",
+            "Approve": "Onayla"
         }
     }
 }
