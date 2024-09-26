@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\DataFiles\SeedData.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\DataFiles\SeedData.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\DataModels\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\PetCure.DataAccess\PetCure.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\PetCure.Shared\PetCure.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

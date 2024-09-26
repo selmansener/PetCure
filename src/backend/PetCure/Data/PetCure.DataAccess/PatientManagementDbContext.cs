@@ -2,6 +2,9 @@
 
 using PetCure.Domains.PatientManagement;
 
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("PetCure.Business.Seed")]
 namespace PetCure.DataAccess
 {
     internal class PatientManagementDbContext : DbContext

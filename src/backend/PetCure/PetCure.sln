@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetCure.Domains", "Domains\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{02401415-9E2F-42F9-8D48-388801D81CF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCure.Shared", "Infrastructure\PetCure.Shared\PetCure.Shared.csproj", "{823C251F-3E30-41E5-B2C0-9CB0F21F4172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetCure.Shared", "Infrastructure\PetCure.Shared\PetCure.Shared.csproj", "{823C251F-3E30-41E5-B2C0-9CB0F21F4172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetCure.Business.Seed", "Business\PetCure.Business.Seed\PetCure.Business.Seed.csproj", "{48522762-4245-4E0E-AD79-21EBD3C2A331}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{823C251F-3E30-41E5-B2C0-9CB0F21F4172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{823C251F-3E30-41E5-B2C0-9CB0F21F4172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{823C251F-3E30-41E5-B2C0-9CB0F21F4172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48522762-4245-4E0E-AD79-21EBD3C2A331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48522762-4245-4E0E-AD79-21EBD3C2A331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48522762-4245-4E0E-AD79-21EBD3C2A331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48522762-4245-4E0E-AD79-21EBD3C2A331}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{7A9322A6-0C55-46D5-928E-333C2AA0FF77} = {B5F02F53-DFE8-4223-A646-DDB9AA34172F}
 		{4412B2B3-594D-4EA3-9371-EA969280547D} = {B112C61C-B903-4133-84A6-316F29504D7E}
 		{823C251F-3E30-41E5-B2C0-9CB0F21F4172} = {02401415-9E2F-42F9-8D48-388801D81CF6}
+		{48522762-4245-4E0E-AD79-21EBD3C2A331} = {79C68C9A-50F1-4CA7-83A9-1435A4EEA1D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5E44D906-D9EF-4ED9-B14F-C40E78557D08}

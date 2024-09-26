@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
     <PackageReference Include="Mapster.EFCore" Version="5.1.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
@@ -15,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\PetCure.DataAccess\PetCure.DataAccess.csproj" />
     <ProjectReference Include="..\..\Infrastructure\PetCure.Shared\PetCure.Shared.csproj" />
+    <ProjectReference Include="..\PetCure.Business.Seed\PetCure.Business.Seed.csproj" />
   </ItemGroup>
 
   <ItemGroup>

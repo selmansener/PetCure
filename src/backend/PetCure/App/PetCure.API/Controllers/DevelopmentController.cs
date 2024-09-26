@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using PetCure.Business.Seed;
+using PetCure.Business.Seed.Configuration;
 using PetCure.DataAccess.Helpers;
 
 namespace PetCure.API.Controllers
@@ -9,10 +11,12 @@ namespace PetCure.API.Controllers
     public class DevelopmentController : ControllerBase
     {
         private readonly IDbContextHelper _dbContextHelper;
+        private readonly ISeeder _seeder;
 
-        public DevelopmentController(IDbContextHelper dbContextHelper)
+        public DevelopmentController(IDbContextHelper dbContextHelper, ISeeder seeder)
         {
             _dbContextHelper = dbContextHelper;
+            _seeder = seeder;
         }
 
         [HttpPost("EnsureDatabaseCreated")]
@@ -37,6 +41,14 @@ namespace PetCure.API.Controllers
             await _dbContextHelper.Migrate(cancellation);
 
             return Ok();
+        }
+
+        [HttpPost("Seed")]
+        public async Task<IActionResult> Seed(SeedServiceType seeds, CancellationToken cancellationToken, bool recreateDb = false)
+        {
+            await _seeder.SeedAsync(seeds, cancellationToken, recreateDb);
+
+            return NoContent();
         }
     }
 }

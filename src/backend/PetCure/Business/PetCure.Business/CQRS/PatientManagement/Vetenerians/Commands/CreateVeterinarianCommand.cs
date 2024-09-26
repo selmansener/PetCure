@@ -12,12 +12,22 @@ namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
 {
     public class CreateVeterinarianCommand : IRequest<Unit>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Specialization { get; set; }
-        public int YearsOfExperience { get; set; }
+        public CreateVeterinarianCommand(string firstName, string lastName, string phone, string email, string specialization, int yearsOfExperience)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+            Specialization = specialization;
+            YearsOfExperience = yearsOfExperience;
+        }
+
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string Phone { get; private set; }
+        public string Email { get; private set; }
+        public string Specialization { get; private set; }
+        public int YearsOfExperience { get; private set; }
     }
 
     internal class CreateVeterinarianCommandValidator : AbstractValidator<CreateVeterinarianCommand>
@@ -26,8 +36,11 @@ namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
         {
             RuleFor(x => x.FirstName).NotEmpty();
             RuleFor(x => x.LastName).NotEmpty();
-            RuleFor(x => x.Phone).NotEmpty();
-            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.Phone).NotEmpty()
+                .Matches(@"^\d+$")
+                .When(x => !string.IsNullOrWhiteSpace(x.Phone), ApplyConditionTo.CurrentValidator)
+                .WithMessage("The field must contain digits only.");
+            RuleFor(x => x.Email).NotEmpty().EmailAddress();
         }
     }
 

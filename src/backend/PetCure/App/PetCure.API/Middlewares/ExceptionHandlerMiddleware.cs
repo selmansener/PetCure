@@ -109,7 +109,7 @@ namespace PetCure.API.Middlewares
 
                     problemDetailsContext.ProblemDetails.Status = (int)HttpStatusCode.InternalServerError;
                     problemDetailsContext.ProblemDetails.Title = nameof(HttpStatusCode.InternalServerError);
-                    problemDetailsContext.ProblemDetails.Detail = exception.Message;
+                    problemDetailsContext.ProblemDetails.Detail = environment.IsDevelopment() ? exception.ToString() : exception.Message;
                     problemDetailsContext.ProblemDetails.Type = nameof(Exception);
                 }
 
