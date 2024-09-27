@@ -11,7 +11,9 @@ using PetCure.Business.PipelineBehaviours;
 using PetCure.Business.Seed;
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Mapster")]
 namespace PetCure.Business
 {
     public static class Registration

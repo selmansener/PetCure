@@ -11,12 +11,7 @@ import { initReactI18next } from "react-i18next";
 import Backend from 'i18next-http-backend';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
-
-const mdTheme = createTheme();
-
-const theme = responsiveFontSizes(mdTheme, {
-  factor: 4
-});
+import { theme } from './themes/default-theme';
 
 i18n
   .use(LanguageDetector)

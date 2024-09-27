@@ -21,6 +21,7 @@ const CreateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarian
 const UpdateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarians/UpdateVeterinarian"));
 const VeterinarianDetailsPage = React.lazy(() => import("../../pages/Veterinarians/VeterinarianDetails"));
 const AppointmentsPage = React.lazy(() => import("../../pages/Appointments/Appointments"));
+const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment"));
 
 export const mainRoutes: RouteConfig = {
     path: "/",
@@ -50,6 +51,10 @@ export const mainRoutes: RouteConfig = {
         {
             path: "appointments",
             element: <AppointmentsPage />
+        },
+        {
+            path: "appointments/create",
+            element: <CreateAppointmentPage />
         }
         // {
         //     path: "sales-orders",

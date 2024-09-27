@@ -19,7 +19,7 @@ namespace PetCure.Business.Seed.Services
 
         public override async Task Execute(CancellationToken cancellationToken)
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 250; i++)
             {
                 var petOwner = new PetOwner(
                     _faker.Person.FirstName,

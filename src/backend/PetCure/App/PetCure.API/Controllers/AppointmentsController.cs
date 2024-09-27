@@ -1,15 +1,17 @@
 ﻿using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+
+using PetCure.Business.CQRS.PatientManagement.Appointments.DTOs;
+using PetCure.Business.CQRS.PatientManagement.Appointments.Queries;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.DTOs;
-using PetCure.Business.CQRS.PatientManagement.Vetenerians.Queries;
 
 namespace PetCure.API.Controllers
 {
     public class AppointmentsController : BaseController
     {
-        public AppointmentsController(IMediator mediator) 
+        public AppointmentsController(IMediator mediator)
             : base(mediator)
         {
         }
@@ -47,6 +49,15 @@ namespace PetCure.API.Controllers
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
             return NoContent();
+        }
+
+        [HttpGet("GetBookedDates")]
+        [ProducesResponseType(typeof(IEnumerable<VeterinarianBookedDatesDTO>), 200)]
+        public async Task<IActionResult> GetBookedDates(CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetBookedDates(), cancellationToken);
+
+            return Ok(response);
         }
     }
 }

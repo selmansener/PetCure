@@ -1301,6 +1301,11 @@
   "resolved" "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz"
   "version" "2.2.0"
 
+"@date-fns/tz@^1.1.2":
+  "integrity" "sha512-Xmg2cPmOPQieCLAdf62KtFPU9y7wbQDq1OAzrs/bEQFvhtCPXDiks1CHDE/sTXReRfh/MICVkw/vY6OANHUGiA=="
+  "resolved" "https://registry.npmjs.org/@date-fns/tz/-/tz-1.1.2.tgz"
+  "version" "1.1.2"
+
 "@date-io/core@^3.0.0":
   "integrity" "sha512-S3j+IAQVBYNkQzchVVhX40eBkGDreBpScy9RXwTS5j2+k07+62pMVPisQ44Gq76Rqy5AOG/EZXCwBpY/jbemvA=="
   "resolved" "https://registry.npmjs.org/@date-io/core/-/core-3.0.0.tgz"

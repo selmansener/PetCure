@@ -1,6 +1,53 @@
 import { emptySplitApi as api } from "./emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
+    getApiAppointments: build.query<
+      GetApiAppointmentsApiResponse,
+      GetApiAppointmentsApiArg
+    >({
+      query: () => ({ url: `/api/Appointments` }),
+    }),
+    postApiAppointments: build.mutation<
+      PostApiAppointmentsApiResponse,
+      PostApiAppointmentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Appointments`,
+        method: "POST",
+        body: queryArg.createVeterinarianCommand,
+      }),
+    }),
+    getApiAppointmentsById: build.query<
+      GetApiAppointmentsByIdApiResponse,
+      GetApiAppointmentsByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/api/Appointments/${queryArg.id}` }),
+    }),
+    putApiAppointmentsById: build.mutation<
+      PutApiAppointmentsByIdApiResponse,
+      PutApiAppointmentsByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Appointments/${queryArg.id}`,
+        method: "PUT",
+        body: queryArg.updateVeterinarianCommand,
+      }),
+    }),
+    deleteApiAppointmentsById: build.mutation<
+      DeleteApiAppointmentsByIdApiResponse,
+      DeleteApiAppointmentsByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Appointments/${queryArg.id}`,
+        method: "DELETE",
+      }),
+    }),
+    getApiAppointmentsGetBookedDates: build.query<
+      GetApiAppointmentsGetBookedDatesApiResponse,
+      GetApiAppointmentsGetBookedDatesApiArg
+    >({
+      query: () => ({ url: `/api/Appointments/GetBookedDates` }),
+    }),
     postDevelopmentEnsureDatabaseCreated: build.mutation<
       PostDevelopmentEnsureDatabaseCreatedApiResponse,
       PostDevelopmentEnsureDatabaseCreatedApiArg
@@ -24,6 +71,16 @@ const injectedRtkApi = api.injectEndpoints({
       PostDevelopmentMigrateDatabaseApiArg
     >({
       query: () => ({ url: `/Development/MigrateDatabase`, method: "POST" }),
+    }),
+    postDevelopmentSeed: build.mutation<
+      PostDevelopmentSeedApiResponse,
+      PostDevelopmentSeedApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/Development/Seed`,
+        method: "POST",
+        params: { seeds: queryArg.seeds, recreateDb: queryArg.recreateDb },
+      }),
     }),
     getApiVeterinarians: build.query<
       GetApiVeterinariansApiResponse,
@@ -70,21 +127,52 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
+export type GetApiAppointmentsApiResponse =
+  /** status 200 OK */ VeterinarianDto[];
+export type GetApiAppointmentsApiArg = void;
+export type PostApiAppointmentsApiResponse = /** status 204 No Content */ void;
+export type PostApiAppointmentsApiArg = {
+  createVeterinarianCommand: CreateVeterinarianCommand;
+};
+export type GetApiAppointmentsByIdApiResponse =
+  /** status 200 OK */ VeterinarianDto;
+export type GetApiAppointmentsByIdApiArg = {
+  id: number;
+};
+export type PutApiAppointmentsByIdApiResponse =
+  /** status 204 No Content */ void;
+export type PutApiAppointmentsByIdApiArg = {
+  id: number;
+  updateVeterinarianCommand: UpdateVeterinarianCommand;
+};
+export type DeleteApiAppointmentsByIdApiResponse =
+  /** status 204 No Content */ void;
+export type DeleteApiAppointmentsByIdApiArg = {
+  id: number;
+};
+export type GetApiAppointmentsGetBookedDatesApiResponse =
+  /** status 200 OK */ VeterinarianBookedDatesDto[];
+export type GetApiAppointmentsGetBookedDatesApiArg = void;
 export type PostDevelopmentEnsureDatabaseCreatedApiResponse = unknown;
 export type PostDevelopmentEnsureDatabaseCreatedApiArg = void;
 export type PostDevelopmentEnsureDatabaseDeletedApiResponse = unknown;
 export type PostDevelopmentEnsureDatabaseDeletedApiArg = void;
 export type PostDevelopmentMigrateDatabaseApiResponse = unknown;
 export type PostDevelopmentMigrateDatabaseApiArg = void;
+export type PostDevelopmentSeedApiResponse = unknown;
+export type PostDevelopmentSeedApiArg = {
+  seeds?: SeedServiceType;
+  recreateDb?: boolean;
+};
 export type GetApiVeterinariansApiResponse =
-  /** status 200 Success */ VeterinarianDto[];
+  /** status 200 OK */ VeterinarianDto[];
 export type GetApiVeterinariansApiArg = void;
 export type PostApiVeterinariansApiResponse = /** status 204 No Content */ void;
 export type PostApiVeterinariansApiArg = {
   createVeterinarianCommand: CreateVeterinarianCommand;
 };
 export type GetApiVeterinariansByIdApiResponse =
-  /** status 200 Success */ VeterinarianDto;
+  /** status 200 OK */ VeterinarianDto;
 export type GetApiVeterinariansByIdApiArg = {
   id: number;
 };
@@ -136,10 +224,27 @@ export type UpdateVeterinarianCommand = {
   specialization?: string | null;
   yearsOfExperience?: number;
 };
+export type VeterinarianBookedDatesDto = {
+  id?: number;
+  fullName?: string | null;
+  appointmentDates?: string[] | null;
+};
+export type SeedServiceType =
+  | "Veterinarian"
+  | "PetOwner"
+  | "Pet"
+  | "Appointment";
 export const {
+  useGetApiAppointmentsQuery,
+  usePostApiAppointmentsMutation,
+  useGetApiAppointmentsByIdQuery,
+  usePutApiAppointmentsByIdMutation,
+  useDeleteApiAppointmentsByIdMutation,
+  useGetApiAppointmentsGetBookedDatesQuery,
   usePostDevelopmentEnsureDatabaseCreatedMutation,
   usePostDevelopmentEnsureDatabaseDeletedMutation,
   usePostDevelopmentMigrateDatabaseMutation,
+  usePostDevelopmentSeedMutation,
   useGetApiVeterinariansQuery,
   usePostApiVeterinariansMutation,
   useGetApiVeterinariansByIdQuery,

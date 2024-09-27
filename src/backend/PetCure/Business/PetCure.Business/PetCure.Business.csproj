@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="CQRS\PatientManagement\Appointments\Commands\" />
-    <Folder Include="CQRS\PatientManagement\Appointments\Queries\" />
   </ItemGroup>
 
 </Project>
