@@ -19,8 +19,4 @@
     <ProjectReference Include="..\PetCure.Business.Seed\PetCure.Business.Seed.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CQRS\PatientManagement\Appointments\Commands\" />
-  </ItemGroup>
-
 </Project>

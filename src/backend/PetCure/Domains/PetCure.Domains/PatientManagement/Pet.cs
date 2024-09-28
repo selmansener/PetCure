@@ -21,6 +21,7 @@ namespace PetCure.Domains.PatientManagement
             OwnerId = ownerId;
             MedicalHistory = medicalHistory;
         }
+
         public int OwnerId { get; private set; }
         public string Name { get; private set; }
         public PetSpecies Species { get; private set; }

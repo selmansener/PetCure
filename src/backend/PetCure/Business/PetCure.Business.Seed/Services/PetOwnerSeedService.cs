@@ -22,8 +22,8 @@ namespace PetCure.Business.Seed.Services
             for (int i = 0; i < 250; i++)
             {
                 var petOwner = new PetOwner(
-                    _faker.Person.FirstName,
-                    _faker.Person.LastName,
+                    _faker.Name.FirstName(),
+                    _faker.Name.LastName(),
                     _faker.Phone.PhoneNumber(format: "05#########"),
                     _faker.Internet.Email(),
                     _faker.Address.FullAddress(),

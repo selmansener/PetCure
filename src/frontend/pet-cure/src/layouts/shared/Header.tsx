@@ -20,8 +20,8 @@ function Menu() {
 
     return <Grid2 container spacing={2} display="flex" justifyContent="flex-end">
         {menuItems.map(item => {
-            return <Grid2>
-                <NavLink key={item.title} to={item.path}>
+            return <Grid2 key={item.title}>
+                <NavLink to={item.path}>
                     <Typography>
                         {t(item.title)}
                     </Typography>

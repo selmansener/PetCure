@@ -27,6 +27,7 @@ export function VeterinariansGrid() {
     const [DeleteVeterinarian, results] = useDeleteApiVeterinariansByIdMutation();
     const dispatch = useAppDispatch();
 
+    // TODO: move pagination and sorting to backend
     const columns: GridColDef[] = [
         {
             field: 'id',

@@ -10,7 +10,35 @@
         "CreateAppointment": {
             "Veterinarians": "Veterinerler",
             "AllVets": "Tüm Veterinerler",
-            "AppointmentDate": "Randevu Tarihi"
+            "AppointmentDate": "Randevu Tarihi",
+            "ExistingPetOwnerRecords": "Mevcut Müşteri Kayıtları",
+            "NewPetOwner": "Yeni Müşteri Kaydı",
+            "Phone": "Telefon",
+            "PhoneOrMicroChipId": "ya da",
+            "MicroChipId": "MicroChipId",
+            "PetRecordGrid": {
+                "MicroChipId": "MicroChipId",
+                "PetName": "Hasta Adı",
+                "FirstName": "Sahibinin Adı",
+                "LastName": "Sahibinin Soyadı",
+                "Phone": "Telefon",
+                "PetSpecies": "Tür",
+                "Breed": "Cins",
+                "Gender": "Cinsiyet",
+                "DateOfBirth": "Doğum Tarihi",
+                "Weight": "Kilo",
+                "Color": "Renk",
+                "MedicalHistory": "Medikal Kayıtları",
+                "LastMedicalRecord": "Son Medikal Kaydı",
+                "LastAppointmentDate": "Son Randevu Tarihi",
+                "UpdatedAt": "Güncelleme Tarihi",
+                "CreatedAt": "Oluşturulma Tarihi",
+                "PetSpeciesMap": {
+                    "Dog": "Köpek",
+                    "Cat": "Kedi",
+                    "Bird": "Kuş"
+                }
+            }
         },
         "Veterinarians": {
             "NewVet": "Yeni Veteriner",
@@ -64,7 +92,8 @@
             "Submit": "Kaydet",
             "Update": "Güncelle",
             "Cancel": "İptal",
-            "Approve": "Onayla"
+            "Approve": "Onayla",
+            "Select": "Seç"
         }
     }
 }

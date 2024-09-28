@@ -25,5 +25,12 @@ namespace PetCure.Domains.PatientManagement
         public Pet Pet { get; private set; }
         public PetOwner Owner { get; private set; }
         public Veterinarian Veterinarian { get; private set; }
+        public DateTime? CompletedAt { get; private set; }
+
+        public void Complete()
+        {
+            Status = AppointmentStatus.Completed;
+            CompletedAt = DateTime.UtcNow;
+        }
     }
 }

@@ -2,10 +2,9 @@
 
 using Microsoft.AspNetCore.Mvc;
 
+using PetCure.Business.CQRS.PatientManagement.Appointments.Commands;
 using PetCure.Business.CQRS.PatientManagement.Appointments.DTOs;
 using PetCure.Business.CQRS.PatientManagement.Appointments.Queries;
-using PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands;
-using PetCure.Business.CQRS.PatientManagement.Vetenerians.DTOs;
 
 namespace PetCure.API.Controllers
 {
@@ -17,14 +16,14 @@ namespace PetCure.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<VeterinarianDTO>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<AppointmentDTO>), 200)]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             return Ok();
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(VeterinarianDTO), 200)]
+        [ProducesResponseType(typeof(AppointmentDTO), 200)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
             return Ok();
@@ -32,14 +31,14 @@ namespace PetCure.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Create(CreateVeterinarianCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CreateAppointmentCommand command, CancellationToken cancellationToken)
         {
             return NoContent();
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateVeterinarianCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateAppointmentCommand command, CancellationToken cancellationToken)
         {
             return NoContent();
         }

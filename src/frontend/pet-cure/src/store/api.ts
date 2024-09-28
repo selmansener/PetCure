@@ -82,6 +82,12 @@ const injectedRtkApi = api.injectEndpoints({
         params: { seeds: queryArg.seeds, recreateDb: queryArg.recreateDb },
       }),
     }),
+    getApiPets: build.query<GetApiPetsApiResponse, GetApiPetsApiArg>({
+      query: (queryArg) => ({
+        url: `/api/Pets`,
+        params: { phone: queryArg.phone, microChipId: queryArg.microChipId },
+      }),
+    }),
     getApiVeterinarians: build.query<
       GetApiVeterinariansApiResponse,
       GetApiVeterinariansApiArg
@@ -164,6 +170,11 @@ export type PostDevelopmentSeedApiArg = {
   seeds?: SeedServiceType;
   recreateDb?: boolean;
 };
+export type GetApiPetsApiResponse = /** status 200 OK */ PetRecordDto[];
+export type GetApiPetsApiArg = {
+  phone?: string;
+  microChipId?: string;
+};
 export type GetApiVeterinariansApiResponse =
   /** status 200 OK */ VeterinarianDto[];
 export type GetApiVeterinariansApiArg = void;
@@ -233,7 +244,28 @@ export type SeedServiceType =
   | "Veterinarian"
   | "PetOwner"
   | "Pet"
-  | "Appointment";
+  | "Appointment"
+  | "FullyBookedDates";
+export type PetSpecies = "None" | "Cat" | "Dog" | "Bird";
+export type PetRecordDto = {
+  id?: number;
+  name?: string | null;
+  species?: PetSpecies;
+  breed?: string | null;
+  gender?: string | null;
+  dateOfBirth?: string;
+  weight?: number;
+  color?: string | null;
+  microChipId?: string | null;
+  medicalHistory?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  ownerPhone?: string | null;
+  lastMedicalRecord?: number;
+  lastAppointmentDate?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string;
+};
 export const {
   useGetApiAppointmentsQuery,
   usePostApiAppointmentsMutation,
@@ -245,6 +277,7 @@ export const {
   usePostDevelopmentEnsureDatabaseDeletedMutation,
   usePostDevelopmentMigrateDatabaseMutation,
   usePostDevelopmentSeedMutation,
+  useGetApiPetsQuery,
   useGetApiVeterinariansQuery,
   usePostApiVeterinariansMutation,
   useGetApiVeterinariansByIdQuery,

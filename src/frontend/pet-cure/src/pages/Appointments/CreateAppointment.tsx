@@ -1,16 +1,22 @@
-import { Avatar, Box, FormControlLabel, Grid2, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Radio, RadioGroup, Typography } from "@mui/material";
+import { Box, Grid2, TextField, Typography } from "@mui/material";
 import { AppointmentDateSelector } from "./components/AppointmentDateSelector";
-import { useGetApiVeterinariansQuery } from "../../store/api";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { VeterinariansSelector } from "./components/VeterinariansSelector";
+import { ExistingPetRecordSelector } from "./components/ExistingPetRecordSelector";
+import DebouncedTextField from "../../components/form/DebouncedTextField";
+import { CreatePetRecord } from "./components/CreatePetRecord";
 
 export default function CreateAppointment() {
     const { t } = useTranslation();
-    const { data: veterinarians, isLoading, isFetching, isError } = useGetApiVeterinariansQuery();
-    const [value, setValue] = useState<number>(0);
+    const [currentTab, setCurrentTab] = useState(0);
+    const [phone, setPhone] = useState<string>("");
+    const [microChipId, setMicroChipId] = useState<string>("");
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(parseInt((event.target as HTMLInputElement).value));
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setCurrentTab(newValue);
     };
 
     return <Grid2 container spacing={2}>
@@ -31,70 +37,7 @@ export default function CreateAppointment() {
 
         </Grid2>
         <Grid2 size={3}>
-            {veterinarians && <RadioGroup
-                value={value}
-                onChange={handleChange}
-            >
-                <Box sx={{
-                    width: "100%",
-                    height: "480px",
-                    "overflow-y": "scroll",
-                    "overflow-x": "hidden",
-                }}>
-                    <List dense sx={{
-                        width: '100%',
-                        bgcolor: 'background.paper'
-                    }}>
-                        <FormControlLabel
-                            sx={{
-                                display: "flex",
-                                justifyContent: "space-between"
-                            }}
-                            key={0}
-                            value={0} control={<Radio />}
-                            labelPlacement="start"
-                            label={
-                                <ListItem
-                                    disablePadding
-                                >
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar />
-                                        </ListItemAvatar>
-                                        <ListItemText primary={t("Pages.CreateAppointment.AllVets")} />
-                                    </ListItemButton>
-                                </ListItem>
-                            }
-
-                        />
-                        {veterinarians.map((veterinarian) => {
-                            const labelId = `checkbox-list-secondary-label-${veterinarian}`;
-                            return (
-                                <FormControlLabel
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between"
-                                    }}
-                                    key={veterinarian.id}
-                                    value={veterinarian.id} control={<Radio />}
-                                    labelPlacement="start"
-                                    label={
-                                        <ListItem
-                                            disablePadding
-                                        >
-                                            <ListItemButton>
-                                                <ListItemAvatar>
-                                                    <Avatar />
-                                                </ListItemAvatar>
-                                                <ListItemText id={labelId} primary={`${veterinarian.firstName} ${veterinarian.lastName}`} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    } />
-                            );
-                        })}
-                    </List>
-                </Box>
-            </RadioGroup>}
+            <VeterinariansSelector />
         </Grid2>
         <Grid2 size={3}>
             <AppointmentDateSelector />
@@ -103,5 +46,54 @@ export default function CreateAppointment() {
         </Grid2>
         <Grid2 size={3}>
         </Grid2>
+        <Grid2 size={12}>
+            <Tabs
+                value={currentTab}
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons
+                allowScrollButtonsMobile
+            >
+                <Tab label={t("Pages.CreateAppointment.NewPetOwner")} />
+                <Tab label={t("Pages.CreateAppointment.ExistingPetOwnerRecords")} />
+            </Tabs>
+        </Grid2>
+        {currentTab === 0 && <Grid2 size={12}>
+            <CreatePetRecord />
+        </Grid2>}
+        {currentTab === 1 && <Grid2 size={12}>
+            <Box display="flex" sx={{
+                mb: 2
+            }}>
+                <DebouncedTextField
+                    sx={{
+                        mr: 2
+                    }}
+                    label={t("Pages.CreateAppointment.Phone")}
+                    size="small"
+                    value={phone}
+                    delay={1000}
+                    onChange={(newValue) => setPhone(newValue)}
+                />
+                <Typography variant="h4"
+                    sx={{
+                        mr: 2
+                    }}>
+                    {t("Pages.CreateAppointment.PhoneOrMicroChipId")}
+                </Typography>
+                <DebouncedTextField
+                    label={t("Pages.CreateAppointment.MicroChipId")}
+                    size="small"
+                    value={microChipId}
+                    delay={1000}
+                    onChange={(newValue) => setMicroChipId(newValue)}
+                />
+            </Box>
+            <ExistingPetRecordSelector
+                phone={phone}
+                microChipId={microChipId}
+                onPetRecordSelected={(id) => { }}
+            />
+        </Grid2>}
     </Grid2 >
 }

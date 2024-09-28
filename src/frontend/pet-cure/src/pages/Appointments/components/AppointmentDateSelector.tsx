@@ -1,4 +1,4 @@
-import { StaticDatePicker } from "@mui/x-date-pickers";
+import { DateCalendar, StaticDatePicker } from "@mui/x-date-pickers";
 import { useGetApiAppointmentsGetBookedDatesQuery } from "../../../store/api";
 import { isSameDay } from "date-fns";
 import { tz } from "@date-fns/tz";
@@ -51,7 +51,7 @@ export function AppointmentDateSelector() {
 
         return false;
     }
-    return <StaticDatePicker
+    return <DateCalendar
         disabled={isBusy}
         shouldDisableDate={shouldDisableDate}
     />

@@ -7,5 +7,6 @@
         Pet = 2,
         Appointment = 3,
         FullyBookedDates = 4,
+        CompletedAppointments = 5,
     }
 }

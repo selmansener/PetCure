@@ -5,23 +5,18 @@ using PetCure.Business.Seed.Services.Base;
 using PetCure.DataAccess;
 using PetCure.Domains.PatientManagement;
 
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetCure.Business.Seed.Services
 {
     internal class FullyBookedDatesSeedService : BaseSeedService
     {
-        public FullyBookedDatesSeedService(PatientManagementDbContext dbContext) 
+        public FullyBookedDatesSeedService(PatientManagementDbContext dbContext)
             : base(dbContext)
         {
         }
 
-        protected override ImmutableList<SeedServiceType> Dependencies => [SeedServiceType.Veterinarian, SeedServiceType.Pet]; 
+        protected override ImmutableList<SeedServiceType> Dependencies => [SeedServiceType.Veterinarian, SeedServiceType.Pet];
 
         public override async Task Execute(CancellationToken cancellationToken)
         {
@@ -37,7 +32,7 @@ namespace PetCure.Business.Seed.Services
                     selectedDate = _faker.Date.Soon(days: 30);
 
                 } while (dates.Contains(selectedDate.Date));
-                
+
                 dates.Add(selectedDate.Date);
 
                 var tenMinutePeriods = SplitIntoTenMinutePeriods(selectedDate.Date);

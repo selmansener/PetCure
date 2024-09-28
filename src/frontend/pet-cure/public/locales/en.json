@@ -10,7 +10,30 @@
         "CreateAppointment": {
             "Veterinarians": "Veterinarians",
             "AllVets": "All Veterinarians",
-            "AppointmentDate": "Appointment Date"
+            "AppointmentDate": "Appointment Date",
+            "ExistingPetOwnerRecords": "Existing Client Records",
+            "NewPetOwner": "New Client Record",
+            "Phone": "Phone",
+            "PhoneOrMicroChipId": "or",
+            "MicroChipId": "MicroChipId",
+            "PetRecordGrid": {
+                "MicroChipId": "MicroChipId",
+                "PetName": "Pet Name",
+                "FirstName": "First Name",
+                "LastName": "Last Name",
+                "Phone": "Phone",
+                "PetSpecies": "Pet Species",
+                "Breed": "Breed",
+                "Gender": "Gender",
+                "DateOfBirth": "Date Of Birth",
+                "Weight": "Weight",
+                "Color": "Color",
+                "MedicalHistory": "Medical History",
+                "LastMedicalRecord": "Last Medical Record",
+                "LastAppointmentDate": "Last Appointment Date",
+                "UpdatedAt": "Updated At",
+                "CreatedAt": "Created At"
+            }
         },
         "Veterinarians": {
             "NewVet": "New Veterinarian",
@@ -64,7 +87,8 @@
             "Submit": "Submit",
             "Update": "Update",
             "Cancel": "Cancel",
-            "Approve": "Approve"
+            "Approve": "Approve",
+            "Select": "Select"
         }
     }
 }

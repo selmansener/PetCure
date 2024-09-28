@@ -26,7 +26,7 @@ namespace PetCure.Business.Seed.Services
             {
                 var pet = new Pet(
                     petOwner.Id,
-                    _faker.Lorem.Word(),
+                    _faker.Name.FirstName(),
                     _faker.PickRandomWithout(Domains.Enums.PetSpecies.None),
                     breed: null,
                     _faker.PickRandom("Erkek", "Dişi"),
