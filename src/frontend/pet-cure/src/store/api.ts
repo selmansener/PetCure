@@ -14,7 +14,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/Appointments`,
         method: "POST",
-        body: queryArg.createVeterinarianCommand,
+        body: queryArg.createAppointmentCommand,
       }),
     }),
     getApiAppointmentsById: build.query<
@@ -30,7 +30,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/Appointments/${queryArg.id}`,
         method: "PUT",
-        body: queryArg.updateVeterinarianCommand,
+        body: queryArg.updateAppointmentCommand,
       }),
     }),
     deleteApiAppointmentsById: build.mutation<
@@ -42,11 +42,14 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    getApiAppointmentsGetBookedDates: build.query<
-      GetApiAppointmentsGetBookedDatesApiResponse,
-      GetApiAppointmentsGetBookedDatesApiArg
+    getApiAppointmentsGetBookedDatesByVetId: build.query<
+      GetApiAppointmentsGetBookedDatesByVetIdApiResponse,
+      GetApiAppointmentsGetBookedDatesByVetIdApiArg
     >({
-      query: () => ({ url: `/api/Appointments/GetBookedDates` }),
+      query: (queryArg) => ({
+        url: `/api/Appointments/GetBookedDatesByVetId`,
+        params: { vetId: queryArg.vetId },
+      }),
     }),
     postDevelopmentEnsureDatabaseCreated: build.mutation<
       PostDevelopmentEnsureDatabaseCreatedApiResponse,
@@ -86,6 +89,13 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/api/Pets`,
         params: { phone: queryArg.phone, microChipId: queryArg.microChipId },
+      }),
+    }),
+    postApiPets: build.mutation<PostApiPetsApiResponse, PostApiPetsApiArg>({
+      query: (queryArg) => ({
+        url: `/api/Pets`,
+        method: "POST",
+        body: queryArg.createPetCommand,
       }),
     }),
     getApiVeterinarians: build.query<
@@ -134,14 +144,14 @@ const injectedRtkApi = api.injectEndpoints({
 });
 export { injectedRtkApi as api };
 export type GetApiAppointmentsApiResponse =
-  /** status 200 OK */ VeterinarianDto[];
+  /** status 200 OK */ AppointmentDto[];
 export type GetApiAppointmentsApiArg = void;
 export type PostApiAppointmentsApiResponse = /** status 204 No Content */ void;
 export type PostApiAppointmentsApiArg = {
-  createVeterinarianCommand: CreateVeterinarianCommand;
+  createAppointmentCommand: CreateAppointmentCommand;
 };
 export type GetApiAppointmentsByIdApiResponse =
-  /** status 200 OK */ VeterinarianDto;
+  /** status 200 OK */ AppointmentDto;
 export type GetApiAppointmentsByIdApiArg = {
   id: number;
 };
@@ -149,16 +159,18 @@ export type PutApiAppointmentsByIdApiResponse =
   /** status 204 No Content */ void;
 export type PutApiAppointmentsByIdApiArg = {
   id: number;
-  updateVeterinarianCommand: UpdateVeterinarianCommand;
+  updateAppointmentCommand: UpdateAppointmentCommand;
 };
 export type DeleteApiAppointmentsByIdApiResponse =
   /** status 204 No Content */ void;
 export type DeleteApiAppointmentsByIdApiArg = {
   id: number;
 };
-export type GetApiAppointmentsGetBookedDatesApiResponse =
-  /** status 200 OK */ VeterinarianBookedDatesDto[];
-export type GetApiAppointmentsGetBookedDatesApiArg = void;
+export type GetApiAppointmentsGetBookedDatesByVetIdApiResponse =
+  /** status 200 OK */ VeterinarianBookedDatesDto;
+export type GetApiAppointmentsGetBookedDatesByVetIdApiArg = {
+  vetId?: number;
+};
 export type PostDevelopmentEnsureDatabaseCreatedApiResponse = unknown;
 export type PostDevelopmentEnsureDatabaseCreatedApiArg = void;
 export type PostDevelopmentEnsureDatabaseDeletedApiResponse = unknown;
@@ -174,6 +186,10 @@ export type GetApiPetsApiResponse = /** status 200 OK */ PetRecordDto[];
 export type GetApiPetsApiArg = {
   phone?: string;
   microChipId?: string;
+};
+export type PostApiPetsApiResponse = unknown;
+export type PostApiPetsApiArg = {
+  createPetCommand: CreatePetCommand;
 };
 export type GetApiVeterinariansApiResponse =
   /** status 200 OK */ VeterinarianDto[];
@@ -198,17 +214,15 @@ export type DeleteApiVeterinariansByIdApiResponse =
 export type DeleteApiVeterinariansByIdApiArg = {
   id: number;
 };
-export type VeterinarianDto = {
-  id?: number;
-  firstName?: string | null;
-  lastName?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  specialization?: string | null;
-  yearsOfExperience?: number;
-  currentAppointmentCount?: number;
-  updatedAt?: string;
-  createdAt?: string;
+export type AppointmentStatus = "None" | "Created" | "Completed" | "Cancelled";
+export type AppointmentDto = {
+  petId?: number;
+  ownerId?: number;
+  vetId?: number;
+  appointmentDate?: string;
+  reason?: string | null;
+  status?: AppointmentStatus;
+  notes?: string | null;
 };
 export type ProblemDetails = {
   type?: string | null;
@@ -218,23 +232,8 @@ export type ProblemDetails = {
   instance?: string | null;
   [key: string]: any;
 };
-export type CreateVeterinarianCommand = {
-  firstName?: string | null;
-  lastName?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  specialization?: string | null;
-  yearsOfExperience?: number;
-};
-export type UpdateVeterinarianCommand = {
-  id?: number;
-  firstName?: string | null;
-  lastName?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  specialization?: string | null;
-  yearsOfExperience?: number;
-};
+export type CreateAppointmentCommand = object;
+export type UpdateAppointmentCommand = object;
 export type VeterinarianBookedDatesDto = {
   id?: number;
   fullName?: string | null;
@@ -245,7 +244,8 @@ export type SeedServiceType =
   | "PetOwner"
   | "Pet"
   | "Appointment"
-  | "FullyBookedDates";
+  | "FullyBookedDates"
+  | "CompletedAppointments";
 export type PetSpecies = "None" | "Cat" | "Dog" | "Bird";
 export type PetRecordDto = {
   id?: number;
@@ -266,18 +266,49 @@ export type PetRecordDto = {
   updatedAt?: string | null;
   createdAt?: string;
 };
+export type CreatePetCommand = object;
+export type VeterinarianDto = {
+  id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  specialization?: string | null;
+  yearsOfExperience?: number;
+  currentAppointmentCount?: number;
+  updatedAt?: string;
+  createdAt?: string;
+};
+export type CreateVeterinarianCommand = {
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  specialization?: string | null;
+  yearsOfExperience?: number;
+};
+export type UpdateVeterinarianCommand = {
+  id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  specialization?: string | null;
+  yearsOfExperience?: number;
+};
 export const {
   useGetApiAppointmentsQuery,
   usePostApiAppointmentsMutation,
   useGetApiAppointmentsByIdQuery,
   usePutApiAppointmentsByIdMutation,
   useDeleteApiAppointmentsByIdMutation,
-  useGetApiAppointmentsGetBookedDatesQuery,
+  useGetApiAppointmentsGetBookedDatesByVetIdQuery,
   usePostDevelopmentEnsureDatabaseCreatedMutation,
   usePostDevelopmentEnsureDatabaseDeletedMutation,
   usePostDevelopmentMigrateDatabaseMutation,
   usePostDevelopmentSeedMutation,
   useGetApiPetsQuery,
+  usePostApiPetsMutation,
   useGetApiVeterinariansQuery,
   usePostApiVeterinariansMutation,
   useGetApiVeterinariansByIdQuery,

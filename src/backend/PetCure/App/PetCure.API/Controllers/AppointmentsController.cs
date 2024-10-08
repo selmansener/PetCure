@@ -50,11 +50,14 @@ namespace PetCure.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("GetBookedDates")]
-        [ProducesResponseType(typeof(IEnumerable<VeterinarianBookedDatesDTO>), 200)]
-        public async Task<IActionResult> GetBookedDates(CancellationToken cancellationToken)
+        [HttpGet("GetBookedDatesByVetId")]
+        [ProducesResponseType(typeof(VeterinarianBookedDatesDTO), 200)]
+        public async Task<IActionResult> GetBookedDatesByVetId([FromQuery] int vetId, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new GetBookedDates(), cancellationToken);
+            var response = await _mediator.Send(new GetBookedDatesByVetId
+            {
+                VetId = vetId
+            }, cancellationToken);
 
             return Ok(response);
         }

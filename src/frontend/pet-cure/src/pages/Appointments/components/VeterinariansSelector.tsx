@@ -1,26 +1,37 @@
 import { Avatar, Box, FormControlLabel, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Radio, RadioGroup, Skeleton } from "@mui/material";
 import { useState } from "react";
-import { useGetApiVeterinariansQuery } from "../../../store/api";
+import { useGetApiVeterinariansQuery, VeterinarianDto } from "../../../store/api";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export function VeterinariansSelector() {
+export interface VeterinariansSelectorProps {
+    onSelect: (selected: VeterinarianDto) => void;
+}
+
+export function VeterinariansSelector(props: VeterinariansSelectorProps) {
+    const { onSelect } = props;
     const { t } = useTranslation();
     const { data: veterinarians, isLoading, isFetching, isError } = useGetApiVeterinariansQuery();
     const [value, setValue] = useState<number>(0);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(parseInt((event.target as HTMLInputElement).value));
+        if (veterinarians && event.target.value) {
+            const selectedVet = veterinarians?.find(vet => vet.id === parseInt(event.target.value));
+            if (selectedVet) {
+                onSelect(selectedVet);
+            }
+        }
     };
 
     if (isLoading || isFetching) {
         return <Box sx={{ width: "100%" }}>
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
+            <Skeleton />
+            <Skeleton animation="wave" />
+            <Skeleton animation={false} />
+            <Skeleton />
+            <Skeleton animation="wave" />
+            <Skeleton animation={false} />
         </Box>
     }
 
