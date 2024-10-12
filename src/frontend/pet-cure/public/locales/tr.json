@@ -5,12 +5,15 @@
     },
     "Pages": {
         "Appointments": {
+            "Title": "Randevular",
             "NewAppointment": "Yeni Randevu"
         },
         "CreateAppointment": {
+            "Title": "Yeni Randevu",
             "Veterinarians": "Veterinerler",
             "AllVets": "Tüm Veterinerler",
             "AppointmentDate": "Randevu Tarihi",
+            "AppointmentTime": "Randevu Saati",
             "ExistingPetOwnerRecords": "Mevcut Müşteri Kayıtları",
             "NewPetOwner": "Yeni Müşteri Kaydı",
             "Phone": "Telefon",
@@ -41,6 +44,7 @@
             }
         },
         "Veterinarians": {
+            "Title": "Veterinerler",
             "NewVet": "Yeni Veteriner",
             "Grid": {
                 "Id": "Id",
@@ -68,6 +72,7 @@
             "CurrentAppointmentCount": "Mevcut Randevu Sayısı"
         },
         "CreateVeterinarian": {
+            "Title": "Yeni Veteriner",
             "FirstName": "Ad",
             "LastName": "Soyad",
             "Phone": "Tel. No",
@@ -77,6 +82,9 @@
             "Errors": {
                 "409": "Bu telefon numarası ile kayıtlı bir veteriner mevcut."
             }
+        },
+        "UpdateVeterinarian": {
+            "Title": "#{{id}} - Veteriner \"{{vetName}}\" Bilgilerini Güncelle"
         }
     },
     "NotFound": {

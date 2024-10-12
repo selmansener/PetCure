@@ -10,7 +10,7 @@ using PetCure.Shared.Exceptions;
 
 namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
 {
-    public class CreateVeterinarianCommand : IRequest<Unit>
+    public class CreateVeterinarianCommand : IRequest
     {
         public CreateVeterinarianCommand(string firstName, string lastName, string phone, string email, string specialization, int yearsOfExperience)
         {
@@ -44,7 +44,7 @@ namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
         }
     }
 
-    internal class CreateVeterinarianCommandHandler : IRequestHandler<CreateVeterinarianCommand, Unit>
+    internal class CreateVeterinarianCommandHandler : IRequestHandler<CreateVeterinarianCommand>
     {
         private readonly IBaseRepository<Veterinarian> _veterinarianRepository;
 
@@ -53,7 +53,7 @@ namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
             _veterinarianRepository = veterinarianRepository;
         }
 
-        public async Task<Unit> Handle(CreateVeterinarianCommand request, CancellationToken cancellationToken)
+        public async Task Handle(CreateVeterinarianCommand request, CancellationToken cancellationToken)
         {
             var veterinarian = await _veterinarianRepository.GetAll().FirstOrDefaultAsync(x => x.Phone == request.Phone, cancellationToken);
 
@@ -65,8 +65,6 @@ namespace PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands
             veterinarian = new Veterinarian(request.FirstName, request.LastName, request.Phone, request.Email, request.Specialization, request.YearsOfExperience);
 
             await _veterinarianRepository.AddAsync(veterinarian, cancellationToken, saveChanges: true);
-
-            return Unit.Value;
         }
     }
 }

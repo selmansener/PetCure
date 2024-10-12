@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using PetCure.Domains.PatientManagement;
+using PetCure.Shared.Exceptions;
 
 using System.Runtime.CompilerServices;
 
@@ -19,6 +20,7 @@ namespace PetCure.DataAccess.Repositories
         Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false);
         Task<int> UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool saveChanges = false);
         Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveChanges = false);
+        Task<bool> ExistsAsync(int id, CancellationToken cancellationToken, bool @throw = false);
     }
 
     internal class BaseRepository<TEntity> : IBaseRepository<TEntity>
@@ -142,6 +144,18 @@ namespace PetCure.DataAccess.Repositories
             }
 
             return resultCount;
+        }
+
+        public virtual async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken, bool @throw = false)
+        {
+            var exists = await _baseDb.Set<TEntity>().AnyAsync(x => x.Id == id, cancellationToken);
+
+            if (@throw && !exists)
+            {
+                throw new NotFoundException(typeof(TEntity).Name, id.ToString());
+            }
+
+            return exists;
         }
     }
 }

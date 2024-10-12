@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetCure.Business.CQRS.PatientManagement.Pets.Commands;
 using PetCure.Business.CQRS.PatientManagement.Pets.DTOs;
 using PetCure.Business.CQRS.PatientManagement.Pets.Queries;
+using PetCure.Business.SharedDTOs;
 
 namespace PetCure.API.Controllers
 {
@@ -16,20 +17,24 @@ namespace PetCure.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType<IEnumerable<PetRecordDTO>>(200)]
-        public async Task<IActionResult> QueryPets([FromQuery] string phone, [FromQuery] string microChipId, CancellationToken cancellationToken)
+        [ProducesResponseType<PaginationResult<PetRecordDTO>>(200)]
+        public async Task<IActionResult> QueryPets([FromQuery] QueryPets query, CancellationToken cancellationToken)
         {
-            var response = await _mediator.Send(new QueryPets
-            {
-                Phone = phone,
-                MicroChipId = microChipId
-            }, cancellationToken);
+            var response = await _mediator.Send(query, cancellationToken);
 
             return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePet(CreatePetCommand command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+
+            return Ok();
+        }
+
+        [HttpPost("AddAppointment")]
+        public async Task<IActionResult> AddAppointment([FromBody] AddAppointmentCommand command, CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
 

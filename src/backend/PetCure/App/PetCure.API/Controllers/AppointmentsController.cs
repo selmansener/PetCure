@@ -31,8 +31,10 @@ namespace PetCure.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Create(CreateAppointmentCommand command, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create([FromBody] CreateAppointmentCommand command, CancellationToken cancellationToken)
         {
+            await _mediator.Send(command, cancellationToken);
+
             return NoContent();
         }
 

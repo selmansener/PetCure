@@ -88,7 +88,12 @@ const injectedRtkApi = api.injectEndpoints({
     getApiPets: build.query<GetApiPetsApiResponse, GetApiPetsApiArg>({
       query: (queryArg) => ({
         url: `/api/Pets`,
-        params: { phone: queryArg.phone, microChipId: queryArg.microChipId },
+        params: {
+          Phone: queryArg.phone,
+          MicroChipId: queryArg.microChipId,
+          PageSize: queryArg.pageSize,
+          Page: queryArg.page,
+        },
       }),
     }),
     postApiPets: build.mutation<PostApiPetsApiResponse, PostApiPetsApiArg>({
@@ -96,6 +101,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/api/Pets`,
         method: "POST",
         body: queryArg.createPetCommand,
+      }),
+    }),
+    postApiPetsAddAppointment: build.mutation<
+      PostApiPetsAddAppointmentApiResponse,
+      PostApiPetsAddAppointmentApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Pets/AddAppointment`,
+        method: "POST",
+        body: queryArg.addAppointmentCommand,
       }),
     }),
     getApiVeterinarians: build.query<
@@ -182,14 +197,21 @@ export type PostDevelopmentSeedApiArg = {
   seeds?: SeedServiceType;
   recreateDb?: boolean;
 };
-export type GetApiPetsApiResponse = /** status 200 OK */ PetRecordDto[];
+export type GetApiPetsApiResponse =
+  /** status 200 OK */ PetRecordDtoPaginationResult;
 export type GetApiPetsApiArg = {
   phone?: string;
   microChipId?: string;
+  pageSize?: number;
+  page?: number;
 };
 export type PostApiPetsApiResponse = unknown;
 export type PostApiPetsApiArg = {
   createPetCommand: CreatePetCommand;
+};
+export type PostApiPetsAddAppointmentApiResponse = unknown;
+export type PostApiPetsAddAppointmentApiArg = {
+  addAppointmentCommand: AddAppointmentCommand;
 };
 export type GetApiVeterinariansApiResponse =
   /** status 200 OK */ VeterinarianDto[];
@@ -232,7 +254,37 @@ export type ProblemDetails = {
   instance?: string | null;
   [key: string]: any;
 };
-export type CreateAppointmentCommand = object;
+export type PetSpecies = "None" | "Cat" | "Dog" | "Bird";
+export type PetDto = {
+  name?: string | null;
+  species?: PetSpecies;
+  breed?: string | null;
+  gender?: string | null;
+  dateOfBirth?: string;
+  weight?: number;
+  color?: string | null;
+  microChipId?: string | null;
+  medicalHistory?: string | null;
+};
+export type OwnerDto = {
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  city?: string | null;
+  state?: string | null;
+  zipCode?: string | null;
+  emergencyContact?: string | null;
+};
+export type CreateAppointmentCommand = {
+  vetId?: number;
+  apptDate?: string;
+  reason?: string | null;
+  notes?: string | null;
+  petInfo?: PetDto;
+  ownerInfo?: OwnerDto;
+};
 export type UpdateAppointmentCommand = object;
 export type VeterinarianBookedDatesDto = {
   id?: number;
@@ -245,8 +297,8 @@ export type SeedServiceType =
   | "Pet"
   | "Appointment"
   | "FullyBookedDates"
-  | "CompletedAppointments";
-export type PetSpecies = "None" | "Cat" | "Dog" | "Bird";
+  | "CompletedAppointments"
+  | "SingleVetFullyBookedDates";
 export type PetRecordDto = {
   id?: number;
   name?: string | null;
@@ -266,7 +318,19 @@ export type PetRecordDto = {
   updatedAt?: string | null;
   createdAt?: string;
 };
+export type PetRecordDtoPaginationResult = {
+  data?: PetRecordDto[] | null;
+  totalRowCount?: number;
+};
 export type CreatePetCommand = object;
+export type AddAppointmentCommand = {
+  petId?: number;
+  ownerId?: number;
+  vetId?: number;
+  apptDate?: string;
+  reason?: string | null;
+  notes?: string | null;
+};
 export type VeterinarianDto = {
   id?: number;
   firstName?: string | null;
@@ -309,6 +373,7 @@ export const {
   usePostDevelopmentSeedMutation,
   useGetApiPetsQuery,
   usePostApiPetsMutation,
+  usePostApiPetsAddAppointmentMutation,
   useGetApiVeterinariansQuery,
   usePostApiVeterinariansMutation,
   useGetApiVeterinariansByIdQuery,

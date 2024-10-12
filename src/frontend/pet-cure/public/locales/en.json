@@ -5,12 +5,15 @@
     },
     "Pages": {
         "Appointments": {
+            "Title": "Randevular",
             "NewAppointment": "Yeni Randevu"
         },
         "CreateAppointment": {
+            "Title": "Yeni Randevu",
             "Veterinarians": "Veterinarians",
             "AllVets": "All Veterinarians",
             "AppointmentDate": "Appointment Date",
+            "AppointmentTime": "Appointment Time",
             "ExistingPetOwnerRecords": "Existing Client Records",
             "NewPetOwner": "New Client Record",
             "Phone": "Phone",
@@ -36,6 +39,7 @@
             }
         },
         "Veterinarians": {
+            "Title": "Veterinarians",
             "NewVet": "New Veterinarian",
             "Grid": {
                 "Id": "Id",
@@ -72,6 +76,9 @@
             "Errors": {
                 "409": "There already a veterinarian with same phone number."
             }
+        },
+        "UpdateVeterinarian": {
+            "Title": "#{{id}} - Update Info for \"{{vetName}}\""
         }
     },
     "NotFound": {

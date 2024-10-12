@@ -1,4 +1,4 @@
-import { Avatar, Box, FormControlLabel, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Radio, RadioGroup, Skeleton } from "@mui/material";
+import { Autocomplete, Avatar, Box, FormControlLabel, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Radio, RadioGroup, Skeleton, TextField } from "@mui/material";
 import { useState } from "react";
 import { useGetApiVeterinariansQuery, VeterinarianDto } from "../../../store/api";
 import React from "react";
@@ -11,73 +11,45 @@ export interface VeterinariansSelectorProps {
 export function VeterinariansSelector(props: VeterinariansSelectorProps) {
     const { onSelect } = props;
     const { t } = useTranslation();
-    const { data: veterinarians, isLoading, isFetching, isError } = useGetApiVeterinariansQuery();
-    const [value, setValue] = useState<number>(0);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(parseInt((event.target as HTMLInputElement).value));
-        if (veterinarians && event.target.value) {
-            const selectedVet = veterinarians?.find(vet => vet.id === parseInt(event.target.value));
-            if (selectedVet) {
-                onSelect(selectedVet);
+    const { data: vets, isLoading, isFetching, isError } = useGetApiVeterinariansQuery();
+    const options = React.useMemo(
+        () => vets?.map(vet => {
+            return {
+                id: vet.id,
+                label: `${vet.firstName} ${vet.lastName}`
             }
-        }
-    };
+        }) ?? [],
+        [vets],
+    );
 
-    if (isLoading || isFetching) {
-        return <Box sx={{ width: "100%" }}>
-            <Skeleton />
-            <Skeleton animation="wave" />
-            <Skeleton animation={false} />
-            <Skeleton />
-            <Skeleton animation="wave" />
-            <Skeleton animation={false} />
-        </Box>
-    }
+    const [value, setValue] = React.useState<{ id: number | undefined, label: string } | undefined>({
+        id: undefined,
+        label: ""
+    });
+    const [inputValue, setInputValue] = React.useState('');
 
-    return <React.Fragment>
-        {veterinarians && <RadioGroup
-            value={value}
-            onChange={handleChange}
-        >
-            <Box sx={{
-                width: "100%",
-                height: "320px",
-                overflowY: "scroll",
-                overflowX: "hidden",
-            }}>
-                <List dense sx={{
-                    width: '100%',
-                    bgcolor: 'background.paper',
-                    pr: 2
-                }}>
-                    {veterinarians.map((veterinarian) => {
-                        const labelId = `checkbox-list-secondary-label-${veterinarian}`;
-                        return (
-                            <FormControlLabel
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between"
-                                }}
-                                key={veterinarian.id}
-                                value={veterinarian.id} control={<Radio />}
-                                labelPlacement="start"
-                                label={
-                                    <ListItem
-                                        disablePadding
-                                    >
-                                        <ListItemButton>
-                                            <ListItemAvatar>
-                                                <Avatar />
-                                            </ListItemAvatar>
-                                            <ListItemText id={labelId} primary={`${veterinarian.firstName} ${veterinarian.lastName}`} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                } />
-                        );
-                    })}
-                </List>
-            </Box>
-        </RadioGroup>}
-    </React.Fragment>
+    return <Autocomplete
+        value={value}
+        onChange={(event: any, newValue: { id: number | undefined, label: string } | null) => {
+            if (newValue) {
+                const foundVet = options.find(vet => vet.id === newValue.id);
+                setValue(foundVet);
+
+                const _foundVet = vets?.find(vet => vet.id === newValue.id);
+                if (_foundVet) {
+                    onSelect(_foundVet);
+                }
+            }
+        }}
+        inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+        }}
+        disablePortal
+        disabled={isLoading || isFetching}
+        loading={isLoading || isFetching}
+        options={options}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label={t("Pages.CreateAppointment.Veterinarians")} />}
+    />
 }

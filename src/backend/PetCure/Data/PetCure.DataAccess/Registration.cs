@@ -17,6 +17,9 @@ namespace PetCure.DataAccess
             });
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<ITransactionManager, TransactionManager>();
+
+            services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
 
             if (environment.IsDevelopment())
             {

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using PetCure.Business.PipelineBehaviours;
+using PetCure.Business.PipelineBehaviours.VoidBehaviors;
 using PetCure.Business.Seed;
 
 using System.Reflection;
@@ -23,12 +24,15 @@ namespace PetCure.Business
             services.AddMediatR(config =>
             {
                 config.RegisterServicesFromAssembly(typeof(Registration).Assembly);
+                config.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                config.AddOpenBehavior(typeof(TransactionBehavior<,>));
+                config.AddOpenBehavior(typeof(LoggingBehaviorForVoidRequests<,>));
+                config.AddOpenBehavior(typeof(ValidationBehaviorForVoidRequests<,>));
+                config.AddOpenBehavior(typeof(TransactionBehaviorForVoidRequest<,>));
             });
 
             services.AddValidatorsFromAssembly(typeof(Registration).Assembly, includeInternalTypes: true);
-
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
             services.AddSeedServices(hostingEnvironment.EnvironmentName);
 

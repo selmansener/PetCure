@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,11 @@ export default function Appointments() {
     const navigate = useNavigate();
 
     return <Grid container spacing={2}>
+        <Grid size={12}>
+            <Typography variant="h4">
+                {t("Pages.Appointments.Title")}
+            </Typography>
+        </Grid>
         <Grid display="flex" justifyContent="flex-end" size={12}>
             <Button onClick={() => navigate("/appointments/create")}>
                 {t("Pages.Appointments.NewAppointment")}

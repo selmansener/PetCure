@@ -85,6 +85,11 @@ export default function CreateVeterinarian() {
     }, [isError]);
 
     return <Grid2 container spacing={2}>
+        <Grid2 size={12}>
+            <Typography variant={"h4"}>
+                {t("Pages.CreateVeterinarian.Title")}
+            </Typography>
+        </Grid2>
         <Grid2 size={4}>
             <FormControl fullWidth>
                 <TextField label={<Typography>{t("Pages.CreateVeterinarian.FirstName")}</Typography>}

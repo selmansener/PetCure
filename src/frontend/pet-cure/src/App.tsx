@@ -12,6 +12,13 @@ import Backend from 'i18next-http-backend';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { theme } from './themes/default-theme';
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Etc/UTC");
 
 i18n
   .use(LanguageDetector)
@@ -33,9 +40,9 @@ i18n
 function App() {
   return (
     <div className="App">
-      <CssBaseline enableColorScheme />
       <Provider store={store}>
         <ThemeProvider theme={theme} >
+          <CssBaseline enableColorScheme />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Router routes={routes} isPublic={true} currentAccountRole="user" environment={config.environment} />
           </LocalizationProvider>

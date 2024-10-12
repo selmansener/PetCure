@@ -21,7 +21,7 @@ const CreateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarian
 const UpdateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarians/UpdateVeterinarian"));
 const VeterinarianDetailsPage = React.lazy(() => import("../../pages/Veterinarians/VeterinarianDetails"));
 const AppointmentsPage = React.lazy(() => import("../../pages/Appointments/Appointments"));
-const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment"));
+const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment2"));
 
 export const mainRoutes: RouteConfig = {
     path: "/",

@@ -1,8 +1,9 @@
-import { DateCalendar, StaticDatePicker } from "@mui/x-date-pickers";
+import { DateCalendar, DatePicker, DayCalendarSkeleton, MobileDatePicker, StaticDatePicker } from "@mui/x-date-pickers";
 import { useGetApiAppointmentsGetBookedDatesByVetIdQuery, VeterinarianDto } from "../../../store/api";
-import { isSameDay } from "date-fns";
-import { tz } from "@date-fns/tz";
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { FormControl, FormLabel, InputLabel } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 function splitIntoTenMinutePeriods(date: Date): Date[] {
     const result: Date[] = [];
@@ -21,41 +22,42 @@ function splitIntoTenMinutePeriods(date: Date): Date[] {
 }
 
 export interface AppointmentDateSelectorProps {
-    selectedVet?: VeterinarianDto;
+    vet?: VeterinarianDto;
     onSelect: (selected: Date) => void;
 }
 
 export function AppointmentDateSelector(props: AppointmentDateSelectorProps) {
-    const { selectedVet, onSelect } = props;
+    const { t } = useTranslation();
+    const { vet, onSelect } = props;
     const {
         data: bookedDates,
         isError: isErrorBookedDates,
         isLoading: isLoadingBookedDates,
         isFetching: isFetchingBookedDates
     } = useGetApiAppointmentsGetBookedDatesByVetIdQuery({
-        vetId: selectedVet?.id ?? 0
+        vetId: vet?.id ?? 0
     });
     const isBusy = isLoadingBookedDates || isFetchingBookedDates;
 
     const [value, setValue] = useState<Date | null | undefined>(null);
-    const [appointmentDates, setAppointmentDates] = useState<Date[] | undefined>();
 
-    const handleChange = (newValue: Date) => {
-        setValue(newValue);
-        onSelect(newValue);
+    const handleChange = (newValue: Date | null) => {
+        if (newValue) {
+            setValue(newValue);
+            onSelect(newValue);
+        }
     }
 
     const shouldDisableDate = (date: Date) => {
-        if (appointmentDates) {
+        if (bookedDates?.appointmentDates) {
             const tenMinutePeriods = splitIntoTenMinutePeriods(date);
 
-            const filteredAppointmentDates = appointmentDates.filter(appointmentDate => appointmentDate.toDateString() === date.toDateString());
+            const filteredAppointmentDates = bookedDates.appointmentDates?.filter(appointmentDate => dayjs(appointmentDate).format("YYYY-MM-DD") === dayjs(date).utc().format("YYYY-MM-DD"));
 
-            if (filteredAppointmentDates) {
-                // TODO: same shit here! god damn time zone issue and remember that DO NOT USE date-fns ever again
-                return tenMinutePeriods.every(period => filteredAppointmentDates.some(appointmentDate => isSameDay(appointmentDate, period, {
-                    in: tz("Etc/UTC")
-                })));
+            if (filteredAppointmentDates && filteredAppointmentDates.length > 0) {
+                return tenMinutePeriods.every(period => filteredAppointmentDates.some(appointmentDate => {
+                    return dayjs(appointmentDate).format("YYYY-MM-DDTHH:mm") === dayjs(period).format("YYYY-MM-DDTHH:mm");
+                }));
             }
 
             return false;
@@ -64,10 +66,15 @@ export function AppointmentDateSelector(props: AppointmentDateSelectorProps) {
         return false;
     }
 
-    return <DateCalendar
-        disabled={isBusy || !selectedVet}
+    return <MobileDatePicker
+        label={t("Pages.CreateAppointment.AppointmentDate")}
+        loading={isBusy}
+        disablePast
+        reduceAnimations
+        disabled={isBusy || !vet}
+        renderLoading={() => <DayCalendarSkeleton />}
         value={value}
         onChange={handleChange}
-        //shouldDisableDate={shouldDisableDate}
+        shouldDisableDate={shouldDisableDate}
     />
 }

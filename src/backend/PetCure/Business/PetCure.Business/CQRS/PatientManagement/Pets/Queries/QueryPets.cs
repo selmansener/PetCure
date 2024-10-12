@@ -7,15 +7,21 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using PetCure.Business.CQRS.PatientManagement.Pets.DTOs;
+using PetCure.Business.SharedDTOs;
 using PetCure.DataAccess.Repositories;
 using PetCure.Domains.PatientManagement;
 
 namespace PetCure.Business.CQRS.PatientManagement.Pets.Queries
 {
-    public class QueryPets : IRequest<IEnumerable<PetRecordDTO>>
+    public class QueryPets : IRequest<PaginationResult<PetRecordDTO>>
     {
         public string? Phone { get; set; }
+
         public string? MicroChipId { get; set; }
+
+        public int PageSize { get; set; } = 25;
+
+        public int Page { get; set; } = 0;
     }
 
     internal class QueryPetsValidator : AbstractValidator<QueryPets>
@@ -33,7 +39,7 @@ namespace PetCure.Business.CQRS.PatientManagement.Pets.Queries
         }
     }
 
-    internal class QueryPetsHandler : IRequestHandler<QueryPets, IEnumerable<PetRecordDTO>>
+    internal class QueryPetsHandler : IRequestHandler<QueryPets, PaginationResult<PetRecordDTO>>
     {
         private readonly IBaseRepository<Pet> _petRepository;
 
@@ -42,7 +48,7 @@ namespace PetCure.Business.CQRS.PatientManagement.Pets.Queries
             _petRepository = petRepository;
         }
 
-        public async Task<IEnumerable<PetRecordDTO>> Handle(QueryPets request, CancellationToken cancellationToken)
+        public async Task<PaginationResult<PetRecordDTO>> Handle(QueryPets request, CancellationToken cancellationToken)
         {
             var exitingRecordsQuery = _petRepository
                 .GetAll()
@@ -58,7 +64,18 @@ namespace PetCure.Business.CQRS.PatientManagement.Pets.Queries
                 exitingRecordsQuery = exitingRecordsQuery.Where(x => x.MicroChipId == request.MicroChipId);
             }
 
-            return await exitingRecordsQuery.ToListAsync(cancellationToken);
+            var totalRowCount = await exitingRecordsQuery.CountAsync(cancellationToken);
+
+            var data = await exitingRecordsQuery
+                .Skip(request.Page * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync(cancellationToken);
+
+            return new PaginationResult<PetRecordDTO>
+            {
+                Data = data,
+                TotalRowCount = totalRowCount,
+            };
         }
     }
 }
