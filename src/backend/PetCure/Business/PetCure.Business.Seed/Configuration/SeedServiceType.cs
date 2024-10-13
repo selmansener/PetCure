@@ -9,6 +9,7 @@
         FullyBookedDates = 4,
         CompletedAppointments = 5,
         SingleVetFullyBookedDates = 6,
-        PetRecords = 7
+        PetRecords = 7,
+        UpcomingAppointments = 8,
     }
 }

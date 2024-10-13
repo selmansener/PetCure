@@ -1,10 +1,11 @@
-import { Paper, Typography, Divider, Grid2 as Grid, Skeleton, Box } from "@mui/material";
+import { Paper, Typography, Divider, Grid2 as Grid, Skeleton, Box, Link } from "@mui/material";
 import dayjs from "dayjs";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import * as emoji from 'node-emoji'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { UpcomingAppointmentDto, useGetApiDashboardUpcomingAppointmentsQuery } from "../../../store/api";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function UpcomingAppointmentItem(props: UpcomingAppointmentDto) {
     const { t } = useTranslation();
@@ -19,15 +20,17 @@ function UpcomingAppointmentItem(props: UpcomingAppointmentDto) {
             <Typography sx={{
                 cursor: "default"
             }} fontSize={48}>
-                {emoji.get(species!)}
+                {emoji.get(species?.toLowerCase()!)}
             </Typography>
         </Grid>
         <Grid size={11} display="flex" alignItems="flex-start" justifyContent={"space-evenly"} flexDirection={"column"}>
             <Typography variant="h5">
-                <CalendarMonthIcon fontSize="small" sx={{
-                    mr: 2
-                }} />
-                {dayjs(apptDate).format("DD/MM/YYYY HH:mm")}
+                <Link to={`/appointments/${id}`} component={NavLink}>
+                    <CalendarMonthIcon fontSize="small" sx={{
+                        mr: 2
+                    }} />
+                    {dayjs(apptDate).format("DD/MM/YYYY HH:mm")}
+                </Link>
             </Typography>
             <Typography variant="body2">
                 {t("Pages.Dashboard.UpcomingAppt", {
@@ -85,7 +88,10 @@ export function UpcomingAppointments() {
 
     return <Paper sx={{
         p: 2,
-        flexGrow: 1
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around"
     }}>
         <Typography>
             {t("Pages.Dashboard.UpcomingApptTitle")}
