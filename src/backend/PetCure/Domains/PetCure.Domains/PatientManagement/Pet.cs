@@ -36,5 +36,20 @@ namespace PetCure.Domains.PatientManagement
         public IReadOnlyList<MedicalRecord> MedicalRecords => _medicalRecords;
         public IReadOnlyList<Appointment> Appointments => _appointments;
         public IReadOnlyList<Prescription> Prescriptions => _prescriptions;
+
+        public void AddMedicalRecord(int vetId, DateTime visitDate, string sympthoms)
+        {
+            _medicalRecords.Add(new MedicalRecord(Id, vetId, visitDate, sympthoms, null, null, null, null, null));
+        }
+
+        public void AddMedicalRecord(int vetId, DateTime visitDate, string sympthoms, string? diagnosis, string? treatment, string? medication, DateTime? followUpDate, string? notes)
+        {
+            _medicalRecords.Add(new MedicalRecord(Id, vetId, visitDate, sympthoms, diagnosis, treatment, medication, followUpDate, notes));
+        }
+
+        public void AddPrescription(int vetId, DateTime dateIssued, string medicationName, string dosage, string duration, string notes)
+        {
+            _prescriptions.Add(new Prescription(Id, vetId, dateIssued, medicationName, dosage, duration, notes));
+        }
     }
 }

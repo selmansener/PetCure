@@ -8,7 +8,7 @@ export function MainLayout() {
     return <React.Fragment>
         <Header />
         <Container maxWidth="xl" sx={{
-            mt: 15
+            my: [14]
         }}>
             <Outlet />
         </Container>
@@ -21,7 +21,7 @@ const CreateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarian
 const UpdateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarians/UpdateVeterinarian"));
 const VeterinarianDetailsPage = React.lazy(() => import("../../pages/Veterinarians/VeterinarianDetails"));
 const AppointmentsPage = React.lazy(() => import("../../pages/Appointments/Appointments"));
-const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment2"));
+const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment"));
 
 export const mainRoutes: RouteConfig = {
     path: "/",
@@ -41,7 +41,7 @@ export const mainRoutes: RouteConfig = {
             element: <CreateVeterinarianPage />
         },
         {
-            path: "veterinarians/update/:id",
+            path: "veterinarians/:id/update",
             element: <UpdateVeterinarianPage />
         },
         {

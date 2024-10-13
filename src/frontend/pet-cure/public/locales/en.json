@@ -4,6 +4,22 @@
         "Appointments": "Appointments"
     },
     "Pages": {
+        "Dashboard": {
+            "Title": "Welcome to Your Veterinary Dashboard ",
+            "Subtitle": "- Where Every Pet's Well-being is Our Priority.",
+            "TotalAppointmentCountByDateRange": {
+                "Title": "{{dateRange}} total appointments"
+            },
+            "AppointmentsByDateRange": {
+                "Title": "{{dateRange}} appointments"
+            },
+            "DateRanges": {
+                "LastWeek": "Last week's",
+                "LastThreeWeeks": "Last 3 weeks'",
+                "LastMonth": "Last month's",
+                "LastThreeMonths": "Last 3 months'"
+            }
+        },
         "Appointments": {
             "Title": "Randevular",
             "NewAppointment": "Yeni Randevu"
@@ -17,8 +33,25 @@
             "ExistingPetOwnerRecords": "Existing Client Records",
             "NewPetOwner": "New Client Record",
             "Phone": "Phone",
-            "PhoneOrMicroChipId": "or",
+            "PhoneOrMicroChipId": "Search by <phoneField /> or <chipField /> field.",
             "MicroChipId": "MicroChipId",
+            "AppointmentsGrid": {
+                "Name": "Pet Name",
+                "PetSpecies": "Species",
+                "OwnerName": "Owner",
+                "Phone": "Phone",
+                "VetName": "Vet",
+                "AppointmentDate": "Appointment Date",
+                "Reason": "Reason",
+                "Status": "Status",
+                "Notes": "Notes",
+                "CompletedAt": "Completed At",
+                "PetSpeciesMap": {
+                    "Dog": "Dog",
+                    "Cat": "Cat",
+                    "Bird": "Bird"
+                }
+            },
             "PetRecordGrid": {
                 "MicroChipId": "MicroChipId",
                 "PetName": "Pet Name",
@@ -35,7 +68,75 @@
                 "LastMedicalRecord": "Last Medical Record",
                 "LastAppointmentDate": "Last Appointment Date",
                 "UpdatedAt": "Updated At",
-                "CreatedAt": "Created At"
+                "CreatedAt": "Created At",
+                "PetSpeciesMap": {
+                    "Dog": "Dog",
+                    "Cat": "Cat",
+                    "Bird": "Bird"
+                }
+            },
+            "CreatePetRecord": {
+                "PetInfo": "Patient Info",
+                "Name": "Name",
+                "Species": "Species",
+                "Breed": "Breed",
+                "Gender": "Gender",
+                "DateOfBirth": "Date of Birth",
+                "Weight": "Weight",
+                "Color": "Color",
+                "MicroChipId": "Micro ChipId",
+                "MedicalHistory": "Medical History",
+                "OwnerInfo": "Owner Info",
+                "FirstName": "First Name",
+                "LastName": "Last Name",
+                "Phone": "Phone",
+                "Email": "Email",
+                "Address": "Address",
+                "City": "City",
+                "State": "State",
+                "ZipCode": "ZipCode",
+                "EmergencyContact": "Emergency Contact",
+                "GeneralInfo": "General Info",
+                "Reason": "Reason",
+                "Notes": "Notes"
+            },
+            "Submit": "Create Appt.",
+            "ReSelect": "ReSelect",
+            "ExistingPetRecordDetails": {
+                "Title": "Existing Record",
+                "PetInfo":"Patient Info",
+                "Name": "Name",
+                "Species": "Species",
+                "Breed": "Breed",
+                "Gender": "Gender",
+                "DateOfBirth": "Date of Birth",
+                "Weight": "Weight",
+                "Color": "Color",
+                "MicroChipId": "Micro ChipId",
+                "MedicalHistory": "Medical History",
+                "OwnerInfo":"Owner Info",
+                "FirstName": "First Name",
+                "LastName": "Last Name",
+                "Phone": "Phone",
+                "Email": "Email",
+                "Address": "Address",
+                "City": "City",
+                "State": "State",
+                "ZipCode": "ZipCode",
+                "EmergencyContact": "Emergency Contact",
+                "PastMedicalRecords": "Past Medical Records",
+                "VisitDate": "Visit Date: {{visitDate}}",
+                "Symptoms": "Symptoms: ",
+                "Diagnosis": "Diagnosis: ",
+                "Treatment": "Treatment: ",
+                "Medication": "Medication: ",
+                "FollowUpDate": "FollowUp Date: ",
+                "Notes": "Notes: ",
+                "Prescriptions": "Prescriptions",
+                "DateIssued": "Date Issued: {{dateIssued}}",
+                "MedicationName": "Medication Name: ",
+                "Dosage": "Dosage: ",
+                "Duration": "Duration: "
             }
         },
         "Veterinarians": {
@@ -58,13 +159,14 @@
             "DeleteError": "Unexpected error occured while deleting veterinarian record."
         },
         "VeterinarianDetails": {
-            "FirstName": "First Name",
-            "LastName": "Last Name",
-            "Phone": "Phone",
-            "Email": "Email",
-            "Specialization": "Specialization",
-            "YearsOfExperience": "YoE",
-            "CurrentAppointmentCount": "Current Appointment Count"
+            "Title": "Veterinarians / {{vetName}}",
+            "FirstName": "First Name: ",
+            "LastName": "Last Name: ",
+            "Phone": "Phone: ",
+            "Email": "Email: ",
+            "Specialization": "Specialization: ",
+            "YearsOfExperience": "YoE: ",
+            "CurrentAppointmentCount": "Current Appointment Count: "
         },
         "CreateVeterinarian": {
             "FirstName": "First Name",

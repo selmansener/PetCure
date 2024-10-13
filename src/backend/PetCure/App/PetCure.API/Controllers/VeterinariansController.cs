@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.Commands;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.DTOs;
 using PetCure.Business.CQRS.PatientManagement.Vetenerians.Queries;
+using PetCure.Business.SharedDTOs;
 
 namespace PetCure.API.Controllers
 {
@@ -13,6 +14,15 @@ namespace PetCure.API.Controllers
         public VeterinariansController(IMediator mediator)
             : base(mediator)
         {
+        }
+
+        [HttpGet("Query")]
+        [ProducesResponseType(typeof(PaginationResult<VeterinarianDTO>), 200)]
+        public async Task<IActionResult> Query([FromQuery] QueryVets query, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(query, cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpGet]

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetCure.Business.CQRS.PatientManagement.Appointments.Commands;
 using PetCure.Business.CQRS.PatientManagement.Appointments.DTOs;
 using PetCure.Business.CQRS.PatientManagement.Appointments.Queries;
+using PetCure.Business.SharedDTOs;
 
 namespace PetCure.API.Controllers
 {
@@ -13,6 +14,15 @@ namespace PetCure.API.Controllers
         public AppointmentsController(IMediator mediator)
             : base(mediator)
         {
+        }
+
+        [HttpGet("Query")]
+        [ProducesResponseType(typeof(PaginationResult<AppointmentQueryDTO>), 200)]
+        public async Task<IActionResult> Query([FromQuery] QueryAppointments query, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(query, cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpGet]

@@ -1,13 +1,14 @@
-import { Box, Button, Grid2, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Grid2, Skeleton, Typography, Link } from "@mui/material";
 import { useGetApiPetsQuery } from "../../../store/api";
 import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { EmptyGridValue } from "../../../components/grid/EmptyGridValue";
 import * as emoji from 'node-emoji'
 import { useState } from "react";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export type PetRecordQueryParams = {
     phone: string | undefined;
@@ -32,8 +33,6 @@ export function ExistingPetRecordGrid(props: PetRecordQueryParams) {
         page: paginationModel.page
     });
 
-
-    // TODO: move pagination and sorting to backend
     const columns: GridColDef[] = [
         {
             field: 'action',
@@ -52,8 +51,11 @@ export function ExistingPetRecordGrid(props: PetRecordQueryParams) {
             headerName: 'ID',
             align: "center",
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/pet/${params.row.id}`}>
+                return <Link to={`/pet/${params.row.id}`}
+                    target="_blank"
+                    component={NavLink}>
                     {params.row.id}
+                    <OpenInNewIcon sx={{ ml: 0.5, verticalAlign: 'text-top', fontSize: "0.75em" }} />
                 </Link>
             }
         },
@@ -138,8 +140,11 @@ export function ExistingPetRecordGrid(props: PetRecordQueryParams) {
             headerName: 'Pages.CreateAppointment.PetRecordGrid.LastMedicalRecord',
             align: "center",
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/pet/${params.row.id}/medical-records/${params.row.lastMedicalRecord}`}>
+                return <Link to={`/pet/${params.row.id}/medical-records/${params.row.lastMedicalRecord}`}
+                    component={NavLink}
+                    target="_blank">
                     {params.row.id}
+                    <OpenInNewIcon sx={{ ml: 0.5, verticalAlign: 'text-top', fontSize: "0.75em" }} />
                 </Link>
             }
         },
@@ -183,6 +188,7 @@ export function ExistingPetRecordGrid(props: PetRecordQueryParams) {
     return <Box display="flex" flexDirection="column">
 
         <DataGrid
+            rowSelection={false}
             autoHeight
             loading={isLoading || isFetching}
             rows={data?.data ?? []}

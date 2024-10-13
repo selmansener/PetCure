@@ -1,6 +1,6 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { store } from './store/store';
-import { createTheme, ThemeProvider, responsiveFontSizes } from '@mui/material';
+import { createTheme, ThemeProvider, responsiveFontSizes, useColorScheme, Theme } from '@mui/material';
 import { config } from './config';
 import { Provider } from 'react-redux';
 import { Router } from './router/router';
@@ -11,7 +11,7 @@ import { initReactI18next } from "react-i18next";
 import Backend from 'i18next-http-backend';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
-import { theme } from './themes/default-theme';
+import { defaultTheme } from './themes/default-theme';
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -41,7 +41,7 @@ function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <ThemeProvider theme={theme} >
+        <ThemeProvider theme={defaultTheme} >
           <CssBaseline enableColorScheme />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Router routes={routes} isPublic={true} currentAccountRole="user" environment={config.environment} />

@@ -1,82 +1,97 @@
-import { Box, Grid2, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { Autocomplete, Button, FormControl, Grid2 as Grid, Paper, Skeleton, Tab, Tabs, Typography } from "@mui/material";
+import { VeterinariansSelector } from "./components/VeterinariansSelector";
+import { VeterinarianDto } from "../../store/api";
+import { NavLink } from "react-router-dom";
 import { AppointmentDateSelector } from "./components/AppointmentDateSelector";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { VeterinariansSelector } from "./components/VeterinariansSelector";
-import { ExistingPetRecordGrid } from "./components/ExistingPetRecordGrid";
-import DebouncedTextField from "../../components/form/DebouncedTextField";
-import { CreatePetRecord } from "./components/CreatePetRecord";
-import { VeterinarianDto } from "../../store/api";
 import { AppointmentTimeSelector } from "./components/AppointmentTimeSelector";
+import { CreatePetRecord } from "./components/CreatePetRecord";
 import { ExistingPetRecordSelector } from "./components/ExistingPetRecordSelector";
 
 export default function CreateAppointment() {
     const { t } = useTranslation();
-    const [currentTab, setCurrentTab] = useState(0);
     const [selectedVet, setSelectedVet] = useState<VeterinarianDto | undefined>();
     const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+    const [selectedTime, setSelectedTime] = useState<Date | undefined>();
+    const [currentTab, setCurrentTab] = useState(0);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setCurrentTab(newValue);
     };
 
-    const handleVetSelect = (vet: VeterinarianDto) => {
-        setSelectedVet(vet);
+    const onVetSelect = (value: VeterinarianDto) => {
+        setSelectedVet(value);
+    };
+
+    const onDateSelected = (value: Date) => {
+        setSelectedDate(value);
     }
 
-    return <Grid2 container spacing={2}>
-        <Grid2 size={3}>
+    const onTimeSelected = (value: Date | null) => {
+        if (value) {
+            setSelectedTime(value);
+        }
+    }
+
+    return <Grid container spacing={2}>
+        <Grid size={12}>
             <Typography variant="h4">
-                {t("Pages.CreateAppointment.Veterinarians")}
+                {t("Pages.CreateAppointment.Title")}
             </Typography>
-        </Grid2>
-        <Grid2 size={3}>
-            <Typography variant="h4">
-                {t("Pages.CreateAppointment.AppointmentDate")}
-            </Typography>
-        </Grid2>
-        <Grid2 size={6}>
-            <Typography variant="h4">
-                {t("Pages.CreateAppointment.AppointmentTime")}
-            </Typography>
-        </Grid2>
-        <Grid2 size={3}>
-            <VeterinariansSelector
-                onSelect={handleVetSelect}
-            />
-        </Grid2>
-        <Grid2 size={3}>
-            {<AppointmentDateSelector
-                vet={selectedVet}
-                onSelect={(selected) => setSelectedDate(selected)}
-            />}
-        </Grid2>
-        <Grid2 size={6}>
-            {<AppointmentTimeSelector
-                selectedVet={selectedVet}
-                selectedDate={selectedDate}
-                onSelect={() => { }}
-            />}
-        </Grid2>
-        <Grid2 size={12}>
+        </Grid>
+        <Grid size={3}>
+            <FormControl fullWidth>
+                <VeterinariansSelector
+                    onSelect={onVetSelect}
+                />
+            </FormControl>
+        </Grid>
+        <Grid size={3}>
+            <FormControl fullWidth>
+                <AppointmentDateSelector
+                    vet={selectedVet}
+                    onSelect={onDateSelected}
+                />
+            </FormControl>
+        </Grid>
+        <Grid size={3}>
+            <FormControl fullWidth>
+                <AppointmentTimeSelector
+                    selectedVet={selectedVet}
+                    selectedDate={selectedDate}
+                    onSelect={onTimeSelected}
+                />
+            </FormControl>
+        </Grid>
+
+        <Grid size={12}>
             <Tabs
                 value={currentTab}
                 onChange={handleTabChange}
-                variant="scrollable"
-                scrollButtons
-                allowScrollButtonsMobile
             >
                 <Tab label={t("Pages.CreateAppointment.NewPetOwner")} />
                 <Tab label={t("Pages.CreateAppointment.ExistingPetOwnerRecords")} />
             </Tabs>
-        </Grid2>
-        {currentTab === 0 && <Grid2 size={12}>
-            <CreatePetRecord />
-        </Grid2>}
-        {currentTab === 1 && <Grid2 size={12}>
-            <ExistingPetRecordSelector />
-        </Grid2>}
-    </Grid2 >
+        </Grid>
+        {currentTab === 0 && <Grid size={12}>
+            <Paper sx={{
+                p:2
+            }}>
+                <CreatePetRecord />
+            </Paper>
+        </Grid>}
+        {currentTab === 1 && <Grid size={12}>
+            <Paper sx={{
+                p: 2
+            }}>
+                <ExistingPetRecordSelector />
+            </Paper>
+        </Grid>}
+        <Grid size={12} display="flex" justifyContent="flex-end">
+            <Button variant="contained">
+                {t("Pages.CreateAppointment.Submit")}
+            </Button>
+        </Grid>
+    </Grid>
 }

@@ -85,6 +85,7 @@ namespace PetCure.Business.Seed
             }
         }
 
+        // TODO: Add some type of control to prevent circular dependency
         private async Task ResolveAndSeed(SeedServiceType service, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Initializing seed service {0}", service);

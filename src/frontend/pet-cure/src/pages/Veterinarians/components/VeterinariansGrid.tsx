@@ -1,13 +1,14 @@
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
-import { api, useDeleteApiVeterinariansByIdMutation, useGetApiVeterinariansQuery } from '../../store/api';
-import { Link, useNavigate } from 'react-router-dom';
+import { api, useDeleteApiVeterinariansByIdMutation, useGetApiVeterinariansQuery, useGetApiVeterinariansQueryQuery } from '../../../store/api';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { tr } from "date-fns/locale";
 import { Trans, useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid2, IconButton, Snackbar, SnackbarCloseReason } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid2, IconButton, Link, Snackbar, SnackbarCloseReason } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch } from '../../../store/hooks';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 type DeleteConfirmationData = {
     id: number;
@@ -23,7 +24,14 @@ export function VeterinariansGrid() {
     const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deleteConfirmationData, setDeleteConfirmationData] = useState<DeleteConfirmationData>();
-    const { data, isError, isFetching, isLoading, error } = useGetApiVeterinariansQuery();
+    const [paginationModel, setPaginationModel] = useState({
+        pageSize: 10,
+        page: 0,
+    });
+    const { data, isError, isFetching, isLoading, error } = useGetApiVeterinariansQueryQuery({
+        page: paginationModel.page,
+        pageSize: paginationModel.pageSize
+    });
     const [DeleteVeterinarian, results] = useDeleteApiVeterinariansByIdMutation();
     const dispatch = useAppDispatch();
 
@@ -33,8 +41,11 @@ export function VeterinariansGrid() {
             field: 'id',
             headerName: 'ID',
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/veterinarians/${params.row.id}`}>
+                return <Link to={`/veterinarians/${params.row.id}`}
+                    target="_blank"
+                    component={NavLink}>
                     {params.row.id}
+                    <OpenInNewIcon sx={{ ml: 0.5, verticalAlign: 'text-top', fontSize: "0.75em" }} />
                 </Link>
             }
         },
@@ -100,7 +111,7 @@ export function VeterinariansGrid() {
             renderCell: (params) => {
                 return <Grid2 container spacing={2}  >
                     <Grid2 size={8}>
-                        <Button variant='outlined' onClick={() => navigate(`/veterinarians/update/${params.row["id"]}`)}>
+                        <Button variant='outlined' onClick={() => navigate(`/veterinarians/${params.row["id"]}/update`)}>
                             {t("Generic.Forms.Update")}
                         </Button>
                     </Grid2>
@@ -156,9 +167,15 @@ export function VeterinariansGrid() {
     return <React.Fragment>
         <Box sx={{ height: 400 }}>
             <DataGrid
+                rowSelection={false}
                 autoHeight
                 loading={isLoading || isFetching}
-                rows={data}
+                rows={data?.data ?? []}
+                rowCount={data?.totalRowCount}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                paginationMode="server"
+                pageSizeOptions={[5, 10, 25, 50]}
                 columns={columns.map(col => {
                     return {
                         ...col,

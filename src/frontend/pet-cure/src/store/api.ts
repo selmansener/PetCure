@@ -1,6 +1,15 @@
 import { emptySplitApi as api } from "./emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
+    getApiAppointmentsQuery: build.query<
+      GetApiAppointmentsQueryApiResponse,
+      GetApiAppointmentsQueryApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Appointments/Query`,
+        params: { PageSize: queryArg.pageSize, Page: queryArg.page },
+      }),
+    }),
     getApiAppointments: build.query<
       GetApiAppointmentsApiResponse,
       GetApiAppointmentsApiArg
@@ -103,6 +112,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.createPetCommand,
       }),
     }),
+    getApiPetsByIdExistingRecords: build.query<
+      GetApiPetsByIdExistingRecordsApiResponse,
+      GetApiPetsByIdExistingRecordsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Pets/${queryArg.id}/ExistingRecords`,
+      }),
+    }),
     postApiPetsAddAppointment: build.mutation<
       PostApiPetsAddAppointmentApiResponse,
       PostApiPetsAddAppointmentApiArg
@@ -111,6 +128,15 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/api/Pets/AddAppointment`,
         method: "POST",
         body: queryArg.addAppointmentCommand,
+      }),
+    }),
+    getApiVeterinariansQuery: build.query<
+      GetApiVeterinariansQueryApiResponse,
+      GetApiVeterinariansQueryApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Veterinarians/Query`,
+        params: { PageSize: queryArg.pageSize, Page: queryArg.page },
       }),
     }),
     getApiVeterinarians: build.query<
@@ -158,6 +184,12 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
+export type GetApiAppointmentsQueryApiResponse =
+  /** status 200 OK */ AppointmentQueryDtoPaginationResult;
+export type GetApiAppointmentsQueryApiArg = {
+  pageSize?: number;
+  page?: number;
+};
 export type GetApiAppointmentsApiResponse =
   /** status 200 OK */ AppointmentDto[];
 export type GetApiAppointmentsApiArg = void;
@@ -209,9 +241,20 @@ export type PostApiPetsApiResponse = unknown;
 export type PostApiPetsApiArg = {
   createPetCommand: CreatePetCommand;
 };
+export type GetApiPetsByIdExistingRecordsApiResponse =
+  /** status 200 OK */ ExistingPetRecordDto;
+export type GetApiPetsByIdExistingRecordsApiArg = {
+  id: number;
+};
 export type PostApiPetsAddAppointmentApiResponse = unknown;
 export type PostApiPetsAddAppointmentApiArg = {
   addAppointmentCommand: AddAppointmentCommand;
+};
+export type GetApiVeterinariansQueryApiResponse =
+  /** status 200 OK */ VeterinarianDtoPaginationResult;
+export type GetApiVeterinariansQueryApiArg = {
+  pageSize?: number;
+  page?: number;
 };
 export type GetApiVeterinariansApiResponse =
   /** status 200 OK */ VeterinarianDto[];
@@ -236,15 +279,27 @@ export type DeleteApiVeterinariansByIdApiResponse =
 export type DeleteApiVeterinariansByIdApiArg = {
   id: number;
 };
+export type PetSpecies = "None" | "Cat" | "Dog" | "Bird";
 export type AppointmentStatus = "None" | "Created" | "Completed" | "Cancelled";
-export type AppointmentDto = {
+export type AppointmentQueryDto = {
+  id?: number;
   petId?: number;
   ownerId?: number;
   vetId?: number;
+  name?: string | null;
+  species?: PetSpecies;
+  phone?: string | null;
+  ownerName?: string | null;
+  vetName?: string | null;
   appointmentDate?: string;
   reason?: string | null;
   status?: AppointmentStatus;
   notes?: string | null;
+  completedAt?: string | null;
+};
+export type AppointmentQueryDtoPaginationResult = {
+  data?: AppointmentQueryDto[] | null;
+  totalRowCount?: number;
 };
 export type ProblemDetails = {
   type?: string | null;
@@ -254,7 +309,15 @@ export type ProblemDetails = {
   instance?: string | null;
   [key: string]: any;
 };
-export type PetSpecies = "None" | "Cat" | "Dog" | "Bird";
+export type AppointmentDto = {
+  petId?: number;
+  ownerId?: number;
+  vetId?: number;
+  appointmentDate?: string;
+  reason?: string | null;
+  status?: AppointmentStatus;
+  notes?: string | null;
+};
 export type PetDto = {
   name?: string | null;
   species?: PetSpecies;
@@ -298,7 +361,8 @@ export type SeedServiceType =
   | "Appointment"
   | "FullyBookedDates"
   | "CompletedAppointments"
-  | "SingleVetFullyBookedDates";
+  | "SingleVetFullyBookedDates"
+  | "PetRecords";
 export type PetRecordDto = {
   id?: number;
   name?: string | null;
@@ -323,6 +387,51 @@ export type PetRecordDtoPaginationResult = {
   totalRowCount?: number;
 };
 export type CreatePetCommand = object;
+export type OwnerInfoDto = {
+  id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  city?: string | null;
+  state?: string | null;
+  zipCode?: string | null;
+  emergencyContact?: string | null;
+};
+export type MedicalRecordDto = {
+  id?: number;
+  visitDate?: string;
+  symptoms?: string | null;
+  diagnosis?: string | null;
+  treatment?: string | null;
+  medication?: string | null;
+  followUpDate?: string | null;
+  notes?: string | null;
+};
+export type PrescriptionDto = {
+  id?: number;
+  dateIssued?: string;
+  medicationName?: string | null;
+  dosage?: string | null;
+  duration?: string | null;
+  notes?: string | null;
+};
+export type ExistingPetRecordDto = {
+  id?: number;
+  name?: string | null;
+  species?: PetSpecies;
+  breed?: string | null;
+  gender?: string | null;
+  dateOfBirth?: string;
+  weight?: number;
+  color?: string | null;
+  microChipId?: string | null;
+  medicalHistory?: string | null;
+  ownerInfo?: OwnerInfoDto;
+  medicalRecords?: MedicalRecordDto[] | null;
+  prescriptions?: PrescriptionDto[] | null;
+};
 export type AddAppointmentCommand = {
   petId?: number;
   ownerId?: number;
@@ -343,6 +452,10 @@ export type VeterinarianDto = {
   updatedAt?: string;
   createdAt?: string;
 };
+export type VeterinarianDtoPaginationResult = {
+  data?: VeterinarianDto[] | null;
+  totalRowCount?: number;
+};
 export type CreateVeterinarianCommand = {
   firstName?: string | null;
   lastName?: string | null;
@@ -361,6 +474,7 @@ export type UpdateVeterinarianCommand = {
   yearsOfExperience?: number;
 };
 export const {
+  useGetApiAppointmentsQueryQuery,
   useGetApiAppointmentsQuery,
   usePostApiAppointmentsMutation,
   useGetApiAppointmentsByIdQuery,
@@ -373,7 +487,9 @@ export const {
   usePostDevelopmentSeedMutation,
   useGetApiPetsQuery,
   usePostApiPetsMutation,
+  useGetApiPetsByIdExistingRecordsQuery,
   usePostApiPetsAddAppointmentMutation,
+  useGetApiVeterinariansQueryQuery,
   useGetApiVeterinariansQuery,
   usePostApiVeterinariansMutation,
   useGetApiVeterinariansByIdQuery,

@@ -25,6 +25,18 @@ namespace PetCure.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id}/ExistingRecords")]
+        [ProducesResponseType<ExistingPetRecordDTO>(200)]
+        public async Task<IActionResult> GetExistingPetRecord(int id, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetExistingPetRecordById
+            {
+                PetId = id,
+            }, cancellationToken);
+
+            return Ok(response);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePet(CreatePetCommand command, CancellationToken cancellationToken)
         {

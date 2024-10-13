@@ -4,6 +4,22 @@
         "Appointments": "Randevular"
     },
     "Pages": {
+        "Dashboard": {
+            "Title": "Veteriner Panelinize Hoş Geldiniz",
+            "Subtitle": "- Her Evcil Hayvanın Refahının Önceliğimiz Olduğu Yer.",
+            "TotalAppointmentCountByDateRange": {
+                "Title": "{{dateRange}} toplam randevuları"
+            },
+            "AppointmentsByDateRange": {
+                "Title": "{{dateRange}} randevuları"
+            },
+            "DateRanges": {
+                "LastWeek": "Son hafta",
+                "LastThreeWeeks": "Son 3 hafta",
+                "LastMonth": "Son ay",
+                "LastThreeMonths": "Son 3 ay"
+            }
+        },
         "Appointments": {
             "Title": "Randevular",
             "NewAppointment": "Yeni Randevu"
@@ -17,8 +33,25 @@
             "ExistingPetOwnerRecords": "Mevcut Müşteri Kayıtları",
             "NewPetOwner": "Yeni Müşteri Kaydı",
             "Phone": "Telefon",
-            "PhoneOrMicroChipId": "ya da",
+            "PhoneOrMicroChipId": "<phoneField /> ya da <chipField /> ile arayın.",
             "MicroChipId": "MicroChipId",
+            "AppointmentsGrid": {
+                "Name": "Hasta Adı",
+                "PetSpecies": "Tür",
+                "OwnerName": "Sahibinin Adı",
+                "Phone": "Telefon",
+                "VetName": "Veteriner",
+                "AppointmentDate": "Randevu Tarihi",
+                "Reason": "Randevu Nedeni",
+                "Status": "Randevu Durumu",
+                "Notes": "Notlar",
+                "CompletedAt": "Tamamlanma Tarihi",
+                "PetSpeciesMap": {
+                    "Dog": "Köpek",
+                    "Cat": "Kedi",
+                    "Bird": "Kuş"
+                }
+            },
             "PetRecordGrid": {
                 "MicroChipId": "MicroChipId",
                 "PetName": "Hasta Adı",
@@ -41,6 +74,69 @@
                     "Cat": "Kedi",
                     "Bird": "Kuş"
                 }
+            },
+            "CreatePetRecord": {
+                "PetInfo": "Hasta Bilgileri",
+                "Name": "Adı",
+                "Species": "Tür",
+                "Breed": "Cins",
+                "Gender": "Cinsiyet",
+                "DateOfBirth": "Doğum Tarihi",
+                "Weight": "Kilo",
+                "Color": "Renk",
+                "MicroChipId": "MicroChipId",
+                "MedicalHistory": "Medikal Kayıtları",
+                "OwnerInfo": "Sahibinin Bilgileri",
+                "FirstName": "Ad",
+                "LastName": "Soyad",
+                "Phone": "Tel. No",
+                "Email": "E-Posta",
+                "Address": "Adres",
+                "City": "Şehir",
+                "State": "İlçe",
+                "ZipCode": "Posta Kodu",
+                "EmergencyContact": "Acil Durum Tel. No",
+                "GeneralInfo": "Genel Bilgiler",
+                "Reason": "Randevu Nedeni",
+                "Notes": "Notlar"
+            },
+            "Submit": "Randevu Oluştur",
+            "ReSelect": "Tekrar Seç",
+            "ExistingPetRecordDetails": {
+                "Title": "Mevcut Kayıt",
+                "PetInfo": "Hasta Bilgileri",
+                "Name": "Adı: ",
+                "Species": "Tür: ",
+                "Breed": "Cins: ",
+                "Gender": "Cinsiyet: ",
+                "DateOfBirth": "Doğum Tarihi: ",
+                "Weight": "Kilo: ",
+                "Color": "Renk: ",
+                "MicroChipId": "MicroChipId: ",
+                "MedicalHistory": "Medikal Kayıtları: ",
+                "OwnerInfo": "Sahibinin Bilgileri",
+                "FirstName": "Ad",
+                "LastName": "Soyad",
+                "Phone": "Tel. No",
+                "Email": "E-Posta",
+                "Address": "Adres",
+                "City": "Şehir",
+                "State": "İlçe",
+                "ZipCode": "Posta Kodu",
+                "EmergencyContact": "Acil Durum Tel. No",
+                "PastMedicalRecords": "Geçmiş Medikal Kayıtlar",
+                "VisitDate": "Randevu Tarihi: {{visitDate}}",
+                "Symptoms": "Belirtiler: ",
+                "Diagnosis": "Tehşis: ",
+                "Treatment": "Tedavi: ",
+                "Medication": "İlaçlar: ",
+                "FollowUpDate": "Kontrol Randevusu: ",
+                "Notes": "Notlar: ",
+                "Prescriptions": "Reçeteler",
+                "DateIssued": "Verilme Zamanı: {{dateIssued}}",
+                "MedicationName": "İlaç Adı: ",
+                "Dosage": "Doz: ",
+                "Duration": "Süre: "
             }
         },
         "Veterinarians": {
@@ -63,13 +159,14 @@
             "DeleteError": "Veteriner kaydını silerken beklenmedik bir hata oluştu."
         },
         "VeterinarianDetails": {
-            "FirstName": "Ad",
-            "LastName": "Soyad",
-            "Phone": "Tel. No",
-            "Email": "E-Posta",
-            "Specialization": "Uzmanlık",
-            "YearsOfExperience": "Tecrübe Yılı",
-            "CurrentAppointmentCount": "Mevcut Randevu Sayısı"
+            "Title": "Veterinerler / {{vetName}}",
+            "FirstName": "Ad: ",
+            "LastName": "Soyad: ",
+            "Phone": "Tel. No: ",
+            "Email": "E-Posta: ",
+            "Specialization": "Uzmanlık: ",
+            "YearsOfExperience": "Tecrübe Yılı: ",
+            "CurrentAppointmentCount": "Mevcut Randevu Sayısı: "
         },
         "CreateVeterinarian": {
             "Title": "Yeni Veteriner",
