@@ -1,13 +1,15 @@
-import { Alert, Button, FormControl, Grid2, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, FormControl, Grid2 as Grid, IconButton, Paper, Snackbar, SnackbarCloseReason, TextField, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { usePostApiVeterinariansMutation } from "../../store/api";
 import * as Yup from "yup";
 import { useFormik } from 'formik';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function CreateVeterinarian() {
+    const targetRef = useRef<HTMLDivElement | null>(null);
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
@@ -68,6 +70,12 @@ export default function CreateVeterinarian() {
 
         setErrorSnackbarOpen(false);
     };
+    
+    useEffect(() => {
+        if (targetRef.current) {
+            targetRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, []);
 
     useEffect(() => {
         if (isSuccess) {
@@ -84,107 +92,128 @@ export default function CreateVeterinarian() {
 
     }, [isError]);
 
-    return <Grid2 container spacing={2}>
-        <Grid2 size={12}>
-            <Typography variant={"h4"}>
-                {t("Pages.CreateVeterinarian.Title")}
-            </Typography>
-        </Grid2>
-        <Grid2 size={4}>
-            <FormControl fullWidth>
-                <TextField label={<Typography>{t("Pages.CreateVeterinarian.FirstName")}</Typography>}
-                    name="firstName"
+    return <Paper sx={{
+        p: 2
+    }}>
+        <Grid container spacing={2} ref={targetRef}>
+            <Grid size={12}>
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                }}>
+                    <Typography variant={"h4"}>
+                        {t("Pages.CreateVeterinarian.Title")}
+                    </Typography>
+                    <IconButton onClick={() => navigate("/veterinarians")}>
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+            </Grid>
+            <Grid size={4}>
+                <FormControl fullWidth>
+                    <TextField label={<Typography>{t("Pages.CreateVeterinarian.FirstName")}</Typography>}
+                        name="firstName"
+                        disabled={isLoading}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        helperText={touched.firstName && errors.firstName}
+                        error={touched.firstName && errors.firstName !== undefined}
+                        variant="outlined"
+                        value={veterinarian?.firstName} />
+                </FormControl>
+            </Grid>
+            <Grid size={4}>
+                <FormControl fullWidth>
+                    <TextField label={<Typography>{t("Pages.CreateVeterinarian.LastName")}</Typography>}
+                        name="lastName"
+                        disabled={isLoading}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        helperText={touched.lastName && errors.lastName}
+                        error={touched.lastName && errors.lastName !== undefined}
+                        variant="outlined"
+                        value={veterinarian?.lastName} />
+                </FormControl>
+            </Grid>
+            <Grid size={4}>
+                <FormControl fullWidth>
+                    <TextField label={<Typography>{t("Pages.CreateVeterinarian.Phone")}</Typography>}
+                        name="phone"
+                        disabled={isLoading}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        helperText={touched.phone && errors.phone}
+                        error={touched.phone && errors.phone !== undefined}
+                        variant="outlined"
+                        value={veterinarian?.phone} />
+                </FormControl>
+            </Grid>
+            <Grid size={4}>
+                <FormControl fullWidth>
+                    <TextField label={<Typography>{t("Pages.CreateVeterinarian.Email")}</Typography>}
+                        name="email"
+                        disabled={isLoading}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        helperText={touched.email && errors.email}
+                        error={touched.email && errors.email !== undefined}
+                        variant="outlined"
+                        value={veterinarian?.email} />
+                </FormControl>
+            </Grid>
+            <Grid size={4}>
+                <FormControl fullWidth>
+                    <TextField label={<Typography>{t("Pages.CreateVeterinarian.Specialization")}</Typography>}
+                        name="specialization"
+                        disabled={isLoading}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        helperText={touched.specialization && errors.specialization}
+                        error={touched.specialization && errors.specialization !== undefined}
+                        variant="outlined"
+                        value={veterinarian?.specialization} />
+                </FormControl>
+            </Grid>
+            <Grid size={4}>
+                <FormControl fullWidth>
+                    <TextField label={<Typography>{t("Pages.CreateVeterinarian.YearsOfExperience")}</Typography>}
+                        name="yearsOfExperience"
+                        disabled={isLoading}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        helperText={touched.yearsOfExperience && errors.yearsOfExperience}
+                        error={touched.yearsOfExperience && errors.yearsOfExperience !== undefined}
+                        variant="outlined"
+                        value={veterinarian?.yearsOfExperience} />
+                </FormControl>
+            </Grid>
+            <Grid size={12} display="flex" justifyContent="flex-end">
+                <Button variant="outlined"
                     disabled={isLoading}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.firstName && errors.firstName}
-                    error={touched.firstName && errors.firstName !== undefined}
-                    variant="outlined"
-                    value={veterinarian?.firstName} />
-            </FormControl>
-        </Grid2>
-        <Grid2 size={4}>
-            <FormControl fullWidth>
-                <TextField label={<Typography>{t("Pages.CreateVeterinarian.LastName")}</Typography>}
-                    name="lastName"
+                    onClick={() => navigate("/veterinarians")}
+                    sx={{
+                        mr: 2
+                    }}
+                >
+                    {t("Generic.Forms.Cancel")}
+                </Button>
+                <Button variant="contained"
                     disabled={isLoading}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.lastName && errors.lastName}
-                    error={touched.lastName && errors.lastName !== undefined}
-                    variant="outlined"
-                    value={veterinarian?.lastName} />
-            </FormControl>
-        </Grid2>
-        <Grid2 size={4}>
-            <FormControl fullWidth>
-                <TextField label={<Typography>{t("Pages.CreateVeterinarian.Phone")}</Typography>}
-                    name="phone"
-                    disabled={isLoading}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.phone && errors.phone}
-                    error={touched.phone && errors.phone !== undefined}
-                    variant="outlined"
-                    value={veterinarian?.phone} />
-            </FormControl>
-        </Grid2>
-        <Grid2 size={4}>
-            <FormControl fullWidth>
-                <TextField label={<Typography>{t("Pages.CreateVeterinarian.Email")}</Typography>}
-                    name="email"
-                    disabled={isLoading}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.email && errors.email}
-                    error={touched.email && errors.email !== undefined}
-                    variant="outlined"
-                    value={veterinarian?.email} />
-            </FormControl>
-        </Grid2>
-        <Grid2 size={4}>
-            <FormControl fullWidth>
-                <TextField label={<Typography>{t("Pages.CreateVeterinarian.Specialization")}</Typography>}
-                    name="specialization"
-                    disabled={isLoading}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.specialization && errors.specialization}
-                    error={touched.specialization && errors.specialization !== undefined}
-                    variant="outlined"
-                    value={veterinarian?.specialization} />
-            </FormControl>
-        </Grid2>
-        <Grid2 size={4}>
-            <FormControl fullWidth>
-                <TextField label={<Typography>{t("Pages.CreateVeterinarian.YearsOfExperience")}</Typography>}
-                    name="yearsOfExperience"
-                    disabled={isLoading}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.yearsOfExperience && errors.yearsOfExperience}
-                    error={touched.yearsOfExperience && errors.yearsOfExperience !== undefined}
-                    variant="outlined"
-                    value={veterinarian?.yearsOfExperience} />
-            </FormControl>
-        </Grid2>
-        <Grid2 size={12} display="flex" justifyContent="flex-end">
-            <Button variant="outlined"
-                disabled={isLoading}
-                onClick={() => submitForm()}>
-                {t("Generic.Forms.Submit")}
-            </Button>
-        </Grid2>
-        <Snackbar open={errorSnackbarOpen} autoHideDuration={6000} onClose={handleErrorClose}>
-            <Alert
-                onClose={handleErrorClose}
-                severity="error"
-                variant="filled"
-                sx={{ width: '100%' }}
-            >
-                {/* TODO: Needs a mapping for status codes, validation errors and unexpected errors*/}
-                {t(`Pages.CreateVeterinarian.Errors.${(error as FetchBaseQueryError)?.status}`)}
-            </Alert>
-        </Snackbar>
-    </Grid2>
+                    onClick={() => submitForm()}>
+                    {t("Generic.Forms.Submit")}
+                </Button>
+            </Grid>
+            <Snackbar open={errorSnackbarOpen} autoHideDuration={6000} onClose={handleErrorClose}>
+                <Alert
+                    onClose={handleErrorClose}
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {/* TODO: Needs a mapping for status codes, validation errors and unexpected errors*/}
+                    {t(`Pages.CreateVeterinarian.Errors.${(error as FetchBaseQueryError)?.status}`)}
+                </Alert>
+            </Snackbar>
+        </Grid>
+    </Paper>
 }

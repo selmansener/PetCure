@@ -15,6 +15,8 @@ enum Roles {
 export interface RouteConfig {
     path: string;
     element: React.ReactNode;
+    header?: React.ReactNode;
+    footer?: React.ReactNode;
     isPublic?: boolean;
     roles?: string[];
     disabledEnvironments?: Environments[];

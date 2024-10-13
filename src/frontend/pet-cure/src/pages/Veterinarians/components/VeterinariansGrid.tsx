@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid2, IconButton, Link, Snackbar, SnackbarCloseReason } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch } from '../../../store/hooks';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 type DeleteConfirmationData = {
     id: number;
@@ -35,17 +34,14 @@ export function VeterinariansGrid() {
     const [DeleteVeterinarian, results] = useDeleteApiVeterinariansByIdMutation();
     const dispatch = useAppDispatch();
 
-    // TODO: move pagination and sorting to backend
     const columns: GridColDef[] = [
         {
             field: 'id',
             headerName: 'ID',
             renderCell: (params: GridCellParams) => {
                 return <Link to={`/veterinarians/${params.row.id}`}
-                    target="_blank"
                     component={NavLink}>
-                    {params.row.id}
-                    <OpenInNewIcon sx={{ ml: 0.5, verticalAlign: 'text-top', fontSize: "0.75em" }} />
+                    {params.row.id}                    
                 </Link>
             }
         },
@@ -165,7 +161,8 @@ export function VeterinariansGrid() {
     };
 
     return <React.Fragment>
-        <Box sx={{ height: 400 }}>
+        {/* <Box sx={{ height: 400 }}> */}
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
             <DataGrid
                 rowSelection={false}
                 autoHeight

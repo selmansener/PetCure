@@ -6,7 +6,6 @@ import { Header } from "../shared/Header";
 
 export function MainLayout() {
     return <React.Fragment>
-        <Header />
         <Container maxWidth="xl" sx={{
             my: [14]
         }}>
@@ -22,10 +21,13 @@ const UpdateVeterinarianPage = React.lazy(() => import("../../pages/Veterinarian
 const VeterinarianDetailsPage = React.lazy(() => import("../../pages/Veterinarians/VeterinarianDetails"));
 const AppointmentsPage = React.lazy(() => import("../../pages/Appointments/Appointments"));
 const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment"));
+const AppointmentsCalendarPage = React.lazy(() => import("../../pages/Appointments/AppointmentsCalendar"));
+const AppointmentDetailsPage = React.lazy(() => import("../../pages/Appointments/AppointmentDetails"));
 
 export const mainRoutes: RouteConfig = {
     path: "/",
     element: <MainLayout />,
+    header: <Header />,
     isPublic: true,
     leafNodes: [
         {
@@ -34,19 +36,31 @@ export const mainRoutes: RouteConfig = {
         },
         {
             path: "veterinarians",
-            element: <VeterinariansPage />
+            element: <VeterinariansPage />,
+            leafNodes: [
+                {
+                    path: "create",
+                    element: <CreateVeterinarianPage />
+                },
+                {
+                    path: ":id/update",
+                    element: <UpdateVeterinarianPage />
+                },
+                {
+                    path: ":id",
+                    element: <VeterinarianDetailsPage />
+                },
+            ]
         },
         {
-            path: "veterinarians/create",
-            element: <CreateVeterinarianPage />
-        },
-        {
-            path: "veterinarians/:id/update",
-            element: <UpdateVeterinarianPage />
-        },
-        {
-            path: "veterinarians/:id",
-            element: <VeterinarianDetailsPage />
+            path: "calendar",
+            element: <AppointmentsCalendarPage />,
+            leafNodes: [
+                {
+                    path: ":id/appointment",
+                    element: <AppointmentDetailsPage />
+                }
+            ]
         },
         {
             path: "appointments",
@@ -55,82 +69,10 @@ export const mainRoutes: RouteConfig = {
         {
             path: "appointments/create",
             element: <CreateAppointmentPage />
+        },
+        {
+            path: "appointments/:id",
+            element: <AppointmentDetailsPage />
         }
-        // {
-        //     path: "sales-orders",
-        //     element: <SalesOrdersPage />
-        // },
-        // {
-        //     path: "products",
-        //     element: <ProductsPage />,
-        //     leafNodes: [
-        //         {
-        //             path: "",
-        //             element: <ProductListPage />,
-        //             leafNodes: [
-        //                 {
-        //                     path: "",
-        //                     element: <ProductListGridPage />
-        //                 },
-        //                 {
-        //                     path: "active",
-        //                     element: <ProductListGridPage />
-        //                 },
-        //                 {
-        //                     path: "in-review",
-        //                     element: <ProductListGridPage />
-        //                 },
-        //                 {
-        //                     path: "out-of-stock",
-        //                     element: <ProductListGridPage />
-        //                 },
-        //                 {
-        //                     path: "missing-info",
-        //                     element: <ProductListGridPage />
-        //                 },
-        //                 {
-        //                     path: "rejected",
-        //                     element: <ProductListGridPage />
-        //                 },
-        //                 {
-        //                     path: "passive",
-        //                     element: <ProductListGridPage />
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             path: "new",
-        //             element: <NewProductPage />
-        //         },
-        //         {
-        //             path: ":productId",
-        //             element: <ProductDetailsPage />
-        //         },
-        //         {
-        //             path: ":productId/update",
-        //             element: <UpdateProductPage />
-        //         },
-        //         {
-        //             path: "product-upload-history",
-        //             element: <ProductUploadHistoryPage />
-        //         },
-        //         {
-        //             path: "product-upload-history/:productExcelUploadId",
-        //             element: <ProductUploadHistoryDetailsPage />
-        //         },
-        //         {
-        //             path: "product-variant-upload-history",
-        //             element: <ProductVariantUploadHistoryPage />
-        //         }
-        //     ]
-        // },
-        // {
-        //     path: "returns",
-        //     element: <ReturnsPage />
-        // },
-        // {
-        //     path: "tenant",
-        //     element: <TenantPage />
-        // }
     ]
 }

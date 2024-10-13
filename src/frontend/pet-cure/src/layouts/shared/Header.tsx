@@ -8,6 +8,10 @@ import ColorLensIcon from '@mui/icons-material/ColorLens';
 
 const menuItems = [
     {
+        title: "MenuItems.ApptsCalendar",
+        path: "/calendar"
+    },
+    {
         title: "MenuItems.Veterinarians",
         path: "/veterinarians"
     },
@@ -139,7 +143,8 @@ function LangSwitcher() {
 
 export function Header() {
     return <React.Fragment>
-        <AppBar position="fixed" color="inherit" elevation={1}>
+        <AppBar position="fixed" color="inherit" elevation={1} 
+            sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 2 })}>
             <Toolbar>
                 <Grid size={12} container display="flex" alignItems="center">
                     <Grid size={4}>

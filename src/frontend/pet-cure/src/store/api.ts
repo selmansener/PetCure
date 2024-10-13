@@ -60,6 +60,15 @@ const injectedRtkApi = api.injectEndpoints({
         params: { vetId: queryArg.vetId },
       }),
     }),
+    getApiAppointmentsGetByDateRange: build.query<
+      GetApiAppointmentsGetByDateRangeApiResponse,
+      GetApiAppointmentsGetByDateRangeApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/api/Appointments/GetByDateRange`,
+        params: { from: queryArg["from"], to: queryArg.to },
+      }),
+    }),
     getApiDashboardUpcomingAppointments: build.query<
       GetApiDashboardUpcomingAppointmentsApiResponse,
       GetApiDashboardUpcomingAppointmentsApiArg
@@ -210,7 +219,7 @@ export type PostApiAppointmentsApiArg = {
   createAppointmentCommand: CreateAppointmentCommand;
 };
 export type GetApiAppointmentsByIdApiResponse =
-  /** status 200 OK */ AppointmentDto;
+  /** status 200 OK */ AppointmentDetailsDto;
 export type GetApiAppointmentsByIdApiArg = {
   id: number;
 };
@@ -229,6 +238,12 @@ export type GetApiAppointmentsGetBookedDatesByVetIdApiResponse =
   /** status 200 OK */ VeterinarianBookedDatesDto;
 export type GetApiAppointmentsGetBookedDatesByVetIdApiArg = {
   vetId?: number;
+};
+export type GetApiAppointmentsGetByDateRangeApiResponse =
+  /** status 200 OK */ AppointmentDto[];
+export type GetApiAppointmentsGetByDateRangeApiArg = {
+  from?: string;
+  to?: string;
 };
 export type GetApiDashboardUpcomingAppointmentsApiResponse =
   /** status 200 OK */ UpcomingAppointmentDto[];
@@ -328,6 +343,7 @@ export type ProblemDetails = {
   [key: string]: any;
 };
 export type AppointmentDto = {
+  id?: number;
   petId?: number;
   ownerId?: number;
   vetId?: number;
@@ -366,6 +382,50 @@ export type CreateAppointmentCommand = {
   petInfo?: PetDto;
   ownerInfo?: OwnerDto;
 };
+export type PetDetailsDto = {
+  id?: number;
+  name?: string | null;
+  species?: PetSpecies;
+  breed?: string | null;
+  gender?: string | null;
+  dateOfBirth?: string;
+  weight?: number;
+  color?: string | null;
+  microChipId?: string | null;
+  medicalHistory?: string | null;
+};
+export type PetOwnerDetailsDto = {
+  id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  city?: string | null;
+  state?: string | null;
+  zipCode?: string | null;
+  emergencyContact?: string | null;
+};
+export type VetDetailsDto = {
+  id?: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  specialization?: string | null;
+  yearsOfExperience?: number | null;
+};
+export type AppointmentDetailsDto = {
+  id?: number;
+  appointmentDate?: string;
+  reason?: string | null;
+  status?: AppointmentStatus;
+  notes?: string | null;
+  petDetails?: PetDetailsDto;
+  ownerDetails?: PetOwnerDetailsDto;
+  vetDetails?: VetDetailsDto;
+  completedAt?: string | null;
+};
 export type UpdateAppointmentCommand = object;
 export type VeterinarianBookedDatesDto = {
   id?: number;
@@ -388,7 +448,8 @@ export type SeedServiceType =
   | "FullyBookedDates"
   | "CompletedAppointments"
   | "SingleVetFullyBookedDates"
-  | "PetRecords";
+  | "PetRecords"
+  | "UpcomingAppointments";
 export type PetRecordDto = {
   id?: number;
   name?: string | null;
@@ -507,6 +568,7 @@ export const {
   usePutApiAppointmentsByIdMutation,
   useDeleteApiAppointmentsByIdMutation,
   useGetApiAppointmentsGetBookedDatesByVetIdQuery,
+  useGetApiAppointmentsGetByDateRangeQuery,
   useGetApiDashboardUpcomingAppointmentsQuery,
   useGetApiDashboardGetApptsCountByDateRangeQuery,
   usePostDevelopmentEnsureDatabaseCreatedMutation,

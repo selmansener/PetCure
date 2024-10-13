@@ -33,10 +33,15 @@ namespace PetCure.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(AppointmentDTO), 200)]
+        [ProducesResponseType(typeof(AppointmentDetailsDTO), 200)]
         public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
-            return Ok();
+            var response = await _mediator.Send(new GetAppointmentDetailsById
+            {
+                Id = id,
+            }, cancellationToken);
+
+            return Ok(response);
         }
 
         [HttpPost]
@@ -69,6 +74,19 @@ namespace PetCure.API.Controllers
             var response = await _mediator.Send(new GetBookedDatesByVetId
             {
                 VetId = vetId
+            }, cancellationToken);
+
+            return Ok(response);
+        }
+
+        [HttpGet("GetByDateRange")]
+        [ProducesResponseType(typeof(IEnumerable<AppointmentDTO>), 200)]
+        public async Task<IActionResult> GetByDateRange([FromQuery] DateTime from, [FromQuery] DateTime to, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new GetByDateRange
+            {
+                From = from,
+                To = to
             }, cancellationToken);
 
             return Ok(response);

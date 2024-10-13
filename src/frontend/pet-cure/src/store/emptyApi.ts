@@ -3,32 +3,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { RootState } from './store';
 
 import { config } from '../config';
+import { generateGUID } from '../utils/guid';
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: config.petCureApi,
         prepareHeaders: (headers, { getState }) => {
-            // const state = getState() as RootState;
-            // const { token, account } = state.auth;
+            //  const state = getState() as RootState;
+            //  const { traceId } = state.trace;
 
-            // if (!token) {
-            //     return headers;
-            // }
-
-            // if (account) {
-            //     msal.acquireTokenSilent({
-            //         ...config.loginRequest,
-            //         account
-            //     }).then((result) => {
-            //     }).catch((error) => {
-            //         if (error instanceof InteractionRequiredAuthError) {
-            //             msal.logoutRedirect({
-            //                 account
-            //             });
-            //         }
-            //     });
-            // }
+            // const newTraceId = generateGUID();
 
             // headers.set("Authorization", `Bearer ${state.auth.token}`);
 

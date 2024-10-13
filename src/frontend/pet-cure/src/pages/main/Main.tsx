@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
 
 import { UpcomingAppointments } from "./components/UpcomingAppointments";
 
@@ -95,22 +91,6 @@ export default function Main() {
         </Grid>
         <Grid size={8} display="flex">
             <UpcomingAppointments />
-        </Grid>
-        <Grid size={8}>
-            <Paper sx={{
-                p: 2
-            }}>
-                <FullCalendar
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    initialView="dayGridMonth"
-                    editable={true}
-                    selectable={true}
-                    events={[
-                        { title: 'event 1', date: '2024-10-15' },
-                        { title: 'event 2', date: '2024-10-16' },
-                    ]}
-                />
-            </Paper>
         </Grid>
     </Grid>
 }

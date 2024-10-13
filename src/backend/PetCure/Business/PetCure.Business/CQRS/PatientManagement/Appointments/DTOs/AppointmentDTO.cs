@@ -4,6 +4,7 @@ namespace PetCure.Business.CQRS.PatientManagement.Appointments.DTOs
 {
     public class AppointmentDTO
     {
+        public int Id { get; set; }
         public int PetId { get; set; }
         public int OwnerId { get; set; }
         public int VetId { get; set; }

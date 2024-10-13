@@ -1,9 +1,14 @@
 {
     "MenuItems": {
+        "ApptsCalendar": "Appts. Calendar",
         "Veterinarians": "Veterinarians",
         "Appointments": "Appointments"
     },
     "Pages": {
+        "ErrorPage": {
+            "Title": "Looks like we broke something.",
+            "Subtitle": "Don't worry, our tech buddy is on the way to fix this issue."
+        },
         "Dashboard": {
             "Title": "Welcome to Your Veterinary Dashboard ",
             "Subtitle": "- Where Every Pet's Well-being is Our Priority.",
@@ -23,12 +28,23 @@
             "UpcomingAppt": "{{reason}} / Owner: {{ownerName}} - Phone: {{phone}}",
             "NoUpcomingApptTitle": "Looks like there's no upcoming appointments"
         },
+        "AppointmentsCalendar" : {
+            "Title": "Appointments Calendar"
+        },
         "Appointments": {
-            "Title": "Randevular",
-            "NewAppointment": "Yeni Randevu"
+            "Title": "Appointments",
+            "NewAppointment": "New Appointment"
+        },
+        "AppointmentDetails": {
+            "Title": "Appt. Details - {{apptDate}}",
+            "Reason": "Reason: ",
+            "Notes": "Notes: ",
+            "Status":"Status: ",
+            "CompletedAt":"Completed At: ",
+            "PetInfoTitle": "Pet Info"
         },
         "CreateAppointment": {
-            "Title": "Yeni Randevu",
+            "Title": "New Appointment",
             "Veterinarians": "Veterinarians",
             "AllVets": "All Veterinarians",
             "AppointmentDate": "Appointment Date",

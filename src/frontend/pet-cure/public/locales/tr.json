@@ -1,9 +1,14 @@
 {
     "MenuItems": {
+        "ApptsCalendar": "Randevu Takvimi",
         "Veterinarians": "Veterinerler",
         "Appointments": "Randevular"
     },
     "Pages": {
+        "ErrorPage": {
+            "Title": "Görünen o ki bazı teknik sorunlar var.",
+            "Subtitle": "Endişelenme, yazılımcı kedimiz iş başında!"
+        },
         "Dashboard": {
             "Title": "Veteriner Panelinize Hoş Geldiniz",
             "Subtitle": "- Her Evcil Hayvanın Refahının Önceliğimiz Olduğu Yer.",
@@ -23,9 +28,20 @@
             "UpcomingAppt": "{{reason}} / Sahibi: {{ownerName}} - Telefon: {{phone}}",
             "NoUpcomingApptTitle": "Yaklaşan randevunuz yok"
         },
+        "AppointmentsCalendar" : {
+            "Title": "Randevu Takvimi"
+        },
         "Appointments": {
             "Title": "Randevular",
             "NewAppointment": "Yeni Randevu"
+        },
+        "AppointmentDetails": {
+            "Title": "Randevu Detayları - {{apptDate}}",
+            "Reason": "Randevu Nedeni: ",
+            "Notes": "Notlar: ",
+            "Status":"Randevu Durumu: ",
+            "CompletedAt":"Tamamlanma Tarihi: ",
+            "PetInfoTitle": "Hasta Bilgileri"
         },
         "CreateAppointment": {
             "Title": "Yeni Randevu",

@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useTranslation } from "react-i18next";
 import { VeterinariansGrid } from "./components/VeterinariansGrid";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function Veterinarians() {
     const { t } = useTranslation();
@@ -22,6 +22,9 @@ export default function Veterinarians() {
         </Grid>
         <Grid size={12}>
             <VeterinariansGrid />
+        </Grid>
+        <Grid size={12}>
+            <Outlet />
         </Grid>
     </Grid>
 }

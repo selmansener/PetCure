@@ -27,7 +27,7 @@ export function AppointsmentsGrid() {
             headerName: 'ID',
             align: "center",
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/appointment/${params.row.id}`}
+                return <Link to={`/appointments/${params.row.id}`}
                     target="_blank"
                     component={NavLink}>
                     {params.row.id}
