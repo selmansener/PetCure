@@ -18,7 +18,10 @@
                 "LastThreeWeeks": "Last 3 weeks'",
                 "LastMonth": "Last month's",
                 "LastThreeMonths": "Last 3 months'"
-            }
+            },
+            "UpcomingApptTitle": "Upcoming Appointments",
+            "UpcomingAppt": "{{reason}} / Owner: {{ownerName}} - Phone: {{phone}}",
+            "NoUpcomingApptTitle": "Looks like there's no upcoming appointments"
         },
         "Appointments": {
             "Title": "Randevular",

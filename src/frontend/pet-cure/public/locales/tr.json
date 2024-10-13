@@ -18,7 +18,10 @@
                 "LastThreeWeeks": "Son 3 hafta",
                 "LastMonth": "Son ay",
                 "LastThreeMonths": "Son 3 ay"
-            }
+            },
+            "UpcomingApptTitle": "Yaklaşan Randevular",
+            "UpcomingAppt": "{{reason}} / Sahibi: {{ownerName}} - Telefon: {{phone}}",
+            "NoUpcomingApptTitle": "Yaklaşan randevunuz yok"
         },
         "Appointments": {
             "Title": "Randevular",

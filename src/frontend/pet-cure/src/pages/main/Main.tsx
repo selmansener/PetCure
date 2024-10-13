@@ -8,6 +8,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+import { UpcomingAppointments } from "./components/UpcomingAppointments";
+
 const dateRanges = [
     "LastWeek",
     "LastThreeWeeks",
@@ -90,6 +92,9 @@ export default function Main() {
                     height={300}
                 />
             </Paper>
+        </Grid>
+        <Grid size={8} display="flex">
+            <UpcomingAppointments />
         </Grid>
         <Grid size={8}>
             <Paper sx={{

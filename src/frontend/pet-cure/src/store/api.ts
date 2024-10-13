@@ -60,6 +60,18 @@ const injectedRtkApi = api.injectEndpoints({
         params: { vetId: queryArg.vetId },
       }),
     }),
+    getApiDashboardUpcomingAppointments: build.query<
+      GetApiDashboardUpcomingAppointmentsApiResponse,
+      GetApiDashboardUpcomingAppointmentsApiArg
+    >({
+      query: () => ({ url: `/api/Dashboard/UpcomingAppointments` }),
+    }),
+    getApiDashboardGetApptsCountByDateRange: build.query<
+      GetApiDashboardGetApptsCountByDateRangeApiResponse,
+      GetApiDashboardGetApptsCountByDateRangeApiArg
+    >({
+      query: () => ({ url: `/api/Dashboard/GetApptsCountByDateRange` }),
+    }),
     postDevelopmentEnsureDatabaseCreated: build.mutation<
       PostDevelopmentEnsureDatabaseCreatedApiResponse,
       PostDevelopmentEnsureDatabaseCreatedApiArg
@@ -218,6 +230,12 @@ export type GetApiAppointmentsGetBookedDatesByVetIdApiResponse =
 export type GetApiAppointmentsGetBookedDatesByVetIdApiArg = {
   vetId?: number;
 };
+export type GetApiDashboardUpcomingAppointmentsApiResponse =
+  /** status 200 OK */ UpcomingAppointmentDto[];
+export type GetApiDashboardUpcomingAppointmentsApiArg = void;
+export type GetApiDashboardGetApptsCountByDateRangeApiResponse =
+  /** status 200 OK */ AppointmentDto[];
+export type GetApiDashboardGetApptsCountByDateRangeApiArg = void;
 export type PostDevelopmentEnsureDatabaseCreatedApiResponse = unknown;
 export type PostDevelopmentEnsureDatabaseCreatedApiArg = void;
 export type PostDevelopmentEnsureDatabaseDeletedApiResponse = unknown;
@@ -354,6 +372,14 @@ export type VeterinarianBookedDatesDto = {
   fullName?: string | null;
   appointmentDates?: string[] | null;
 };
+export type UpcomingAppointmentDto = {
+  id?: number;
+  species?: PetSpecies;
+  apptDate?: string;
+  ownerName?: string | null;
+  phone?: string | null;
+  reason?: string | null;
+};
 export type SeedServiceType =
   | "Veterinarian"
   | "PetOwner"
@@ -481,6 +507,8 @@ export const {
   usePutApiAppointmentsByIdMutation,
   useDeleteApiAppointmentsByIdMutation,
   useGetApiAppointmentsGetBookedDatesByVetIdQuery,
+  useGetApiDashboardUpcomingAppointmentsQuery,
+  useGetApiDashboardGetApptsCountByDateRangeQuery,
   usePostDevelopmentEnsureDatabaseCreatedMutation,
   usePostDevelopmentEnsureDatabaseDeletedMutation,
   usePostDevelopmentMigrateDatabaseMutation,
