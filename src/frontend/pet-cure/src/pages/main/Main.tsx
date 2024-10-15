@@ -5,18 +5,38 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 import { UpcomingAppointments } from "./components/UpcomingAppointments";
+import dayjs from "dayjs";
+import { TotalApptCount } from "./components/TotalApptCount";
+
+const now = dayjs().toDate();
 
 const dateRanges = [
-    "LastWeek",
-    "LastThreeWeeks",
-    "LastMonth",
-    "LastThreeMonths",
+    { 
+        title :"LastWeek",
+        from: dayjs().add(-7, "day").toDate(),
+        to: now
+    },
+    { 
+        title :"LastThreeWeeks",
+        from: dayjs().add(-21, "day").toDate(),
+        to: now
+    },
+    { 
+        title :"LastMonth",
+        from: dayjs().add(-30, "day").toDate(),
+        to: now
+    },
+    { 
+        title :"LastThreeMonths",
+        from: dayjs().add(-90, "day").toDate(),
+        to: now
+    },
 ]
 
 export default function Main() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [dateRange, setDateRange] = useState("LastWeek");
+    const [dateRange, setDateRange] = useState(dateRanges[0]);
 
     return <Grid container spacing={2}>
         <Grid size={8}>
@@ -32,9 +52,9 @@ export default function Main() {
                 display: "flex",
                 justifyContent: "flex-end"
             }}>
-                {dateRanges.map(range => <Button key={range}
+                {dateRanges.map(range => <Button key={range.title}
                     onClick={() => setDateRange(range)}>
-                    {t(`Pages.Dashboard.DateRanges.${range}`)}
+                    {t(`Pages.Dashboard.DateRanges.${range.title}`)}
                 </Button>)}
             </ButtonGroup>
         </Grid>
@@ -42,42 +62,13 @@ export default function Main() {
             <Divider />
         </Grid>
         <Grid size={4}>
-            <Paper sx={{
-                p: 2,
-                mb: 2
-            }}>
-                <Grid container spacing={2}>
-                    <Grid size={8}>
-                        <Typography variant="subtitle2">
-                            {t(`Pages.Dashboard.TotalAppointmentCountByDateRange.Title`, {
-                                dateRange: t(`Pages.Dashboard.DateRanges.${dateRange}`)
-                            })}
-                        </Typography>
-                    </Grid>
-                    <Grid size={4} display="flex" justifyContent="flex-end">
-                        <Chip label={t(`Pages.Dashboard.DateRanges.${dateRange}`)} />
-                    </Grid>
-                    <Grid size={12}>
-                        <Typography variant="h3">
-                            1654
-                        </Typography>
-                    </Grid>
-                    <Grid size={12} display="inline-flex" alignItems="center">
-                        <Typography variant="subtitle2" color="success">
-                            +55 %
-                        </Typography>
-                        <Typography variant="overline" ml={2}>
-                            increased since last week
-                        </Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
+            <TotalApptCount selectedDateRange={dateRange} />
             <Paper sx={{
                 p: 2
             }}>
                 <Typography>
                     {t(`Pages.Dashboard.AppointmentsByDateRange.Title`, {
-                        dateRange: t(`Pages.Dashboard.DateRanges.${dateRange}`)
+                        dateRange: t(`Pages.Dashboard.DateRanges.${dateRange.title}`)
                     })}
                 </Typography>
                 <Divider />

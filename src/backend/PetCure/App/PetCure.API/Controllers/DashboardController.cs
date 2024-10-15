@@ -2,7 +2,6 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using PetCure.Business.CQRS.PatientManagement.Appointments.DTOs;
 using PetCure.Business.CQRS.PatientManagement.Dashboard.DTOs;
 using PetCure.Business.CQRS.PatientManagement.Dashboard.Queries;
 
@@ -10,7 +9,7 @@ namespace PetCure.API.Controllers
 {
     public class DashboardController : BaseController
     {
-        public DashboardController(IMediator mediator) 
+        public DashboardController(IMediator mediator)
             : base(mediator)
         {
         }
@@ -25,11 +24,16 @@ namespace PetCure.API.Controllers
         }
 
         [HttpGet("GetApptsCountByDateRange")]
-        [ProducesResponseType(typeof(IEnumerable<AppointmentDTO>), 200)]
-        public async Task<IActionResult> GetApptsCountByDateRange()
+        [ProducesResponseType(typeof(ApptsCountByDateRangeDTO), 200)]
+        public async Task<IActionResult> GetApptsCountByDateRange([FromQuery] DateTime from, [FromQuery] DateTime to, CancellationToken cancellationToken)
         {
+            var response = await _mediator.Send(new GetApptsCountByDateRange
+            {
+                From = from,
+                To = to,
+            }, cancellationToken);
 
-            return Ok();
+            return Ok(response);
         }
     }
 }

@@ -13,7 +13,9 @@
             "Title": "Welcome to Your Veterinary Dashboard ",
             "Subtitle": "- Where Every Pet's Well-being is Our Priority.",
             "TotalAppointmentCountByDateRange": {
-                "Title": "{{dateRange}} total appointments"
+                "Title": "{{dateRange}} total appointments",
+                "PositiveChange": "Increased since previous period",
+                "NegativeChange": "Decreased since previous period"
             },
             "AppointmentsByDateRange": {
                 "Title": "{{dateRange}} appointments"

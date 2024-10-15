@@ -11,5 +11,6 @@
         SingleVetFullyBookedDates = 6,
         PetRecords = 7,
         UpcomingAppointments = 8,
+        AppointmentStats = 9,
     }
 }

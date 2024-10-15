@@ -9,10 +9,9 @@ using System.Collections.Immutable;
 
 namespace PetCure.Business.Seed.Services
 {
-    internal class CompletedAppointmentsSeedService : BaseSeedService
+    internal class AppointmentStatsSeedService : BaseSeedService
     {
-        public CompletedAppointmentsSeedService(PatientManagementDbContext dbContext)
-            : base(dbContext)
+        public AppointmentStatsSeedService(PatientManagementDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -23,7 +22,7 @@ namespace PetCure.Business.Seed.Services
             var vets = await _dbContext.Veterinarians.ToListAsync(cancellationToken);
             var pets = await _dbContext.Pets.ToListAsync(cancellationToken);
 
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 250; i++)
             {
                 var vet = _faker.PickRandom(vets);
                 var pet = _faker.PickRandom(pets);
@@ -32,7 +31,7 @@ namespace PetCure.Business.Seed.Services
                     pet.Id,
                     pet.OwnerId,
                     vet.Id,
-                    _faker.Date.Recent(30),
+                    _faker.Date.Recent(90),
                     _faker.Lorem.Sentence(),
                     _faker.Lorem.Sentence());
 

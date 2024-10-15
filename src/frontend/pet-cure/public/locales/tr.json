@@ -13,7 +13,9 @@
             "Title": "Veteriner Panelinize Hoş Geldiniz",
             "Subtitle": "- Her Evcil Hayvanın Refahının Önceliğimiz Olduğu Yer.",
             "TotalAppointmentCountByDateRange": {
-                "Title": "{{dateRange}} toplam randevuları"
+                "Title": "{{dateRange}} toplam randevuları",
+                "PositiveChange": "Geçmiş zaman dilimine göre artış",
+                "NegativeChange": "Geçmiş zaman dilimine göre azalış"
             },
             "AppointmentsByDateRange": {
                 "Title": "{{dateRange}} randevuları"

@@ -91,14 +91,14 @@ export function UpcomingAppointments() {
         flexGrow: 1,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-around"
+        justifyContent: "flex-start"
     }}>
         <Typography>
             {t("Pages.Dashboard.UpcomingApptTitle")}
         </Typography>
         <Divider />
         {isBusy && <Grid container spacing={2}> {skeletonArr.map(i => <Loading key={i} />)}</Grid>}
-        {!isBusy && data && data.length > 0 && data.map((upcomingAppt, i) => <UpcomingAppointmentItem key={i} {...upcomingAppt} />)}
-        {!isBusy && data && data.length === 0 && <NoUpcomingAppointments />}
+        {!isBusy && (!data || data.length > 0) && data?.map((upcomingAppt, i) => <UpcomingAppointmentItem key={i} {...upcomingAppt} />)}
+        {!isBusy && (!data || data.length === 0) && <NoUpcomingAppointments />}
     </Paper>
 }

@@ -79,7 +79,10 @@ const injectedRtkApi = api.injectEndpoints({
       GetApiDashboardGetApptsCountByDateRangeApiResponse,
       GetApiDashboardGetApptsCountByDateRangeApiArg
     >({
-      query: () => ({ url: `/api/Dashboard/GetApptsCountByDateRange` }),
+      query: (queryArg) => ({
+        url: `/api/Dashboard/GetApptsCountByDateRange`,
+        params: { from: queryArg["from"], to: queryArg.to },
+      }),
     }),
     postDevelopmentEnsureDatabaseCreated: build.mutation<
       PostDevelopmentEnsureDatabaseCreatedApiResponse,
@@ -249,8 +252,11 @@ export type GetApiDashboardUpcomingAppointmentsApiResponse =
   /** status 200 OK */ UpcomingAppointmentDto[];
 export type GetApiDashboardUpcomingAppointmentsApiArg = void;
 export type GetApiDashboardGetApptsCountByDateRangeApiResponse =
-  /** status 200 OK */ AppointmentDto[];
-export type GetApiDashboardGetApptsCountByDateRangeApiArg = void;
+  /** status 200 OK */ ApptsCountByDateRangeDto;
+export type GetApiDashboardGetApptsCountByDateRangeApiArg = {
+  from?: string;
+  to?: string;
+};
 export type PostDevelopmentEnsureDatabaseCreatedApiResponse = unknown;
 export type PostDevelopmentEnsureDatabaseCreatedApiArg = void;
 export type PostDevelopmentEnsureDatabaseDeletedApiResponse = unknown;
@@ -439,6 +445,10 @@ export type UpcomingAppointmentDto = {
   ownerName?: string | null;
   phone?: string | null;
   reason?: string | null;
+};
+export type ApptsCountByDateRangeDto = {
+  totalCount?: number;
+  changeAsPercent?: number;
 };
 export type SeedServiceType =
   | "Veterinarian"
