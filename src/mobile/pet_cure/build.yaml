@@ -1,0 +1,16 @@
+targets:
+  $default:
+    sources:
+      - lib/**
+      - swagger_config/**
+      - $package$
+    builders:
+      chopper_generator:
+        options:
+          header: "//Generated code"
+      swagger_dart_code_generator:
+        options:
+          input_folder: "swagger_config/"
+          output_folder: "lib/api/"
+          input_urls:
+            - url: "https://daa8-78-175-53-255.ngrok-free.app/swagger/v1/swagger.json"
