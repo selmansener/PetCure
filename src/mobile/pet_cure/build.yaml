@@ -13,4 +13,4 @@ targets:
           input_folder: "swagger_config/"
           output_folder: "lib/api/"
           input_urls:
-            - url: "https://daa8-78-175-53-255.ngrok-free.app/swagger/v1/swagger.json"
+            - url: "https://d09d-78-175-53-255.ngrok-free.app/swagger/v1/swagger.json"

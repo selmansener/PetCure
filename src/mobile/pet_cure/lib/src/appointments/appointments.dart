@@ -14,22 +14,27 @@ class Appointments extends StatefulWidget {
 
 class _AppointmentsState extends State<Appointments> {
   late final Swagger _api = Swagger.create(
-      baseUrl: Uri(scheme: "https", host: "daa8-78-175-53-255.ngrok-free.app"));
+      baseUrl: Uri(scheme: "https", host: "d09d-78-175-53-255.ngrok-free.app"));
   late Future<Response<AppointmentQueryDTOPaginationResult>> _futureAppts;
 
   @override
   void initState() {
     super.initState();
 
-    // _api.apiAppointmentsQueryGet(page: 0, pageSize: 25)
-    // .then((response) => {
-    //   _futureAppts = response.body.toJson();
-    // })
-    // .catchError((error) => {
-    //   print(error.toString())
-    // });
-
     _futureAppts = _api.apiAppointmentsQueryGet(page: 0, pageSize: 25);
+  }
+
+  String getImage(String? species) {
+    switch (species) {
+      case 'Cat':
+        return 'assets/images/cat.png';
+      case 'Dog':
+        return 'assets/images/dog.png';
+      case 'Bird':
+        return 'assets/images/bird.png';
+      default:
+        return '';
+    }
   }
 
   @override
@@ -46,17 +51,22 @@ class _AppointmentsState extends State<Appointments> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var appts = snapshot.data?.body?.data;
+              appts?.sort((a, b) => a.appointmentDate!.compareTo(b.appointmentDate!));
               return ListView.builder(
                 itemCount: appts?.length,
                 itemBuilder: (context, index) {
                   final appt = appts?[index];
+                  final icon = getImage(appt!.species!.value);
 
-                  if (appt?.appointmentDate != null) {
-                    return Text(DateFormat.yMd(locale.languageCode).format(appt!.appointmentDate!));
-                  }
-                  else {
-                    return Text("-");
-                  }
+                  return ListTile(
+                    title: Text(DateFormat.yMd(locale.languageCode)
+                        .format(appt.appointmentDate!)),
+                    subtitle: Text(appt.reason!),
+                    leading: CircleAvatar(
+                      // Display the Flutter Logo image asset.
+                      foregroundImage: AssetImage(icon),
+                    ),
+                  );
                 },
               );
             } else if (snapshot.hasError) {
