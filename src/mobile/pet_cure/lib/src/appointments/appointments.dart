@@ -13,15 +13,48 @@ class Appointments extends StatefulWidget {
 }
 
 class _AppointmentsState extends State<Appointments> {
+  ScrollController _scrollController = ScrollController();
   late final Swagger _api = Swagger.create(
       baseUrl: Uri(scheme: "https", host: "d09d-78-175-53-255.ngrok-free.app"));
   late Future<Response<AppointmentQueryDTOPaginationResult>> _futureAppts;
+  bool _isLoading = true;
+  int _page = 0;
+  final int _pageSize = 25;
+  List<AppointmentQueryDTO> _appointments = [];
 
   @override
   void initState() {
     super.initState();
 
-    _futureAppts = _api.apiAppointmentsQueryGet(page: 0, pageSize: 25);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _isLoading = true;
+          _page++;
+        });
+
+        _futureAppts =
+            _api.apiAppointmentsQueryGet(page: _page, pageSize: _pageSize);
+
+        _futureAppts.then((response) {
+          setState(() {
+            _isLoading = false;
+            _appointments.addAll(response.body?.data ?? []);
+          });
+        });
+      }
+    });
+
+    _futureAppts =
+        _api.apiAppointmentsQueryGet(page: _page, pageSize: _pageSize);
+
+    _futureAppts.then((response) {
+      setState(() {
+        _isLoading = false;
+        _appointments.addAll(response.body?.data ?? []);
+      });
+    });
   }
 
   String getImage(String? species) {
@@ -49,12 +82,29 @@ class _AppointmentsState extends State<Appointments> {
         child: FutureBuilder<Response<AppointmentQueryDTOPaginationResult>>(
           future: _futureAppts,
           builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting &&
+                _appointments.isEmpty) {
+              return Center(
+                  child: CircularProgressIndicator()); // Initial loading
+            }
+
+            if (snapshot.hasError) {
+              return Center(child: Text('Error loading appointments'));
+            }
+
             if (snapshot.hasData) {
-              var appts = snapshot.data?.body?.data;
-              appts?.sort((a, b) => a.appointmentDate!.compareTo(b.appointmentDate!));
+              var appts = _appointments;
+
               return ListView.builder(
-                itemCount: appts?.length,
+                controller: _scrollController,
+                itemCount: appts?.length ?? 0 + (_isLoading ? 1 : 0),
                 itemBuilder: (context, index) {
+                  if (index == _appointments.length) {
+                    return Center(
+                        child:
+                            CircularProgressIndicator()); // Show loading at bottom
+                  }
+
                   final appt = appts?[index];
                   final icon = getImage(appt!.species!.value);
 
@@ -69,8 +119,6 @@ class _AppointmentsState extends State<Appointments> {
                   );
                 },
               );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
             }
 
             return const CircularProgressIndicator();

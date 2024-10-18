@@ -9,12 +9,6 @@ using PetCure.Business.SharedDTOs;
 using PetCure.DataAccess.Repositories;
 using PetCure.Domains.PatientManagement;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace PetCure.Business.CQRS.PatientManagement.Appointments.Queries
 {
     public class QueryAppointments : IRequest<PaginationResult<AppointmentQueryDTO>>
