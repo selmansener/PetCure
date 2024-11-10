@@ -2,6 +2,7 @@
 using PetCure.DataAccess.Helpers;
 
 using System.Reflection;
+using System.Data;
 
 namespace PetCure.Business.PipelineBehaviours.VoidBehaviors
 {
@@ -24,25 +25,27 @@ namespace PetCure.Business.PipelineBehaviours.VoidBehaviors
                 return await next();
             }
 
-            Unit response;
-            try
-            {
-                await _transactionManager.StartTransactionAsync(System.Data.IsolationLevel.ReadCommitted, cancellationToken);
-                response = await next();
-                await _transactionManager.CommitTransactionAsync(cancellationToken);
-            }
-            catch (Exception)
-            {
-                await _transactionManager.RollbackTransactionAsync(cancellationToken);
-                throw;
-            }
+            var isolationLevel = attr.IsolationLevel.HasValue ? attr.IsolationLevel.Value : IsolationLevel.ReadCommitted;
 
-            return response;
+            return await _transactionManager.ExecuteInTransactionAsync<Unit, Unit>(isolationLevel, default, async state =>
+            {
+                return await next();
+            }, cancellationToken);
         }
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     internal class WithTransactionAttribute : Attribute
     {
+        public WithTransactionAttribute()
+        {
+        }
+
+        public WithTransactionAttribute(IsolationLevel isolationLevel)
+        {
+            IsolationLevel = isolationLevel;
+        }
+
+        public IsolationLevel? IsolationLevel { get; private set; }
     }
 }

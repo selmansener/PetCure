@@ -52,7 +52,7 @@ namespace PetCure.Business.CQRS.PatientManagement.Dashboard.Queries
 
             var diff = (currentCount - previousCount);
 
-            var changeAsPercent = diff * 100M / previousCount;
+            var changeAsPercent = previousCount > 0 ? diff * 100M / previousCount : 0;
 
             return new ApptsCountByDateRangeDTO
             {

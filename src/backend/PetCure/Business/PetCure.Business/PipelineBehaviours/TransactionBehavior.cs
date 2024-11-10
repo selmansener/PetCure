@@ -4,6 +4,7 @@ using PetCure.DataAccess.Helpers;
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -30,20 +31,12 @@ namespace PetCure.Business.PipelineBehaviours
                 return await next();
             }
 
-            TResponse response;
-            try
-            {
-                await _transactionManager.StartTransactionAsync(System.Data.IsolationLevel.ReadCommitted, cancellationToken);
-                response = await next();
-                await _transactionManager.CommitTransactionAsync(cancellationToken);
-            }
-            catch (Exception)
-            {
-                await _transactionManager.RollbackTransactionAsync(cancellationToken);
-                throw;
-            }
+            var isolationLevel = attr.IsolationLevel.HasValue ? attr.IsolationLevel.Value : IsolationLevel.ReadCommitted;
 
-            return response;
+            return await _transactionManager.ExecuteInTransactionAsync<TRequest, TResponse>(IsolationLevel.ReadCommitted, request, async state =>
+            {
+                return await next();
+            }, cancellationToken);
         }
 
         public Task<Unit> Handle(TRequest request, RequestHandlerDelegate<Unit> next, CancellationToken cancellationToken)

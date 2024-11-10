@@ -23,6 +23,8 @@ const AppointmentsPage = React.lazy(() => import("../../pages/Appointments/Appoi
 const CreateAppointmentPage = React.lazy(() => import("../../pages/Appointments/CreateAppointment"));
 const AppointmentsCalendarPage = React.lazy(() => import("../../pages/Appointments/AppointmentsCalendar"));
 const AppointmentDetailsPage = React.lazy(() => import("../../pages/Appointments/AppointmentDetails"));
+const PetsPage = React.lazy(() => import("../../pages/Pets/Pets"));
+const PetDetailsPage = React.lazy(() => import("../../pages/Pets/PetDetails"));
 
 export const mainRoutes: RouteConfig = {
     path: "/",
@@ -51,6 +53,10 @@ export const mainRoutes: RouteConfig = {
                     element: <VeterinarianDetailsPage />
                 },
             ]
+        }, 
+        {
+            path: "veterinarians/:id/details",
+            element: <VeterinarianDetailsPage />
         },
         {
             path: "calendar",
@@ -73,6 +79,20 @@ export const mainRoutes: RouteConfig = {
         {
             path: "appointments/:id",
             element: <AppointmentDetailsPage />
+        },
+        {
+            path: "pets",
+            element: <PetsPage />,
+            leafNodes: [
+                {
+                    path: ":id",
+                    element: <PetDetailsPage />
+                }
+            ]
+        },
+        {
+            path: "pets/:id/details",
+            element: <PetDetailsPage />
         }
     ]
 }

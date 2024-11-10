@@ -7,7 +7,7 @@ export function ErrorPage() {
 
     return <Grid container spacing={2} text-align="center">
         <Grid size={4}>
-            <img src="../../not-found.png" style={{
+            <img src="../../tech-buddy.png" style={{
                 width: "100%"
             }} />
         </Grid>

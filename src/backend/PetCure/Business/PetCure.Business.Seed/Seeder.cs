@@ -66,15 +66,31 @@ namespace PetCure.Business.Seed
                     _seedCache.Clear();
                 }
 
-                await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+                var executionStrategy = _dbContext.Database.CreateExecutionStrategy();
 
-                await ResolveAndSeed(service, cancellationToken);
+                await executionStrategy.ExecuteAsync(async (token) =>
+                {
+                    await _dbContext.Database.BeginTransactionAsync(token);
 
-                _dbContext.ChangeTracker.DetectChanges();
+                    await ResolveAndSeed(service, token);
 
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                    _dbContext.ChangeTracker.DetectChanges();
 
-                await _dbContext.Database.CommitTransactionAsync(cancellationToken);
+                    await _dbContext.SaveChangesAsync(token);
+
+                    await _dbContext.Database.CommitTransactionAsync(token);
+
+                }, cancellationToken);
+
+                //await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+                //await ResolveAndSeed(service, cancellationToken);
+
+                //_dbContext.ChangeTracker.DetectChanges();
+
+                //await _dbContext.SaveChangesAsync(cancellationToken);
+
+                //await _dbContext.Database.CommitTransactionAsync(cancellationToken);
 
                 _seedCache.UpdateSeedCacheData();
             }

@@ -18,6 +18,10 @@ const menuItems = [
     {
         title: "MenuItems.Appointments",
         path: "/appointments"
+    },
+    {
+        title: "MenuItems.Pets",
+        path: "/pets"
     }
 ]
 

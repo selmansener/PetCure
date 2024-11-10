@@ -1,13 +1,12 @@
 import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import { api, useDeleteApiVeterinariansByIdMutation, useGetApiVeterinariansQuery, useGetApiVeterinariansQueryQuery } from '../../../store/api';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
-import { tr } from "date-fns/locale";
 import { Trans, useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid2, IconButton, Link, Snackbar, SnackbarCloseReason } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch } from '../../../store/hooks';
+import dayjs from "dayjs";
 
 type DeleteConfirmationData = {
     id: number;
@@ -88,7 +87,7 @@ export function VeterinariansGrid() {
             width: 150,
             headerName: 'Pages.Veterinarians.Grid.UpdatedAt',
             valueFormatter: (value) => {
-                return format(new Date(value), 'dd.MM.yyyy', { locale: tr })
+                return dayjs(value, 'dd.MM.yyyy')
             }
         },
         {
@@ -96,7 +95,7 @@ export function VeterinariansGrid() {
             width: 150,
             headerName: 'Pages.Veterinarians.Grid.CreatedAt',
             valueFormatter: (value) => {
-                return format(new Date(value), 'dd.MM.yyyy', { locale: tr })
+                return dayjs(value, 'dd.MM.yyyy')
             }
         },
         {

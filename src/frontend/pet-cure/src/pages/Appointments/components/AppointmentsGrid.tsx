@@ -38,9 +38,9 @@ export function AppointsmentsGrid() {
         {
             field: 'name',
             width: 150,
-            headerName: 'Pages.CreateAppointment.AppointmentsGrid.PetName',
+            headerName: 'Pages.CreateAppointment.AppointmentsGrid.Name',
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/pet/${params.row.petId}`}
+                return <Link to={`/pets/${params.row.petId}/details`}
                     target="_blank"
                     component={NavLink}>
                     {params.row.name}
@@ -87,7 +87,7 @@ export function AppointsmentsGrid() {
             width: 150,
             headerName: 'Pages.CreateAppointment.AppointmentsGrid.VetName',
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/veterinarians/${params.row.vetId}`}
+                return <Link to={`/veterinarians/${params.row.vetId}/details`}
                     target="_blank"
                     component={NavLink}>
                     {params.row.vetName}

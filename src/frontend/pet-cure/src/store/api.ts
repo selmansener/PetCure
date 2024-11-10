@@ -136,6 +136,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.createPetCommand,
       }),
     }),
+    getApiPetsById: build.query<
+      GetApiPetsByIdApiResponse,
+      GetApiPetsByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/api/Pets/${queryArg.id}` }),
+    }),
     getApiPetsByIdExistingRecords: build.query<
       GetApiPetsByIdExistingRecordsApiResponse,
       GetApiPetsByIdExistingRecordsApiArg
@@ -279,6 +285,10 @@ export type GetApiPetsApiArg = {
 export type PostApiPetsApiResponse = unknown;
 export type PostApiPetsApiArg = {
   createPetCommand: CreatePetCommand;
+};
+export type GetApiPetsByIdApiResponse = /** status 200 OK */ PetRecordDto;
+export type GetApiPetsByIdApiArg = {
+  id: number;
 };
 export type GetApiPetsByIdExistingRecordsApiResponse =
   /** status 200 OK */ ExistingPetRecordDto;
@@ -459,7 +469,8 @@ export type SeedServiceType =
   | "CompletedAppointments"
   | "SingleVetFullyBookedDates"
   | "PetRecords"
-  | "UpcomingAppointments";
+  | "UpcomingAppointments"
+  | "AppointmentStats";
 export type PetRecordDto = {
   id?: number;
   name?: string | null;
@@ -587,6 +598,7 @@ export const {
   usePostDevelopmentSeedMutation,
   useGetApiPetsQuery,
   usePostApiPetsMutation,
+  useGetApiPetsByIdQuery,
   useGetApiPetsByIdExistingRecordsQuery,
   usePostApiPetsAddAppointmentMutation,
   useGetApiVeterinariansQueryQuery,

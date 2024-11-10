@@ -2,7 +2,8 @@
     "MenuItems": {
         "ApptsCalendar": "Appts. Calendar",
         "Veterinarians": "Veterinarians",
-        "Appointments": "Appointments"
+        "Appointments": "Appointments",
+        "Pets": "Pets"
     },
     "Pages": {
         "ErrorPage": {
@@ -14,6 +15,7 @@
             "Subtitle": "- Where Every Pet's Well-being is Our Priority.",
             "TotalAppointmentCountByDateRange": {
                 "Title": "{{dateRange}} total appointments",
+                "NoChange": "There is no change since previous period",
                 "PositiveChange": "Increased since previous period",
                 "NegativeChange": "Decreased since previous period"
             },
@@ -30,7 +32,7 @@
             "UpcomingAppt": "{{reason}} / Owner: {{ownerName}} - Phone: {{phone}}",
             "NoUpcomingApptTitle": "Looks like there's no upcoming appointments"
         },
-        "AppointmentsCalendar" : {
+        "AppointmentsCalendar": {
             "Title": "Appointments Calendar"
         },
         "Appointments": {
@@ -41,8 +43,8 @@
             "Title": "Appt. Details - {{apptDate}}",
             "Reason": "Reason: ",
             "Notes": "Notes: ",
-            "Status":"Status: ",
-            "CompletedAt":"Completed At: ",
+            "Status": "Status: ",
+            "CompletedAt": "Completed At: ",
             "PetInfoTitle": "Pet Info"
         },
         "CreateAppointment": {
@@ -125,7 +127,7 @@
             "ReSelect": "ReSelect",
             "ExistingPetRecordDetails": {
                 "Title": "Existing Record",
-                "PetInfo":"Patient Info",
+                "PetInfo": "Patient Info",
                 "Name": "Name",
                 "Species": "Species",
                 "Breed": "Breed",
@@ -135,7 +137,7 @@
                 "Color": "Color",
                 "MicroChipId": "Micro ChipId",
                 "MedicalHistory": "Medical History",
-                "OwnerInfo":"Owner Info",
+                "OwnerInfo": "Owner Info",
                 "FirstName": "First Name",
                 "LastName": "Last Name",
                 "Phone": "Phone",
@@ -176,7 +178,7 @@
                 "CreatedAt": "Created At"
             },
             "DeleteConfirmationTitle": "Are you sure to delete this record?",
-            "DeleteConfirmationDescription": "The below veterinarian record will be deleted. Do you approve? <newline/><newline/> <bold>Full Name:</bold> {{fullName}} <newline/> <bold>Phone:</bold> {{phone}} <newline/> <bold>Email:</bold> {{email}}",
+            "DeleteConfirmationDescription": "The below veterinarian record will be deleted <bold>permanently</bold>. Do you approve? <newline/><newline/> <bold>Full Name:</bold> {{fullName}} <newline/> <bold>Phone:</bold> {{phone}} <newline/> <bold>Email:</bold> {{email}}",
             "DeleteError": "Unexpected error occured while deleting veterinarian record."
         },
         "VeterinarianDetails": {
@@ -202,10 +204,60 @@
         },
         "UpdateVeterinarian": {
             "Title": "#{{id}} - Update Info for \"{{vetName}}\""
+        },
+        "Pets": {
+            "Title": "Pets",
+            "NewPet": "New Pet",
+            "DeleteConfirmationTitle": "Are you sure to delete this record?",
+            "DeleteConfirmationDescription": "The below pet record will be deleted <red><bold>permanently</bold></red>. Do you approve? <newline/><newline/> <bold>Name:</bold> {{name}} <newline/> <bold>Species:</bold> {{species}}",
+            "DeleteError": "Unexpected error occured while deleting veterinarian record.",
+            "PetsGrid": {
+                "MicroChipId": "Micro ChipId",
+                "Name": "Pet Name",
+                "PetSpecies": "Species",
+                "Breed": "Breed",
+                "Gender": "Gender",
+                "DateOfBirth": "Date Of Birth",
+                "Weight": "Weight",
+                "Color": "Color",
+                "MedicalHistory": "Medical History",
+                "Owner": "Owner Name",
+                "OwnerPhone": "OwnerPhone",
+                "LastMedicalRecord": "Last Medical Record",
+                "LastAppointmentDate": "Last Appointment Date",
+                "PetSpeciesMap": {
+                    "Dog": "Dog",
+                    "Cat": "Cat",
+                    "Bird": "Bird"
+                }
+            }
+        },
+        "PetDetails": {
+            "Title": "Pets / {{petName}}",
+            "MicroChipId": "Micro ChipId",
+            "Name": "Pet Name",
+            "Species": "Species",
+            "Breed": "Breed",
+            "Gender": "Gender",
+            "DateOfBirth": "Date Of Birth",
+            "Weight": "Weight",
+            "Color": "Color",
+            "MedicalHistory": "Medical History",
+            "Owner": "Owner Name",
+            "OwnerPhone": "OwnerPhone",
+            "LastMedicalRecord": "Last Medical Record",
+            "LastAppointmentDate": "Last Appointment Date",
+            "PetSpeciesMap": {
+                "Dog": "Dog",
+                "Cat": "Cat",
+                "Bird": "Bird"
+            }
+        },
+        "NotFound": {
+            "Title": "Page Not Found",
+            "GoBack": "Go Back",
+            "GoToHome": "Home Page"
         }
-    },
-    "NotFound": {
-        "Title": "Page Not Found"
     },
     "FormValidation": {
         "RequiredField": "This field is required.",
@@ -218,7 +270,12 @@
             "Update": "Update",
             "Cancel": "Cancel",
             "Approve": "Approve",
-            "Select": "Select"
+            "Select": "Select",
+            "Delete": "Delete"
+        },
+        "Grid": {
+            "UpdatedAt": "Updated At",
+            "CreatedAt": "Created At"
         }
     }
 }

@@ -2,13 +2,39 @@ import { Chip, Grid2 as Grid, Paper, Skeleton, Typography } from "@mui/material"
 import { useTranslation } from "react-i18next";
 import { useGetApiDashboardGetApptsCountByDateRangeQuery } from "../../../store/api";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useEffect } from "react";
 
 export interface TotalApptCountProps {
     selectedDateRange: {
         title: string;
         from: Date;
         to: Date;
+    }
+}
+
+type ChangePercentageProps = {
+    changeAsPercent: number | undefined
+}
+
+function ChangePercentage(props: ChangePercentageProps) {
+    const { changeAsPercent } = props;
+    const { t } = useTranslation();
+
+    if (changeAsPercent === undefined || changeAsPercent === 0) {
+        return <Typography variant="overline" ml={2}>
+            {t("Pages.Dashboard.TotalAppointmentCountByDateRange.NoChange")}
+        </Typography>
+    }
+
+    if (changeAsPercent > 0) {
+        return <Typography variant="overline" ml={2}>
+            {t("Pages.Dashboard.TotalAppointmentCountByDateRange.PositiveChange")}
+        </Typography>
+    }
+    else {
+        return <Typography variant="overline" ml={2}>
+            {t("Pages.Dashboard.TotalAppointmentCountByDateRange.NegativeChange")}
+        </Typography>
     }
 }
 
@@ -19,6 +45,19 @@ export function TotalApptCount(props: TotalApptCountProps) {
         from: dayjs(from).toISOString(),
         to: dayjs(to).toISOString()
     });
+
+    useEffect(() => {
+        console.log(data?.changeAsPercent);
+        console.log(data?.changeAsPercent !== 0);
+    }, [])
+
+    const getColor = (changeAsPercent: number | undefined) => {
+        if (changeAsPercent === undefined || changeAsPercent === 0) {
+            return "textPrimary";
+        }
+
+        return changeAsPercent > 0 ? "success" : "error";
+    }
 
     return <Paper sx={{
         p: 2,
@@ -45,14 +84,10 @@ export function TotalApptCount(props: TotalApptCountProps) {
                 {(isLoading || isFetching) && <Skeleton width="100%" />}
                 {!isLoading && !isFetching &&
                     <React.Fragment>
-                        <Typography variant="subtitle2" color={data?.changeAsPercent && data?.changeAsPercent > 0 ? "success" : "error"}>
+                        <Typography variant="subtitle2" color={getColor(data?.changeAsPercent)}>
                             {`${data?.changeAsPercent} %`}
                         </Typography>
-                        <Typography variant="overline" ml={2}>
-                            {data?.changeAsPercent && data?.changeAsPercent > 0
-                                ? t("Pages.Dashboard.TotalAppointmentCountByDateRange.PositiveChange")
-                                : t("Pages.Dashboard.TotalAppointmentCountByDateRange.NegativeChange")}
-                        </Typography>
+                        {<ChangePercentage changeAsPercent={data?.changeAsPercent} />}
                     </React.Fragment>}
             </Grid>
         </Grid>

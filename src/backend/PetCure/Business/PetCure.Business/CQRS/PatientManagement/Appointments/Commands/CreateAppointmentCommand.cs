@@ -3,14 +3,13 @@
 using MediatR;
 
 using PetCure.Business.CQRS.PatientManagement.Appointments.Commands.DTOs;
-using PetCure.Business.PipelineBehaviours;
 using PetCure.Business.PipelineBehaviours.VoidBehaviors;
 using PetCure.DataAccess.Repositories;
 using PetCure.Domains.PatientManagement;
 
 namespace PetCure.Business.CQRS.PatientManagement.Appointments.Commands
 {
-    [WithTransaction]
+    [WithTransaction()]
     public class CreateAppointmentCommand : IRequest
     {
         public int VetId { get; set; }

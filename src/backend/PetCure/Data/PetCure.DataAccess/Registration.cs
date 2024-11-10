@@ -15,7 +15,6 @@ namespace PetCure.DataAccess
             {
                 options.UseSqlServer(connectionString, sqlOptions =>
                 {
-
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3);
                 });
 

@@ -1,25 +1,48 @@
-import { Box, Button, Grid, Grid2, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid2 as Grid, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { config } from "../../config";
 import { Header } from "./Header";
+import ReplyIcon from '@mui/icons-material/Reply';
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from "react-router-dom";
 
 export default function NotFound() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     return (
 
         <Box component="main" sx={{
             bgcolor: 'secondary.transparent'
         }}>
-            <Grid2 container alignItems="center" spacing={2}>
+            <Grid container alignItems="center" spacing={2}>
                 <Header />
-                <Grid2 textAlign="center" mt={15} size="grow">
-                    <Typography variant="h3">
-                        {t("NotFound.Title")}
+                <Grid size={6} >
+                    <img src="../../not-found.jpeg" style={{
+                        width: "100%"
+                    }} />
+                </Grid>
+                <Grid textAlign="center" size={6}>
+                    <Typography variant="h3" mb={4}>
+                        {t("Pages.NotFound.Title")}
                     </Typography>
-                </Grid2>
-            </Grid2>
+                    <Box>
+                        <Button sx={{
+                            mr: 1
+                        }} variant="contained"
+                            startIcon={<ReplyIcon />}
+                            onClick={() => navigate(-1)}>
+                            {t("Pages.NotFound.GoBack")}
+                        </Button>
+                        <Button sx={{
+                            ml: 1
+                        }} variant="contained"
+                            startIcon={<HomeIcon />}
+                            onClick={() => navigate("/")}>
+                            {t("Pages.NotFound.GoToHome")}
+                        </Button>
+                    </Box>
+                </Grid>
+            </Grid>
         </Box>
     )
 }

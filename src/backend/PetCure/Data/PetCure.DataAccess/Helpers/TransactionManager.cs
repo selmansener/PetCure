@@ -1,21 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PetCure.DataAccess.Helpers
 {
     public interface ITransactionManager
     {
-        public Task StartTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken);
-
-        public Task CommitTransactionAsync(CancellationToken cancellationToken);
-
-        public Task RollbackTransactionAsync(CancellationToken cancellationToken);
+        public Task<TResult> ExecuteInTransactionAsync<TState, TResult>(IsolationLevel isolationLevel, TState state, Func<TState, Task<TResult>> action, CancellationToken cancellationToken);
     }
 
     internal class TransactionManager : ITransactionManager
@@ -27,19 +18,25 @@ namespace PetCure.DataAccess.Helpers
             _dbContext = dbContext;
         }
 
-        public async Task CommitTransactionAsync(CancellationToken cancellationToken)
+        public async Task<TResult> ExecuteInTransactionAsync<TState, TResult>(IsolationLevel isolationLevel, TState state, Func<TState, Task<TResult>> action, CancellationToken cancellationToken)
         {
-            await _dbContext.Database.CommitTransactionAsync(cancellationToken);
-        }
+            var executionStrategy = _dbContext.Database.CreateExecutionStrategy();
 
-        public async Task RollbackTransactionAsync(CancellationToken cancellationToken)
-        {
-            await _dbContext.Database.RollbackTransactionAsync(cancellationToken);
-        }
-
-        public async Task StartTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
-        {
-            await _dbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken);
+            return await executionStrategy.ExecuteAsync(state, async (state, token) =>
+            {
+                try
+                {
+                    await _dbContext.Database.BeginTransactionAsync(isolationLevel, token);
+                    var result = await action(state);
+                    await _dbContext.Database.CommitTransactionAsync(token);
+                    return result;
+                }
+                catch (Exception)
+                {
+                    await _dbContext.Database.RollbackTransactionAsync(token);
+                    throw;
+                }
+            }, cancellationToken);
         }
     }
 }

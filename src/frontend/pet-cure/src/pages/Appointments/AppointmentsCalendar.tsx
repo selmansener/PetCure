@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useTranslation } from "react-i18next";
 import { api, AppointmentDto, useGetApiAppointmentsGetByDateRangeQuery } from "../../store/api";
 import { useAppDispatch } from "../../store/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import { Outlet, useNavigate } from "react-router-dom";
 import Loading from "../../components/loading/loading";
@@ -74,6 +74,9 @@ export default function AppointmentsCalendar() {
             </Typography>
         </Grid>
         <Grid size={12}>
+            <Outlet />
+        </Grid>
+        <Grid size={12}>
             <Paper sx={{
                 p: 2
             }}>
@@ -96,9 +99,6 @@ export default function AppointmentsCalendar() {
                         }
                     })} />
             </Paper>
-        </Grid>
-        <Grid size={12}>
-            <Outlet />
         </Grid>
         {isLoading && <Loading />}
     </Grid>

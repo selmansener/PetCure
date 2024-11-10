@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using PetCure.API.Middlewares;
 using PetCure.Business;
 using PetCure.DataAccess;
+using PetCure.Shared.JsonConverters;
 
 namespace PetCure.API
 {
@@ -58,6 +59,8 @@ namespace PetCure.API
                 jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 jsonOptions.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
+                jsonOptions.SerializerSettings.Converters.Add(new DecimalJsonConverter());
+                jsonOptions.SerializerSettings.Converters.Add(new FloatJsonConverter());
                 // TODO: bunu bir araþtýr
                 //jsonOptions.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
             });

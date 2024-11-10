@@ -53,7 +53,7 @@ function NoUpcomingAppointments() {
         justifyContent: "space-evenly",
         alignItems: "center"
     }}>
-        <img src="not-found.png" style={{
+        <img src="tech-buddy.png" style={{
             maxWidth: "380px"
         }} />
         <Typography variant="h3" textAlign={"center"}>
