@@ -41,6 +41,7 @@ namespace PetCure.API.Controllers
             var response = await _mediator.Send(new VeterinarianGetById
             {
                 Id = id
+                
             }, cancellationToken);
 
             return Ok(response);
@@ -66,16 +67,6 @@ namespace PetCure.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
-        {
-            await _mediator.Send(new DeleteVeterinarianCommand
-            {
-                Id = id
-            }, cancellationToken);
-
-            return NoContent();
-        }
+       
     }
 }
