@@ -48,7 +48,7 @@ namespace PetCure.API
             });
 
             builder.Services.AddBusinessLayer(builder.Environment);
-            builder.Services.AddDataAccess(builder.Environment, "Server=localhost;Database=PetCureDevelopment;User Id=petcure-sa;Password=petcure123**;Encrypt=False;TrustServerCertificate=True;");
+            builder.Services.AddDataAccess(builder.Environment, "Server=localhost;Database=PetCure;Trusted_Connection=True;TrustServerCertificate=True;");
 
             builder.Services.AddMvcCore(mvcOptions =>
             {
